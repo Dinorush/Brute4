@@ -207,7 +207,7 @@ void function FireMissileStream_Spiral( entity weapon, WeaponPrimaryAttackParams
 {
 	//attackParams.pos = attackParams.pos + Vector( 0, 0, -20 )
 	array<entity> missiles
-	float missileSpeed = 2000
+	float missileSpeed = 2400
 
 	entity weaponOwner = weapon.GetWeaponOwner()
 	if ( IsSingleplayer() && weaponOwner.IsPlayer() )
