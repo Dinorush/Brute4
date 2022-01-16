@@ -1,6 +1,6 @@
 # Brute 4
 
-**Required by Server and Client.**
+**Required by Server and Client**
 
 Implements the Brute4 titan based on cut content.
 
@@ -10,24 +10,32 @@ Requires **sv_cheats**. Use a Stryder titan and run `script GiveBrute4()` to giv
 
 ### Loadout
 *Weapon*: Quad Rocket
-Primary fire: Fires 4 rockets with a spiral flight path.
-Alt fire: Fires a single, stronger, faster rocket for 2 ammo.
+
+* Primary fire: Fires 4 rockets with a spiral flight path.
+* Alt fire: Fires a single, stronger, faster rocket for 2 ammo.
 
 *Offensive*: Grenade Launcher
-Fires a burst of delayed-impact detonated grenades.
+
+* Fires a burst of delayed-impact detonated grenades.
 
 *Defensive*: Dome Shield
-Deploys a mobile Dome Shield that breaks by attacking, dashing, or from taking enough damage. Disables sprinting.
+
+* Deploys a mobile Dome Shield that breaks by attacking, dashing, or from taking enough damage. Disables sprinting.
 
 *Utility*: Ammo Swap
-Reloads Quad Rocket with 4 single-fire cluster-loaded rockets.
+
+* Reloads Quad Rocket with 4 single-fire cluster-loaded rockets.
 
 *Core*: Cluster Barrage
-Rapidly fires cluster-loaded explosives.
+
+* Rapidly fires cluster-loaded explosives.
 
 ## Version History
 
 #### Version 0.5
+
+* Quad Rocket
+  * Can no longer fire in the middle of ADSing
 
 * Dome Shield
   * No longer blocks dashing 
