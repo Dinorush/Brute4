@@ -1,0 +1,133 @@
+WeaponData
+{
+	// General
+	"printname"   									"#WPN_TITAN_DOME_SHIELD"
+	"shortprintname"  								"#WPN_TITAN_DOME_SHIELD_SHORT"
+	"description" 									"#WPN_TITAN_DOME_SHIELD_DESC"
+	"longdesc"										"#WPN_TITAN_DOME_SHIELD_LONGDESC"
+
+
+//	"menu_icon"										"rui/menu/boosts/boost_icon_shield"
+//	"hud_icon"										"rui/menu/boosts/boost_icon_shield"
+
+	"menu_icon"										"ui/menu/items/passive_icons/longer_bubble"
+	"hud_icon"										"ui/menu/items/passive_icons/longer_bubble"
+
+
+	"weaponClass" 									"titan"
+	"weaponType"									"defense"
+	"fire_mode"   									"offhand_instant"
+
+	"OnWeaponPrimaryAttack"							"OnWeaponPrimaryAttack_dome_shield"
+	"OnWeaponNpcPrimaryAttack"						"OnWeaponNpcPrimaryAttack_dome_shield"
+
+	"projectilemodel"								"models/weapons/grenades/m20_f_grenade.mdl"
+
+	"damage_type" 									"none"
+
+	// Sound
+	"fire_sound_1_player_1p"						"ShieldWall_Deploy"
+	"fire_sound_1_player_3p"						"ShieldWall_Deploy"
+	"sound_dryfire"									"titan_dryfire"
+	"sound_weapon_ready"							"HUD_TitanDefenseAbility_replenished_1P"
+
+	// Ammo
+	"cooldown_type"                                 "ammo_instant"
+	"ammo_clip_size"   								"140"
+	"ammo_default_total"							"140"
+	"ammo_display"									"bar"
+	"ammo_min_to_fire"								"140"
+	"ammo_per_shot"									"140"
+	"ammo_stockpile_max"							"140"
+    "ammo_drains_to_empty_on_fire"					"1"
+    "ammo_no_remove_from_clip"						"1"
+
+	//Regen Ammo
+	"regen_ammo_refill_rate"						"17.5"
+	"regen_ammo_refill_start_delay"					"0.0"
+
+	"reload_enabled"								"0"
+
+	// Behavior
+	"fire_rate"   									"1.0"
+    "fire_duration"                                 "6.0"
+
+	"fire_rumble"									"rumble_titan_ordnanceeject"
+
+	"breaks_cloak"									"0"
+
+	// NPC
+	"npc_use_min_damage"							"700"
+	"npc_use_max_damage"							"1400"
+	"npc_use_min_projectile_damage"					"300"
+	"npc_titan_ability"								"WTA_WALL"
+
+	"npc_rest_time_between_bursts_min"				"15"
+	"npc_rest_time_between_bursts_max"				"20"
+
+	// NPC
+	"proficiency_poor_additional_rest"				"15"
+	"proficiency_average_additional_rest"			"8"
+	"proficiency_good_additional_rest"				"4"
+	"proficiency_very_good_additional_rest"			"2"
+
+	Mods
+	{
+
+
+		turret_wall
+		{
+		
+		}
+
+
+		amped_wall
+		{
+		"hud_icon"									"rui/pilot_loadout/tactical/pilot_tactical_hardcover"
+		}
+		pas_defensive_core
+		{
+			"fire_rate" 									"*1.25"
+		}
+
+		dev_mod_low_recharge
+		{
+			"fire_rate"   									"*20"
+		}
+		burn_mod_titan_particle_wall
+		{
+			"ammo_clip_size"   								"2"
+            "sound_dryfire"                            		"titan_dryfire"
+	        "fire_rate"   									"2.0"
+	        "fire_duration"									"0.0"
+			"is_burn_mod"		"1"
+		}
+
+		npc_normal_difficulty
+		{
+			"proficiency_poor_additional_rest"					"30"
+			"proficiency_average_additional_rest"				"30"
+		}
+
+		amped_wall
+		{
+
+		}
+		sur_level_0
+		{
+
+		}
+		sur_level_1
+		{
+
+		}
+		sur_level_2
+		{
+
+		}
+		sur_level_3
+		{
+
+		}
+	}
+}
