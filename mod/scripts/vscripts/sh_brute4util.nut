@@ -28,7 +28,7 @@ void function GiveBrute4(int index = 0)
 	#if SERVER
 		entity player = GetPlayerArray()[index]
 
-		if( player.IsTitan() && ( GetTitanCharacterName( player ) == "northstar" ||  player.IsTitan() && GetTitanCharacterName( player ) == "ronin" ) )
+		if( player.IsTitan() )// && ( GetTitanCharacterName( player ) == "northstar" ||  player.IsTitan() && GetTitanCharacterName( player ) == "ronin" ) )
 		{
             array<entity> weapons = player.GetMainWeapons()
             player.TakeWeapon(weapons[0].GetWeaponClassName())
