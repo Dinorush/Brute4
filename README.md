@@ -6,7 +6,7 @@ Implements the Brute4 titan based on cut content.
 
 ### Activation
 
-Requires **sv_cheats**. Use a Stryder titan and run `script GiveBrute4()` to give the loadout to the first player. Player index can be specified if desired, e.g. `script GiveBrute4(2)`.
+Requires **sv_cheats**. Run `script GiveBrute4()` to give the loadout to the first player. Player index can be specified if desired, e.g. `script GiveBrute4(2)`.
 
 ### Loadout
 *Weapon*: Quad Rocket
@@ -34,8 +34,12 @@ Requires **sv_cheats**. Use a Stryder titan and run `script GiveBrute4()` to giv
 
 #### Version 0.5
 
+* Base
+  * No longer requires a specific chassis
+
 * Quad Rocket
   * Can no longer fire in the middle of ADSing
+  * Normal fire projectile speed: 2000 > 2400
 
 * Dome Shield
   * No longer blocks dashing 
