@@ -76,21 +76,24 @@ void function Brute4GiveShortDomeShield( entity weapon, entity player, float dur
 	soul.EndSignal( "OnDestroy" )
 
 	// Prevents the player from sprinting
-    var oldMovetype = player.kv.movetype
-    player.kv.movetype = 1
+    int slowID = StatusEffect_AddTimed( player, eStatusEffect.move_slow, 0.5, duration, 0 )
+    int speedID = StatusEffect_AddTimed( player, eStatusEffect.speed_boost, 0.5, duration, 0 )
 
 	CreateParentedBrute4BubbleShield( player, player.GetOrigin(), player.GetAngles(), duration )
 
 	OnThreadEnd(
-	function() : ( player, soul, oldMovetype )
+	function() : ( player, soul, slowID, speedID )
 		{
 			if ( IsValid( soul ) )
 			{
 				if ( IsValid( soul.soul.bubbleShield ) )
 					soul.soul.bubbleShield.Destroy()
                 
-                if ( IsValid( player ) && player.IsTitan() )
-                    player.kv.movetype = oldMovetype
+                if ( IsValid( player ) )
+                {
+                    StatusEffect_Stop( player, slowID )
+                    StatusEffect_Stop( player, slowID )
+                }
 			}
 		}
 	)
