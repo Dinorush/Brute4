@@ -101,7 +101,7 @@ void function Brute4GiveShortDomeShield( entity weapon, entity player, float dur
     soul.EndSignal( "TitanBrokeBubbleShield" )
 	soul.soul.bubbleShield.EndSignal( "OnDestroy" )
     
-	Brute4LetTitanPlayerShootThroughBubbleShield( weapon, player )
+	Brute4LetTitanPlayerShootThroughBubbleShield( player, weapon )
 
 	wait duration
 	#endif

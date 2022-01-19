@@ -401,7 +401,7 @@ void function BubbleShieldDamageEnemies( entity bubbleShield, entity bubbleShiel
 	}
 }
 
-void function LetTitanPlayerShootThroughBubbleShield(entity weapon, entity titanPlayer )
+void function LetTitanPlayerShootThroughBubbleShield( entity titanPlayer, entity weapon = null )
 {
 	Assert( titanPlayer.IsTitan() )
 
@@ -438,10 +438,13 @@ void function MonitorLastFireTime( entity weapon, entity player )
 	player.WaitSignal( "OnPrimaryAttack" ) //Sent when player fires his weapon
 	//printt( "Player fired weapon! in MonitorLastFireTime" )
 
-	string weaponClass = weapon.GetClassName()
+    if ( IsValid( weapon ) )
+    {
+        string weaponClass = weapon.GetClassName()
 
-	if(weaponClass == "mp_titanability_dome_shield")
-		return
+        if(weaponClass == "mp_titanability_dome_shield")
+            return
+    }
 
 	entity soul = player.GetTitanSoul()
 

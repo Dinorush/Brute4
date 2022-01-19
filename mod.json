@@ -1,8 +1,8 @@
 {
 	"Name": "Brute4",
 	
-	"LoadPriority": 0,
-    "Version": "0.5",
+	"LoadPriority": 1,
+    "Version": "1.0",
 
 	"Scripts": [
 		{
