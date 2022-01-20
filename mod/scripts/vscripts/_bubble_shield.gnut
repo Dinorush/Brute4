@@ -432,7 +432,6 @@ void function StopPlayerShootThroughBubbleShield( entity player, entity bubbleSh
 void function MonitorLastFireTime( entity weapon, entity player )
 {
 	player.EndSignal( "OnDestroy" )
-    bubbleShield.EndSignal("OnDestroy")
 	player.EndSignal( "OnChangedPlayerClass" ) //Kill this thread once player gets out of the Titan
 
 	player.WaitSignal( "OnPrimaryAttack" ) //Sent when player fires his weapon
