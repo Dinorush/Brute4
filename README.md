@@ -8,7 +8,7 @@ Implements the Brute4 titan based on cut content.
 
 Requires **sv_cheats**. Run `script GiveBrute4()` to give the loadout to the first player. Player index can be specified if desired, e.g. `script GiveBrute4(2)`.
 
-### Loadout
+### ![Loadout](https://youtu.be/enGWYx5sIws)
 *Weapon*: Quad Rocket
 
 * Primary fire: Fires 4 rockets with a spiral flight path.
@@ -17,8 +17,6 @@ Requires **sv_cheats**. Run `script GiveBrute4()` to give the loadout to the fir
 *Offensive*: Grenade Launcher
 
 * Fires a burst of delayed-impact detonated grenades.
-
-![](examplegifs/brute4_grenadelauncherexample.gif)
 
 *Defensive*: Dome Shield
 
@@ -34,7 +32,7 @@ Requires **sv_cheats**. Run `script GiveBrute4()` to give the loadout to the fir
 
 ## Version History
 
-#### Version 0.5
+#### Version 1.0
 
 * Base
   * No longer requires a specific chassis
