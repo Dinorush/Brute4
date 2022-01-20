@@ -18,6 +18,8 @@ Requires **sv_cheats**. Run `script GiveBrute4()` to give the loadout to the fir
 
 * Fires a burst of delayed-impact detonated grenades.
 
+![](https://gfycat.com/ifr/glitteringwaryhoneybee)
+
 *Defensive*: Dome Shield
 
 * Deploys a mobile Dome Shield that breaks by attacking, dashing, or from taking enough damage. Disables sprinting.
