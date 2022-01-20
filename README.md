@@ -18,7 +18,7 @@ Requires **sv_cheats**. Run `script GiveBrute4()` to give the loadout to the fir
 
 * Fires a burst of delayed-impact detonated grenades.
 
-![](https://gfycat.com/ifr/glitteringwaryhoneybee)
+![](examplegifs/brute4_grenadelauncherexample.gif)
 
 *Defensive*: Dome Shield
 
