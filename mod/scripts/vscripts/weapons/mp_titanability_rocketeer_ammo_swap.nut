@@ -62,7 +62,19 @@ void function SwapRocketAmmo( entity weaponOwner, entity offhand )
 
 	if ( weaponOwner.IsPlayer() )
 	{
-		HolsterAndDisableWeapons( weaponOwner )
+		weaponOwner.HolsterWeapon()
+
+        entity defensive = weaponOwner.GetOffhandWeapon( OFFHAND_LEFT )
+        if( IsValid( defensive ) )
+            if( defensive.GetWeaponInfoFileKeyField( "fire_mode" ) == "offhand_instant" )         
+                defensive.AllowUse( true )
+            else
+                defensive.AllowUse( false )
+
+        entity ordnance = weaponOwner.GetOffhandWeapon( OFFHAND_RIGHT )
+        if ( IsValid( ordnance ) )
+            ordnance.AllowUse( false )
+
 		e.deployWeapon = true
 
 		OnThreadEnd(
@@ -73,7 +85,16 @@ void function SwapRocketAmmo( entity weaponOwner, entity offhand )
 					if ( IsValid( weaponOwner ) )
 					{
 						if ( weaponOwner.IsPlayer() )
-							DeployAndEnableWeapons( weaponOwner )
+						{
+                            weaponOwner.DeployWeapon()
+                            entity defensive = weaponOwner.GetOffhandWeapon( OFFHAND_LEFT )
+                            if( IsValid( defensive ) ) 
+                                defensive.AllowUse( true )
+
+                            entity ordnance = weaponOwner.GetOffhandWeapon( OFFHAND_RIGHT )
+                            if ( IsValid( ordnance ) )
+                                ordnance.AllowUse( true )
+                        }
 					}
 				}
 			}
@@ -114,9 +135,17 @@ void function SwapRocketAmmo( entity weaponOwner, entity offhand )
 
 	if ( weaponOwner.IsPlayer() )
 	{
-		DeployAndEnableWeapons( weaponOwner )
+		weaponOwner.DeployWeapon()
+        entity defensive = weaponOwner.GetOffhandWeapon( OFFHAND_LEFT )
+        if( IsValid( defensive ) ) 
+            defensive.AllowUse( true )
+
+        entity ordnance = weaponOwner.GetOffhandWeapon( OFFHAND_RIGHT )
+        if ( IsValid( ordnance ) )
+            ordnance.AllowUse( true )
+            
 		e.deployWeapon = false
-		while( IsValid( weapon ) && !weapon.IsReloading() )
+		while( IsValid( weapon ) && !weapon.IsReloading() && weapon.GetWeaponPrimaryClipCount() > 0 )
 			wait 0.1
 	}
 	else
