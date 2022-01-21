@@ -54,7 +54,7 @@ Brute4 has two convars to control which titans Brute4 can be put on.
 * Bug Fixes
   * Should actually run now
   * Changed a few method calls that could cause conflicts for other mods
-  * Dome Shield no longer disappears immediately if used after calling in a titan with Dome Shield.
+  * Dome Shield no longer disappears immediately if used after calling in a titan with Dome Shield
   * Ammo Swap no longer disables Dome Shield during startup
 
 ### Version 1.0
