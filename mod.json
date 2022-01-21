@@ -2,7 +2,18 @@
 	"Name": "Dinorush.Brute4",
 	
 	"LoadPriority": 1,
-    "Version": "1.0",
+    "Version": "1.1",
+
+    "ConVars": [
+        {
+			"Name": "brute4_allowed_chassis",
+			"DefaultValue": "northstar"
+		},
+		{
+			"Name": "brute4_unlock_chassis",
+			"DefaultValue": "0"
+		}
+    ],
 
 	"Scripts": [
 		{
