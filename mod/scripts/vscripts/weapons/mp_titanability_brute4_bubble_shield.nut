@@ -29,21 +29,20 @@ function MpTitanabilityDomeShield_Init()
 
 var function OnWeaponPrimaryAttack_dome_shield( entity weapon, WeaponPrimaryAttackParams attackParams )
 {
-	entity player = weapon.GetWeaponOwner()
 	entity weaponOwner = weapon.GetWeaponOwner()
     
     #if SERVER
-    entity soul = player.GetTitanSoul()
+    entity soul = weaponOwner.GetTitanSoul()
 
     if( weaponOwner.IsPlayer() && IsValid( soul )  && IsValid( soul.soul.bubbleShield ))
-        return
+        return 0
     #endif //SERVER
-
+    
 	if ( weaponOwner.IsPlayer() )
 		PlayerUsedOffhand( weaponOwner, weapon )
         
     float duration = weapon.GetWeaponSettingFloat( eWeaponVar.fire_duration )
-	thread Brute4GiveShortDomeShield( weapon, player, duration )
+	thread Brute4GiveShortDomeShield( weapon, weaponOwner, duration )
 	
 	return weapon.GetWeaponInfoFileKeyField( "ammo_per_shot" )
 }
@@ -51,13 +50,13 @@ var function OnWeaponPrimaryAttack_dome_shield( entity weapon, WeaponPrimaryAtta
 #if SERVER
 var function OnWeaponNpcPrimaryAttack_dome_shield( entity weapon, WeaponPrimaryAttackParams attackParams )
 {
-	entity player = weapon.GetWeaponOwner()
 	entity weaponOwner = weapon.GetWeaponOwner()
-	if ( weaponOwner.IsPlayer() )
-		PlayerUsedOffhand( weaponOwner, weapon )
+    entity soul = weaponOwner.GetTitanSoul()
+    if ( IsValid( soul ) && IsValid( soul.soul.bubbleShield ))
+        return 0
 
     float duration = weapon.GetWeaponSettingFloat( eWeaponVar.fire_duration )
-	thread Brute4GiveShortDomeShield( weapon, player, duration )
+	thread Brute4GiveShortDomeShield( weapon, weaponOwner, duration )
 	
 	return weapon.GetWeaponInfoFileKeyField( "ammo_per_shot" )
 }
@@ -92,7 +91,7 @@ void function Brute4GiveShortDomeShield( entity weapon, entity player, float dur
                 if ( IsValid( player ) )
                 {
                     StatusEffect_Stop( player, slowID )
-                    StatusEffect_Stop( player, slowID )
+                    StatusEffect_Stop( player, speedID )
                 }
 			}
 		}
@@ -100,9 +99,9 @@ void function Brute4GiveShortDomeShield( entity weapon, entity player, float dur
 
     soul.EndSignal( "TitanBrokeBubbleShield" )
 	soul.soul.bubbleShield.EndSignal( "OnDestroy" )
-    
-	Brute4LetTitanPlayerShootThroughBubbleShield( player, weapon )
 
+	Brute4LetTitanPlayerShootThroughBubbleShield( player, weapon )
+    
 	wait duration
 	#endif
 }
