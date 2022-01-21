@@ -6,7 +6,13 @@ Implements the Brute4 titan based on cut content.
 
 ### Activation
 
-Requires **sv_cheats**. Run `script GiveBrute4()` to give the loadout to the first player. Player index can be specified if desired, e.g. `script GiveBrute4(2)`.
+Requires **sv_cheats**. Be a Northstar and run `script GiveBrute4()` to give the loadout to the first player. Player index can be specified if desired, e.g. `script GiveBrute4(2)`.
+
+### ConVars
+Brute4 has two convars to control which titans Brute4 can be put on.
+
+* `brute4_allowed_chassis`: Default value of `northstar`. Any titan on the list can be given Brute4. Takes a comma separated list of titan names. (Note: Monarch is `vanguard`)
+* `brute4_unlock_chassis`: Default value of `0`. Set to `1` to allow any titan to be given Brute4, overriding `brute4_allowed_chassis`.
 
 ## [Loadout](https://youtu.be/enGWYx5sIws)
 *Weapon*: Quad Rocket
@@ -32,10 +38,9 @@ Requires **sv_cheats**. Run `script GiveBrute4()` to give the loadout to the fir
 
 ## Version History
 
-#### Version 1.0
+### Version 1.1
 
-* Base
-  * No longer requires a specific chassis
+* Added ConVars to control which chassis Brute4 can be given to
 
 * Quad Rocket
   * Can no longer fire in the middle of ADSing
@@ -46,6 +51,11 @@ Requires **sv_cheats**. Run `script GiveBrute4()` to give the loadout to the fir
   * No longer slows by 10%
   * Breaks upon dashing
 
-#### Version Something
+* Bug Fixes
+  * Should actually run now
+  * Changed a few method calls that could cause conflicts for other mods
+  * Dome Shield no longer disappears immediately if used after calling in a titan with Dome Shield.
+
+### Version 1.0
 
 * Released Mod
