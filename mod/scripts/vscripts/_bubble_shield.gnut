@@ -149,14 +149,11 @@ void function CreateParentedBubbleShield( entity titan, vector origin, vector an
 {
 	if ( !IsAlive( titan ) )
 		return
-	int health = DOME_SHIELD_HEALTH
+
 	entity soul = titan.GetTitanSoul()
 	soul.Signal( "NewBubbleShield" )
 	entity bubbleShield = CreateBubbleShieldWithSettings( titan.GetTeam(), origin, angles, titan, 9999 )
 	soul.soul.bubbleShield = bubbleShield
-	soul.soul.bubbleShield.SetMaxHealth( health )
-	soul.soul.bubbleShield.SetHealth( health )
-	soul.soul.bubbleShield.SetTakeDamageType( DAMAGE_YES )
 
 	titan.SetNPCPriorityOverride( 10 )
 
@@ -203,9 +200,6 @@ void function DestroyBubbleShield( entity bubbleShield )
 
 entity function CreateBubbleShieldWithSettings( int team, vector origin, vector angles, entity owner = null, float duration = 9999 )
 {
-	
-	int health = DOME_SHIELD_HEALTH
-	
 	entity bubbleShield = CreateEntity( "prop_dynamic" )
 	bubbleShield.SetValueForModelKey( $"models/fx/xo_shield.mdl" )
 	bubbleShield.kv.solid = SOLID_VPHYSICS
@@ -216,9 +210,6 @@ entity function CreateBubbleShieldWithSettings( int team, vector origin, vector 
      // Blocks bullets, projectiles but not players and not AI
 	bubbleShield.kv.CollisionGroup = TRACE_COLLISION_GROUP_BLOCK_WEAPONS
 	bubbleShield.SetBlocksRadiusDamage( true )
-	bubbleShield.SetMaxHealth( health )
-	bubbleShield.SetHealth( health )
-	bubbleShield.SetTakeDamageType( DAMAGE_YES )
 	DispatchSpawn( bubbleShield )
 	bubbleShield.Hide()
 
@@ -299,8 +290,6 @@ void function WaitUntilShieldFades( entity player, entity titan, entity bubbleSh
 	soul.EndSignal( "OnDestroy" )
 	soul.EndSignal( "OnTitanDeath" )
 	soul.EndSignal( "NewBubbleShield" )
-    soul.EndSignal( "Disembark")
-
 	soul.EndSignal( "TitanBrokeBubbleShield" )
 
 	if ( player != null )
@@ -401,7 +390,7 @@ void function BubbleShieldDamageEnemies( entity bubbleShield, entity bubbleShiel
 	}
 }
 
-void function LetTitanPlayerShootThroughBubbleShield( entity titanPlayer, entity weapon = null )
+void function LetTitanPlayerShootThroughBubbleShield( entity titanPlayer )
 {
 	Assert( titanPlayer.IsTitan() )
 
@@ -413,14 +402,13 @@ void function LetTitanPlayerShootThroughBubbleShield( entity titanPlayer, entity
 
 	bubbleShield.SetOwner( titanPlayer ) //After this, player is able to fire out from shield. WATCH OUT FOR POTENTIAL COLLISION BUGS!
 
-	thread MonitorLastFireTime( weapon, titanPlayer )
+	thread MonitorLastFireTime( titanPlayer, bubbleShield )
 	thread StopPlayerShootThroughBubbleShield( titanPlayer, bubbleShield )
 }
 
 void function StopPlayerShootThroughBubbleShield( entity player, entity bubbleShield )
 {
 	player.EndSignal( "OnDeath" )
-    bubbleShield.EndSignal("OnDestroy")
 	player.WaitSignal( "OnChangedPlayerClass" ) //Kill this thread once player gets out of the Titan
 
 	if ( !IsValid( bubbleShield ) )
@@ -429,22 +417,13 @@ void function StopPlayerShootThroughBubbleShield( entity player, entity bubbleSh
 	bubbleShield.SetOwner( null )
 }
 
-void function MonitorLastFireTime( entity weapon, entity player )
+void function MonitorLastFireTime( entity player, entity bubbleShield )
 {
 	player.EndSignal( "OnDestroy" )
 	player.EndSignal( "OnChangedPlayerClass" ) //Kill this thread once player gets out of the Titan
-
+    bubbleShield.EndSignal( "OnDestroy" )
 	player.WaitSignal( "OnPrimaryAttack" ) //Sent when player fires his weapon
 	//printt( "Player fired weapon! in MonitorLastFireTime" )
-
-    if ( IsValid( weapon ) )
-    {
-        string weaponClass = weapon.GetClassName()
-
-        if(weaponClass == "mp_titanability_dome_shield")
-            return
-    }
-
 	entity soul = player.GetTitanSoul()
 
 	if ( !IsValid( soul ) )
