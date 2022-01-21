@@ -35,28 +35,3 @@ Brute4 has two convars to control which titans Brute4 can be put on.
 *Core*: Cluster Barrage
 
 * Rapidly fires cluster-loaded explosives.
-
-## Version History
-
-### Version 1.1
-
-* Added ConVars to control which chassis Brute4 can be given to
-
-* Quad Rocket
-  * Can no longer fire in the middle of ADSing
-  * Normal fire projectile speed: 2000 > 2400
-
-* Dome Shield
-  * No longer blocks dashing 
-  * No longer slows by 10%
-  * Breaks upon dashing
-
-* Bug Fixes
-  * Should actually run now
-  * Changed a few method calls that could cause conflicts for other mods
-  * Dome Shield no longer disappears immediately if used after calling in a titan with Dome Shield
-  * Ammo Swap no longer disables Dome Shield during startup
-
-### Version 1.0
-
-* Released Mod
