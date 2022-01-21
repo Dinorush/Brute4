@@ -198,7 +198,7 @@ void function CleanupBubbleShield( entity bubbleShield, array<entity> bubbleShie
 #endif
 }
 
-void function Brute4LetTitanPlayerShootThroughBubbleShield(entity weapon, entity titanPlayer )
+void function Brute4LetTitanPlayerShootThroughBubbleShield( entity titanPlayer, entity weapon )
 {
 #if SERVER
 	Assert( titanPlayer.IsTitan() )
@@ -239,13 +239,9 @@ void function Brute4MonitorLastFireTime( entity weapon, entity player, entity bu
 #if SERVER
 	player.EndSignal( "OnDestroy" )
     bubbleShield.EndSignal("OnDestroy")
-    // Removed these EndSignals for now. Pretty sure we want this thread to kill the shield in these cases.
-	//player.EndSignal( "OnChangedPlayerClass" ) //Kill this thread once player gets out of the Titan
-	//player.EndSignal( "OnSyncedMelee" )
     entity soul = player.GetTitanSoul()
 
 	WaitSignal( player, "DisembarkingTitan", "OnSyncedMelee", "KillBruteShield", "OnMelee" ) //Sent when player fires his weapon/disembarks
-	//printt( "Player fired weapon! in MonitorLastFireTime" )
 
 	if ( !IsValid( soul ) )
 		return
