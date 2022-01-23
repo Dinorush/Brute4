@@ -33,17 +33,17 @@ WeaponData
 
 	// Ammo
 	"cooldown_type"                                 "ammo_instant"
-	"ammo_clip_size"   								"140"
-	"ammo_default_total"							"140"
+	"ammo_clip_size"   								"120"
+	"ammo_default_total"							"120"
 	"ammo_display"									"bar"
-	"ammo_min_to_fire"								"140"
-	"ammo_per_shot"									"140"
-	"ammo_stockpile_max"							"140"
+	"ammo_min_to_fire"								"120"
+	"ammo_per_shot"									"120"
+	"ammo_stockpile_max"							"120"
     "ammo_drains_to_empty_on_fire"					"1"
     "ammo_no_remove_from_clip"						"1"
 
 	//Regen Ammo
-	"regen_ammo_refill_rate"						"17.5"
+	"regen_ammo_refill_rate"						"20"
 	"regen_ammo_refill_start_delay"					"0.0"
 
 	"reload_enabled"								"0"
