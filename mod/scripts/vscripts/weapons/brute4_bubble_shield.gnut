@@ -30,13 +30,11 @@ void function CreateParentedBrute4BubbleShield( entity titan, vector origin, vec
     // Normally, Dome Shield prevents the user from taking damage. We allow all damage to occur and use a callback to make sure only the damage we want goes through.
     AddEntityCallback_OnDamaged( titan, Brute4BubbleShield_OwnerTakeSpecialDamage )
 	
-	//titan.SetNPCPriorityOverride( duration )
 	soul.soul.bubbleShield.SetParent( titan, "ORIGIN" )
 	table bubbleshieldDotS = expect table( soul.soul.bubbleShield.s )
-	entity friendlyColoredFX = expect entity (bubbleshieldDotS.friendlyColoredFX )
-	entity enemyColoredFX = expect entity (bubbleshieldDotS.enemyColoredFX )
-	friendlyColoredFX.SetParent( soul.soul.bubbleShield )
-	enemyColoredFX.SetParent( soul.soul.bubbleShield )
+    entity vortexColoredFX = expect entity (bubbleshieldDotS.vortexColoredFX )
+    vortexColoredFX.SetParent( soul.soul.bubbleShield )
+
     thread WaitForCleanup(titan, soul, bubbleShield, duration)
 #endif
 }
@@ -96,11 +94,14 @@ entity function CreateBrute4BubbleShieldWithSettings( int team, vector origin, v
 	bubbleShield.SetHealth( health )
     bubbleShield.SetTakeDamageType( DAMAGE_YES )
     bubbleShield.SetBlocksRadiusDamage( false )
-    SetObjectCanBeMeleed( bubbleShield, true )
-    bubbleShield.SetDamageNotifications( true )
     bubbleShield.SetArmorType( ARMOR_TYPE_HEAVY )
-	//DispatchSpawn( bubbleShield )
+    bubbleShield.SetDamageNotifications( true )
+    bubbleShield.SetDeathNotifications( true )
 	bubbleShield.Hide()
+
+    SetObjectCanBeMeleed( bubbleShield, true )
+    SetVisibleEntitiesInConeQueriableEnabled( bubbleShield, true ) // Needed for melee to see it
+    SetCustomSmartAmmoTarget( bubbleShield, false )
 
 	SetTeam( bubbleShield, team )
     AddEntityCallback_OnDamaged( bubbleShield, Brute4BubbleShield_TakeBonusMeleeDamage )
@@ -109,31 +110,11 @@ entity function CreateBrute4BubbleShieldWithSettings( int team, vector origin, v
 
 	vector coloredFXOrigin = origin + Vector( 0, 0, 25 )
 	table bubbleShieldDotS = expect table( bubbleShield.s )
-	if ( team == TEAM_UNASSIGNED )
-	{
-		entity neutralColoredFX = StartParticleEffectInWorld_ReturnEntity( BUBBLE_SHIELD_FX_PARTICLE_SYSTEM_INDEX, coloredFXOrigin, <0, 0, 0> )
-		SetTeam( neutralColoredFX, team )
-		bubbleShieldDotS.neutralColoredFX <- neutralColoredFX
-		bubbleShieldFXs.append( neutralColoredFX )
-	}
-	else
-	{
-		//Create friendly and enemy colored particle systems
-		entity friendlyColoredFX = StartParticleEffectInWorld_ReturnEntity( BUBBLE_SHIELD_FX_PARTICLE_SYSTEM_INDEX, coloredFXOrigin, <0, 0, 0> )
-		SetTeam( friendlyColoredFX, team )
-		friendlyColoredFX.kv.VisibilityFlags = ENTITY_VISIBLE_TO_FRIENDLY
-		EffectSetControlPointVector(  friendlyColoredFX, 1, FRIENDLY_COLOR_FX )
 
-		entity enemyColoredFX = StartParticleEffectInWorld_ReturnEntity( BUBBLE_SHIELD_FX_PARTICLE_SYSTEM_INDEX, coloredFXOrigin, <0, 0, 0> )
-		SetTeam( enemyColoredFX, team )
-		enemyColoredFX.kv.VisibilityFlags = ENTITY_VISIBLE_TO_ENEMY
-		EffectSetControlPointVector(  enemyColoredFX, 1, ENEMY_COLOR_FX )
-
-		bubbleShieldDotS.friendlyColoredFX <- friendlyColoredFX
-		bubbleShieldDotS.enemyColoredFX <- enemyColoredFX
-		bubbleShieldFXs.append( friendlyColoredFX )
-		bubbleShieldFXs.append( enemyColoredFX )
-	}
+    entity vortexColoredFX = StartParticleEffectInWorld_ReturnEntity( BUBBLE_SHIELD_FX_PARTICLE_SYSTEM_INDEX, coloredFXOrigin, <0, 0, 0> )
+    bubbleShieldDotS.vortexColoredFX <- vortexColoredFX
+    bubbleShieldFXs.append( vortexColoredFX )
+    thread Brute4BubbleShield_ColorUpdate( bubbleShield, vortexColoredFX )
 
 	#if MP
 	DisableTitanfallForLifetimeOfEntityNearOrigin( bubbleShield, origin, TITANHOTDROP_DISABLE_ENEMY_TITANFALL_RADIUS )
@@ -148,19 +129,55 @@ entity function CreateBrute4BubbleShieldWithSettings( int team, vector origin, v
 }
 
 #if SERVER
+void function Brute4BubbleShield_ColorUpdate( entity bubbleShield, entity colorFXHandle = null )
+{
+	bubbleShield.EndSignal( "OnDestroy" )
+
+	while( 1 )
+	{
+        EffectSetControlPointVector( colorFXHandle, 1, GetVortexSphereCurrentColor( 1.0 - GetHealthFrac( bubbleShield ) ) )
+		WaitFrame()
+	}
+}
+
 void function Brute4BubbleShield_OwnerTakeSpecialDamage( entity owner, var damageInfo )
 {
+    int damageFlags = DamageInfo_GetCustomDamageType( damageInfo )
     int passFlags = DF_RODEO | DF_DOOMED_HEALTH_LOSS | DF_BYPASS_SHIELD
-    if ( DamageInfo_GetCustomDamageType( damageInfo ) & passFlags )
+    if ( damageFlags & passFlags )
         return
+
+    // If melees hit the user, we want to pass the damage to dome shield
+    if ( damageFlags & DF_MELEE )
+    {
+        entity bubbleShield = owner.GetTitanSoul().soul.bubbleShield
+        if( IsValid( bubbleShield ) )
+        {
+            entity attacker = DamageInfo_GetAttacker( damageInfo )
+            table damageTable =
+            {
+                scriptType = damageFlags
+                forceKill = false
+                damageType = DamageInfo_GetDamageType( damageInfo )
+                damageSourceId = DamageInfo_GetDamageSourceIdentifier( damageInfo )
+                origin = DamageInfo_GetDamagePosition( damageInfo )
+            }
+
+            bubbleShield.TakeDamage( DamageInfo_GetDamage( damageInfo ), attacker, attacker, damageTable )
+        }
+    }
 
     DamageInfo_ScaleDamage( damageInfo, 0 )
 }
 
 void function Brute4BubbleShield_TakeBonusMeleeDamage( entity bubbleShield, var damageInfo )
 {
-    if( DamageInfo_GetCustomDamageType( damageInfo ) | DF_MELEE )
+    if( DamageInfo_GetCustomDamageType( damageInfo ) & DF_MELEE )
         DamageInfo_ScaleDamage( damageInfo, BRUTE4_DOME_SHIELD_MELEE_MOD )
+
+    entity attacker = DamageInfo_GetAttacker( damageInfo )
+	if ( bubbleShield.GetTeam() != attacker.GetTeam() && attacker.IsPlayer() )
+        attacker.NotifyDidDamage( bubbleShield, DamageInfo_GetHitBox( damageInfo ), DamageInfo_GetDamagePosition( damageInfo ), DamageInfo_GetCustomDamageType( damageInfo ), DamageInfo_GetDamage( damageInfo ), DamageInfo_GetDamageFlags( damageInfo ), DamageInfo_GetHitGroup( damageInfo ), DamageInfo_GetWeapon( damageInfo ), DamageInfo_GetDistFromAttackOrigin( damageInfo ) )
 }
 #endif
 
@@ -208,7 +225,6 @@ void function Brute4LetTitanPlayerShootThroughBubbleShield( entity titanPlayer, 
 
 	bubbleShield.SetOwner( titanPlayer ) //After this, player is able to fire out from shield. WATCH OUT FOR POTENTIAL COLLISION BUGS!
 
-    //thread Brute4BubbleShieldSpeedLimit(titanPlayer, bubbleShield )
     thread Brute4MonitorMovement( titanPlayer, bubbleShield )
 	thread Brute4MonitorLastFireTime( weapon, titanPlayer, bubbleShield )
 	thread Brute4StopPlayerShootThroughBubbleShield( titanPlayer, bubbleShield )
