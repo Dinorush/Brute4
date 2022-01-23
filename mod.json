@@ -2,7 +2,7 @@
 	"Name": "Dinorush.Brute4",
 	
 	"LoadPriority": 1,
-    "Version": "1.1",
+    "Version": "1.2",
 
     "ConVars": [
         {
@@ -21,7 +21,7 @@
 			"RunOn": "( CLIENT || SERVER ) && MP"
 		},
 		{
-			"Path": "weapons/mp_titancore_cluster_barrage.nut",
+			"Path": "weapons/mp_titancore_barrage_core.nut",
 			"RunOn": "( CLIENT || SERVER ) && MP"
 		},
 		{
@@ -29,7 +29,7 @@
 			"RunOn": "( CLIENT || SERVER ) && MP"
 		},
 		{
-			"Path": "weapons/mp_titanweapon_cluster_barrage.nut",
+			"Path": "weapons/mp_titanweapon_barrage_core_launcher.nut",
 			"RunOn": "( CLIENT || SERVER ) && MP"
 		},
 		{
