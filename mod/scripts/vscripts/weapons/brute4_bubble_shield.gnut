@@ -1,5 +1,3 @@
-global function Brute4BubbleShield_Init
-
 global function Brute4TitanHasBubbleShieldWeapon
 global function Brute4LetTitanPlayerShootThroughBubbleShield
 global function CreateParentedBrute4BubbleShield
@@ -10,17 +8,6 @@ global function Brute4StopPlayerShootThroughBubbleShield
 global function Brute4MonitorLastFireTime
 //global function Brute4BubbleShieldSpeedLimit
 
-const float SHIELD_TITAN_DAMAGE_FLOOR = 250.0
-const float SHIELD_TITAN_DAMAGE_CEILING = 16000 //Some arbitrarily large number really
-const float SHIELD_PILOT_DAMAGE_FLOOR = 30.0
-const float SHIELD_PILOT_DAMAGE_CEILING = 60.0
-const float SHIELD_NPC_DAMAGE_FLOOR = 30.0
-
-const float SHIELD_FADE_ARBITRARY_DELAY = 3.0
-const float SHIELD_FADE_ENDCAP_DELAY = 1.0
-
-const float SHIELD_DISTANCE_TO_DESTROY = 40
-
 struct BubbleShieldDamageStruct
 {
 	float damageFloor
@@ -28,37 +15,26 @@ struct BubbleShieldDamageStruct
 	array<float> quadraticPolynomialCoefficients //Should actually be float[3], but because float[ 3 ] and array<float> are different types and this needs to be fed into EvaluatePolynomial make it an array<float> instead
 }
 
-
-void function Brute4BubbleShield_Init()
-{
-	RegisterSignal( "TitanBrokeBubbleShield" )
-	RegisterSignal( "NewBubbleShield" )
-	RegisterSignal( "KillBruteShield" )
-}
-
 void function CreateParentedBrute4BubbleShield( entity titan, vector origin, vector angles, float duration = 10 )
 {
 	if ( !IsAlive( titan ) )
 		return
 
-	int health = DOME_SHIELD_HEALTH
 	entity soul = titan.GetTitanSoul()
     soul.Signal( "NewBubbleShield" )
 	entity bubbleShield = CreateBrute4BubbleShieldWithSettings( titan.GetTeam(), origin, angles, titan, duration )
 
 #if SERVER
 	soul.soul.bubbleShield = bubbleShield
+    SyncedMelee_Disable( titan )
+    // Normally, Dome Shield prevents the user from taking damage. We allow all damage to occur and use a callback to make sure only the damage we want goes through.
+    AddEntityCallback_OnDamaged( titan, Brute4BubbleShield_OwnerTakeSpecialDamage )
 	
-	titan.SetNPCPriorityOverride( duration )
-	soul.soul.bubbleShield.SetMaxHealth( health )
-	soul.soul.bubbleShield.SetHealth( health )
-	soul.soul.bubbleShield.SetTakeDamageType( DAMAGE_YES )
+	//titan.SetNPCPriorityOverride( duration )
 	soul.soul.bubbleShield.SetParent( titan, "ORIGIN" )
-	soul.soul.bubbleShield.SetBlocksRadiusDamage( false )
-	SetObjectCanBeMeleed( bubbleShield, true )
-	table bubleshieldDotS = expect table( soul.soul.bubbleShield.s )
-	entity friendlyColoredFX = expect entity (bubleshieldDotS.friendlyColoredFX )
-	entity enemyColoredFX = expect entity (bubleshieldDotS.enemyColoredFX )
+	table bubbleshieldDotS = expect table( soul.soul.bubbleShield.s )
+	entity friendlyColoredFX = expect entity (bubbleshieldDotS.friendlyColoredFX )
+	entity enemyColoredFX = expect entity (bubbleshieldDotS.enemyColoredFX )
 	friendlyColoredFX.SetParent( soul.soul.bubbleShield )
 	enemyColoredFX.SetParent( soul.soul.bubbleShield )
     thread WaitForCleanup(titan, soul, bubbleShield, duration)
@@ -67,8 +43,11 @@ void function CreateParentedBrute4BubbleShield( entity titan, vector origin, vec
 
 void function WaitForCleanup(entity titan, entity soul, entity bubbleShield, float duration)
 {
+    bubbleShield.EndSignal( "OnDestroy" )
     soul.EndSignal( "OnTitanDeath" )
 	soul.EndSignal( "OnDestroy" )
+	soul.EndSignal( "TitanBrokeBubbleShield" )
+
     OnThreadEnd(
 		function () : ( titan, soul, bubbleShield )
 		{
@@ -80,16 +59,16 @@ void function WaitForCleanup(entity titan, entity soul, entity bubbleShield, flo
 
 void function CleanupTitanBubbleShieldVars( entity titan, entity soul, entity bubbleShield )
 {
-	
 	DestroyBrute4BubbleShield( bubbleShield )
-
-	if ( IsValid( soul ) ){
 #if SERVER
-		SyncedMelee_Enable( titan )
+    if( IsValid( titan ) )
+    {
+        SyncedMelee_Enable( titan )
+        RemoveEntityCallback_OnDamaged( titan, Brute4BubbleShield_OwnerTakeSpecialDamage )
+    }
+	if ( IsValid( soul ) )
 		soul.soul.bubbleShield = null
 #endif
-	}
-
 }
 
 void function DestroyBrute4BubbleShield( entity bubbleShield )
@@ -107,26 +86,25 @@ entity function CreateBrute4BubbleShieldWithSettings( int team, vector origin, v
 {
 #if SERVER
 	
-	int health = DOME_SHIELD_HEALTH
-	SyncedMelee_Disable( owner )
-	entity bubbleShield = CreateEntity( "prop_dynamic" )
-	SetObjectCanBeMeleed( bubbleShield, true )
-	bubbleShield.SetValueForModelKey( $"models/fx/xo_shield.mdl" )
-	bubbleShield.kv.solid = SOLID_VPHYSICS
+	int health = BRUTE4_DOME_SHIELD_HEALTH
+    entity bubbleShield = CreatePropScript( $"models/fx/xo_shield.mdl", origin, angles, SOLID_VPHYSICS )
   	bubbleShield.kv.rendercolor = "81 130 151"
    	bubbleShield.kv.contents = (int(bubbleShield.kv.contents) | CONTENTS_NOGRAPPLE)
-	bubbleShield.SetOrigin( origin )
-	bubbleShield.SetAngles( angles )
      // Blocks bullets, projectiles but not players and not AI
 	bubbleShield.kv.CollisionGroup = TRACE_COLLISION_GROUP_BLOCK_WEAPONS
-	bubbleShield.SetBlocksRadiusDamage( false )
 	bubbleShield.SetMaxHealth( health )
 	bubbleShield.SetHealth( health )
-	bubbleShield.SetTakeDamageType( DAMAGE_YES )
-	DispatchSpawn( bubbleShield )
+    bubbleShield.SetTakeDamageType( DAMAGE_YES )
+    bubbleShield.SetBlocksRadiusDamage( false )
+    SetObjectCanBeMeleed( bubbleShield, true )
+    bubbleShield.SetDamageNotifications( true )
+    bubbleShield.SetArmorType( ARMOR_TYPE_HEAVY )
+	//DispatchSpawn( bubbleShield )
 	bubbleShield.Hide()
 
 	SetTeam( bubbleShield, team )
+    AddEntityCallback_OnDamaged( bubbleShield, Brute4BubbleShield_TakeBonusMeleeDamage )
+
 	array<entity> bubbleShieldFXs
 
 	vector coloredFXOrigin = origin + Vector( 0, 0, 25 )
@@ -168,6 +146,23 @@ entity function CreateBrute4BubbleShieldWithSettings( int team, vector origin, v
 	return bubbleShield
 #endif
 }
+
+#if SERVER
+void function Brute4BubbleShield_OwnerTakeSpecialDamage( entity owner, var damageInfo )
+{
+    int passFlags = DF_RODEO | DF_DOOMED_HEALTH_LOSS | DF_BYPASS_SHIELD
+    if ( DamageInfo_GetCustomDamageType( damageInfo ) & passFlags )
+        return
+
+    DamageInfo_ScaleDamage( damageInfo, 0 )
+}
+
+void function Brute4BubbleShield_TakeBonusMeleeDamage( entity bubbleShield, var damageInfo )
+{
+    if( DamageInfo_GetCustomDamageType( damageInfo ) | DF_MELEE )
+        DamageInfo_ScaleDamage( damageInfo, BRUTE4_DOME_SHIELD_MELEE_MOD )
+}
+#endif
 
 void function CleanupBubbleShield( entity bubbleShield, array<entity> bubbleShieldFXs, float fadeTime )
 {

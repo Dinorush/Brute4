@@ -509,13 +509,17 @@ bool function IsTitanWithinBubbleShield( entity titan )
 	if ( !IsValid( soul.soul.bubbleShield ) )
 		return false
 
+    // Brute4 change - need to allow certain damage types to go through Bubble Shield. Use proxy to check shield type
+    if ( !soul.soul.bubbleShield.GetBlocksRadiusDamage() )
+        return false
+
 	return DistanceSqr( soul.soul.bubbleShield.GetOrigin(), titan.GetOrigin() ) < TITAN_BUBBLE_SHIELD_INVULNERABILITY_RANGE * TITAN_BUBBLE_SHIELD_INVULNERABILITY_RANGE
 }
 
 bool function TitanHasBubbleShieldWeapon( entity titan )
 {
 	entity weapon = titan.GetActiveWeapon()
-	if ( IsValid( weapon ) && IsValid( weapon.w.bubbleShield ) )
+	if ( IsValid( weapon ) && IsValid( weapon.w.bubbleShield ) && weapon.w.bubbleShield.GetBlocksRadiusDamage() )
 		return true
 
 	return false
