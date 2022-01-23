@@ -1,6 +1,6 @@
 {
 	"Name": "Dinorush.Brute4",
-	
+	"Description": "Implements the Brute4 titan based on cut content.",
 	"LoadPriority": 1,
     "Version": "1.2",
 
