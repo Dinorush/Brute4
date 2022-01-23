@@ -82,7 +82,7 @@ WeaponData
 	"damage_near_value"   							"10"
 	"damage_far_value"								"10"
 	"explosion_damage"								"40"
-	"explosion_damage_heavy_armor"					"350"
+	"explosion_damage_heavy_armor"					"300"
 	"npc_explosion_damage"								"30"
 	"npc_explosion_damage_heavy_armor"					"300"
 
@@ -103,7 +103,7 @@ WeaponData
 	"cooldown_type"                                 "ammo_per_shot"
 
 	// Regen Ammo
-	"regen_ammo_refill_rate"						"15.0"
+	"regen_ammo_refill_rate"						"10.0"
 	"regen_ammo_refill_start_delay"					"1.0"
 
 	"charge_time" 									"30.0"

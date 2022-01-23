@@ -66,12 +66,12 @@ WeaponData
 	{
 		"damage_near_value"   							"200"
 		"damage_far_value"								"200"
-		"damage_near_value_titanarmor"					"350"
-		"damage_far_value_titanarmor" 					"350"
+		"damage_near_value_titanarmor"					"400"
+		"damage_far_value_titanarmor" 					"400"
 		"explosionradius" 								"125"
 
         "explosion_damage"								"50"
-	    "explosion_damage_heavy_armor"					"300"
+	    "explosion_damage_heavy_armor"					"350"
 		"deploy_time" 									"0.75"
 
 		"enable_highlight_networking_on_creation"		"<KEEP_DEFAULT>"
@@ -136,7 +136,7 @@ WeaponData
 	"critical_hit_damage_scale"						"1.5"
 	"aimassist_disable_hipfire_humansonly"			"1"
 	"aimassist_disable_ads_humansonly"				"1"
-    "ads_move_speed_scale"							"0.75"
+    "ads_move_speed_scale"							"0.85"
 
 	"scripted_projectile_max_timestep"				"0.2"
 
@@ -415,6 +415,8 @@ WeaponData
             "damage_far_value"              "*1.5"
             "damage_near_value_titanarmor"	"*1.5"
 		    "damage_far_value_titanarmor" 	"*1.5"
+            "explosion_damage"								"50"
+	        "explosion_damage_heavy_armor"					"300"
             
 			"ammo_clip_size"   								"4"
 			"projectiles_per_shot"							"1"

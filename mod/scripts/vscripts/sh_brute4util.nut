@@ -1,6 +1,6 @@
 untyped
 global function GiveBrute4
-global function Brute4Precache
+global function Brute4_Init
 
 const array<int> PRESERVE_PASSIVES = [ ePassives.PAS_AUTO_EJECT, ePassives.PAS_ENHANCED_TITAN_AI, ePassives.PAS_WARPFALL, ePassives.PAS_HYPER_CORE ]
 

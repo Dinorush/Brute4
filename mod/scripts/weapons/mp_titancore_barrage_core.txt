@@ -1,6 +1,6 @@
 WeaponData
 {
-	"printname"										"#TITANCORE_CLUSTER"
+	"printname"										"Barrage Core"
 	"shortprintname"								"#TITANCORE_CLUSTER_SHORT"
 	"description"									"#TITANCORE_CLUSTER_DESC"
 	"longdesc"										"#TITANCORE_CLUSTER_LONGDESC"
@@ -36,8 +36,8 @@ WeaponData
 	"core_duration"									"6.0"
 	"passive"										"PAS_FUSION_CORE"
 
-	"readymessage"									"#HUD_CORE_ONLINE_CLUSTER_CORE"
-	"readyhint"									"#HUD_CORE_ONLINE_CLUSTER_CORE_HINT"
+	"readymessage"									"BARRAGE CORE ONLINE"
+	"readyhint"									"`1%ability 1% `0Activate Barrage Core"
 
 	"dialog_core_online"							"flightCoreOnline"
 	"dialog_core_activated"							"flightCoreActivated"
