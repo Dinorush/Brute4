@@ -13,8 +13,8 @@ WeaponData
 	"weaponType"									"titan_core"
 	"fire_mode"   									"offhand_instant"
 
-	"OnWeaponSustainedDischargeBegin"				"OnAbilityStart_ClusterBarrage"
-	"OnWeaponSustainedDischargeEnd"					"OnAbilityEnd_ClusterBarrage"
+	"OnWeaponSustainedDischargeBegin"				"OnAbilityStart_BarrageCore"
+	"OnWeaponSustainedDischargeEnd"					"OnAbilityEnd_BarrageCore"
 
 	"damage_type" 									"none"
 

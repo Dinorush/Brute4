@@ -1,17 +1,15 @@
-global function ClusterBarrage_Init
+global function BarrageCore_Init
 
-global function OnAbilityStart_ClusterBarrage
-global function OnAbilityEnd_ClusterBarrage
+global function OnAbilityStart_BarrageCore
+global function OnAbilityEnd_BarrageCore
 
-//global const FLIGHT_CORE_IMPACT_FX = $"droppod_impact"
-
-void function ClusterBarrage_Init()
+void function BarrageCore_Init()
 {
-//	PrecacheParticleSystem( FLIGHT_CORE_IMPACT_FX )
-	PrecacheWeapon( "mp_titanweapon_cluster_barrage" )
+    PrecacheWeapon( "mp_titancore_barrage_core" )
+	PrecacheWeapon( "mp_titanweapon_barrage_core_launcher" )
 }
 
-bool function OnAbilityStart_ClusterBarrage( entity weapon )
+bool function OnAbilityStart_BarrageCore( entity weapon )
 {
 	if ( !OnAbilityCharge_TitanCore( weapon ) )
 		return false
@@ -27,7 +25,7 @@ bool function OnAbilityStart_ClusterBarrage( entity weapon )
 #if SERVER
 	if ( titan.IsPlayer() )
 		Melee_Disable( titan )
-	thread PROTO_ClusterBarrage( titan, weapon.GetCoreDuration() )
+	thread PROTO_BarrageCore( titan, weapon.GetCoreDuration() )
 #else
 	if ( titan.IsPlayer() && (titan == GetLocalViewPlayer()) && IsFirstTimePredicted() )
 		Rumble_Play( "rumble_titan_hovercore_activate", {} )
@@ -36,7 +34,7 @@ bool function OnAbilityStart_ClusterBarrage( entity weapon )
 	return true
 }
 
-void function OnAbilityEnd_ClusterBarrage( entity weapon )
+void function OnAbilityEnd_BarrageCore( entity weapon )
 {
 	entity titan = weapon.GetWeaponOwner()
 	#if SERVER
@@ -62,7 +60,7 @@ int currAmmo = weapon.GetWeaponPrimaryClipCount()
 
 #if SERVER
 //HACK - Should use operator functions from Joe/Steven W
-void function PROTO_ClusterBarrage( entity titan, float flightTime )
+void function PROTO_BarrageCore( entity titan, float flightTime )
 {
 	if ( !titan.IsTitan() )
 		return
@@ -70,7 +68,7 @@ void function PROTO_ClusterBarrage( entity titan, float flightTime )
 	table<string, bool> e
 	e.shouldDeployWeapon <- false
 
-	array<string> weaponArray = [ "mp_titancore_cluster_barrage" ]
+	array<string> weaponArray = [ "mp_titancore_barrage_core" ]
 
 	titan.EndSignal( "OnDestroy" )
 	titan.EndSignal( "OnDeath" )
@@ -88,10 +86,10 @@ void function PROTO_ClusterBarrage( entity titan, float flightTime )
 			{
 				if ( IsAlive( titan ) && titan.IsTitan() )
 				{
-					if ( HasWeapon( titan, "mp_titanweapon_cluster_barrage" ) )
+					if ( HasWeapon( titan, "mp_titanweapon_barrage_core_launcher" ) )
 					{
 						EnableWeapons( titan, weaponArray )
-						titan.TakeWeapon( "mp_titanweapon_cluster_barrage" )
+						titan.TakeWeapon( "mp_titanweapon_barrage_core_launcher" )
 					}
 				}
 
@@ -115,8 +113,8 @@ void function PROTO_ClusterBarrage( entity titan, float flightTime )
 		HolsterAndDisableWeapons( titan )
 
         DisableWeapons( titan, weaponArray )
-		titan.GiveWeapon( "mp_titanweapon_cluster_barrage" )
-		titan.SetActiveWeaponByName( "mp_titanweapon_cluster_barrage" )
+		titan.GiveWeapon( "mp_titanweapon_barrage_core_launcher" )
+		titan.SetActiveWeaponByName( "mp_titanweapon_barrage_core_launcher" )
 
 		wait startupTime
 
@@ -135,10 +133,10 @@ void function PROTO_ClusterBarrage( entity titan, float flightTime )
 	}
 	else
 	{
-		titan.GiveWeapon( "mp_titanweapon_cluster_barrage" )
-		titan.SetActiveWeaponByName( "mp_titanweapon_cluster_barrage" )
+		titan.GiveWeapon( "mp_titanweapon_barrage_core_launcher" )
+		titan.SetActiveWeaponByName( "mp_titanweapon_barrage_core_launcher" )
 		titan.WaitSignal( "CoreEnd" )
-		titan.TakeWeapon( "mp_titanweapon_cluster_barrage" )
+		titan.TakeWeapon( "mp_titanweapon_barrage_core_launcher" )
 		titan.SetActiveWeaponByName("mp_titanweapon_rocketeer_rocketstream")
 	}
 }

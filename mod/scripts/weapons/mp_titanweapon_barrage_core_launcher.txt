@@ -16,9 +16,9 @@ WeaponData
 	"pickup_press_prompt" 							"[USE] [WEAPONNAME]"
 	"minimap_reveal_distance"						"32000"
 
-	"OnWeaponPrimaryAttack"							"OnWeaponPrimaryAttack_titanweapon_cluster_barrage"
-	"OnWeaponNpcPrimaryAttack"						"OnWeaponNpcPrimaryAttack_titanweapon_cluster_barrage"
-	"OnProjectileCollision"  							"OnProjectileCollision_titanweapon_cluster_barrage"
+	"OnWeaponPrimaryAttack"							"OnWeaponPrimaryAttack_titanweapon_barrage_core_launcher"
+	"OnWeaponNpcPrimaryAttack"						"OnWeaponNpcPrimaryAttack_titanweapon_barrage_core_launcher"
+	"OnProjectileCollision"  							"OnProjectileCollision_titanweapon_barrage_core_launcher"
 
 	"projectile_explosion_delay"					"0.25"
 

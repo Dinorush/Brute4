@@ -1,65 +1,37 @@
 untyped
 
-global function OnWeaponPrimaryAttack_titanweapon_cluster_barrage
-global function OnProjectileCollision_titanweapon_cluster_barrage
-//global function OnWeaponAttemptOffhandSwitch_titanweapon_cluster_barrage
+global function OnWeaponPrimaryAttack_titanweapon_barrage_core_launcher
+global function OnProjectileCollision_titanweapon_barrage_core_launcher
 
 #if SERVER
-global function OnWeaponNpcPrimaryAttack_titanweapon_cluster_barrage
+global function OnWeaponNpcPrimaryAttack_titanweapon_barrage_core_launcher
 #endif // #if SERVER
 
 const FUSE_TIME = 0.25 //Applies once the grenade has stuck to a surface.
 const FUSE_TIME_EXT = 1.5
 
-//bool function OnWeaponAttemptOffhandSwitch_titanweapon_cluster_barrage( entity weapon )
-//{
-//	int ammoPerShot = weapon.GetAmmoPerShot()
-//	int currAmmo = weapon.GetWeaponPrimaryClipCount()
-//	if ( currAmmo < ammoPerShot )
-//		return false
-//
-//	return true
-//}
-
-var function OnWeaponPrimaryAttack_titanweapon_cluster_barrage( entity weapon, WeaponPrimaryAttackParams attackParams )
+var function OnWeaponPrimaryAttack_titanweapon_barrage_core_launcher( entity weapon, WeaponPrimaryAttackParams attackParams )
 {
-	entity player = weapon.GetWeaponOwner()
-
-    player.Signal("KillBruteShield")
-//	#if CLIENT
-//		return weapon.GetAmmoPerShot()
-//	#endif
-
-//	int ammoToSpend = weapon.GetAmmoPerShot()
-
-//	if ( player.IsPlayer() )
-//		PlayerUsedOffhand( player, weapon )
-
 	weapon.EmitWeaponNpcSound( LOUD_WEAPON_AI_SOUND_RADIUS_MP, 0.2 )
-	//vector bulletVec = ApplyVectorSpread( attackParams.dir, player.GetAttackSpreadAngle() * 2.0 )
-	//attackParams.dir = bulletVec
 
-	if ( IsServer() || weapon.ShouldPredictProjectiles() )
-	{
-		vector offset = Vector( 30.0, 6.0, -4.0 )
-		if ( weapon.IsWeaponInAds() )
-			offset = Vector( 30.0, 0.0, -3.0 )
-		vector attackPos = player.OffsetPositionFromView( attackParams[ "pos" ], offset )	// forward, right, up
-		FireGrenade( weapon, attackParams )
-	}
-//	return ammoToSpend
+    if ( IsServer() || weapon.ShouldPredictProjectiles() )
+        return FireGrenade( weapon, attackParams )
+    return 1
 }
 
 #if SERVER
-var function OnWeaponNpcPrimaryAttack_titanweapon_cluster_barrage( entity weapon, WeaponPrimaryAttackParams attackParams )
+var function OnWeaponNpcPrimaryAttack_titanweapon_barrage_core_launcher( entity weapon, WeaponPrimaryAttackParams attackParams )
 {
-	weapon.EmitWeaponNpcSound( LOUD_WEAPON_AI_SOUND_RADIUS_MP, 0.2 )
-	FireGrenade( weapon, attackParams, true )
+    weapon.EmitWeaponNpcSound( LOUD_WEAPON_AI_SOUND_RADIUS_MP, 0.2 )
+    return FireGrenade( weapon, attackParams, true )
 }
 #endif // #if SERVER
 
-function FireGrenade( entity weapon, WeaponPrimaryAttackParams attackParams, isNPCFiring = false )
+var function FireGrenade( entity weapon, WeaponPrimaryAttackParams attackParams, bool isNPCFiring = false )
 {
+    entity owner = weapon.GetWeaponOwner()
+    owner.Signal("KillBruteShield")
+
 	vector angularVelocity = Vector( RandomFloatRange( -1200, 1200 ), 100, 0 )
 
 	int damageType = DF_RAGDOLL | DF_EXPLOSION
@@ -76,14 +48,11 @@ function FireGrenade( entity weapon, WeaponPrimaryAttackParams attackParams, isN
 			SetTeam( nade, weaponOwner.GetTeam() )
 		#endif
 	}
+    return 1
 }
 
-void function OnProjectileCollision_titanweapon_cluster_barrage( entity projectile, vector pos, vector normal, entity hitEnt, int hitbox, bool isCritical )
+void function OnProjectileCollision_titanweapon_barrage_core_launcher( entity projectile, vector pos, vector normal, entity hitEnt, int hitbox, bool isCritical )
 {
-//	bool didStick = PlantSuperStickyGrenade( projectile, pos, normal, hitEnt, hitbox )
-//	if ( !didStick )
-//		return
-
 	#if SERVER
 		if ( IsAlive( hitEnt ) && hitEnt.IsPlayer() )
 		{
@@ -96,7 +65,7 @@ void function OnProjectileCollision_titanweapon_cluster_barrage( entity projecti
 			PlantSuperStickyGrenade( projectile, pos, normal, hitEnt, hitbox )
 			EmitSoundOnEntity( projectile, "weapon_softball_grenade_attached_3P" )
 		}
-        // HACK - call cluster creation on impact; use projectile_explosion_delay in .txt to account for FUSE_TIME. Must match!
+        // HACK - call cluster creation on impact, otherwise projectile will be null; use projectile_explosion_delay in .txt to account for FUSE_TIME. Must match!
         StartClusterAfterDelay( projectile, normal )
 		thread DetonateStickyAfterTime( projectile, FUSE_TIME, normal )
 	#endif
@@ -117,9 +86,9 @@ void function StartClusterAfterDelay( entity projectile, vector normal) {
         // 4 count, 0.35 delay, 2 duration, 1 groupSize
         // Total: 5 subexplosions
         // ""Base delay"": 0.5s, avg delay between (each group): 0.15s, total duration: 0.75s
-        popcornInfo.weaponName = "mp_titanweapon_cluster_barrage"
+        popcornInfo.weaponName = "mp_titanweapon_barrage_core_launcher"
         popcornInfo.weaponMods = projectile.ProjectileGetMods()
-        popcornInfo.damageSourceId = eDamageSourceId.mp_titanweapon_cluster_barrage
+        popcornInfo.damageSourceId = eDamageSourceId.mp_titanweapon_barrage_core_launcher
         popcornInfo.count = 4
         popcornInfo.delay = 0.35
         popcornInfo.offset = 0.1
