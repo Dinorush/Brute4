@@ -18,13 +18,6 @@ void function Brute4_Init()
 	BarrageCore_Init()
 }
 
-#if CLIENT
-void function ClBrute4_UpdateMeter( entity player, array<string> args )
-{
-    EarnMeter_Update()
-}
-#endif
-
 array<string> function Brute4_GetAllowedChassis()
 {
     string cvar = GetConVarString( "brute4_allowed_chassis" )
