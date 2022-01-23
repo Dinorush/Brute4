@@ -1,0 +1,60 @@
+WeaponData
+{
+	MP_BASE
+	{
+		"damage_near_value"   							"200"
+		"damage_far_value"								"200"
+		"damage_near_value_titanarmor"					"400"
+		"damage_far_value_titanarmor" 					"400"
+
+        "explosion_damage"								"50"
+	    "explosion_damage_heavy_armor"					"350"
+		"deploy_time" 									"0.75"
+	}
+
+    "projectile_explosion_delay"                    "0.0"
+
+	"explosion_shake_radius"						"200"
+	"explosion_shake_amplitude"						"3"
+	"explosion_shake_frequency"						"40"
+	"explosion_shake_duration"						"0.4"
+
+	"projectiles_per_shot"							"4"
+
+	"ammo_clip_size"   								"16"
+
+	"reload_time_late1" 							"2.0"
+	"reloadempty_time_late1" 						"2.0"
+	"critical_hit_damage_scale"						"1.5"
+    "ads_move_speed_scale"							"0.85"
+
+	"primary_fire_does_not_block_sprint"			"0"
+
+	Mods
+	{
+		rocketstream_fast
+		{
+            "damage_near_value"             "*1.5"
+            "damage_far_value"              "*1.5"
+            "damage_near_value_titanarmor"	"*1.5"
+		    "damage_far_value_titanarmor" 	"*1.5"
+            "explosion_damage"              "*1.5"
+            "explosion_damage_heavy_armor"  "*1.5"
+            "ammo_per_shot"					"2"
+		}
+
+		burn_mod_titan_rocket_launcher
+		{
+            "damage_near_value"             "*1.5"
+            "damage_far_value"              "*1.5"
+            "damage_near_value_titanarmor"	"*1.5"
+		    "damage_far_value_titanarmor" 	"*1.5"
+            "explosion_damage"								"50"
+	        "explosion_damage_heavy_armor"					"300"
+            
+			"ammo_clip_size"   								"4"
+			"projectiles_per_shot"							"1"
+			"ammo_per_shot"									"1"
+		}
+	}
+}
