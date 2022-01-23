@@ -32,6 +32,6 @@ Brute4 has two convars to control which titans Brute4 can be put on.
 
 * Reloads Quad Rocket with 4 single-fire cluster-loaded rockets.
 
-*Core*: Cluster Barrage
+*Core*: Barrage Core
 
 * Rapidly fires cluster-loaded explosives.
