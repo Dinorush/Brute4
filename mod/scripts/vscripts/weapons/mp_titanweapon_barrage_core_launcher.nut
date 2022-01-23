@@ -83,14 +83,14 @@ void function StartClusterAfterDelay( entity projectile, vector normal) {
         // The actual delay is (""base delay"" - delay). Thus 'delay' REDUCES delay. Make sure delay + offset < ""base delay"".
 
         // Current:
-        // 4 count, 0.35 delay, 2 duration, 1 groupSize
-        // Total: 5 subexplosions
-        // ""Base delay"": 0.5s, avg delay between (each group): 0.15s, total duration: 0.75s
+        // 5 count, 0.15 delay, 2 duration, 1 groupSize
+        // Total: 6 subexplosions
+        // ""Base delay"": 0.4s, avg delay between (each group): 0.25s, total duration: 1.5s
         popcornInfo.weaponName = "mp_titanweapon_barrage_core_launcher"
         popcornInfo.weaponMods = projectile.ProjectileGetMods()
         popcornInfo.damageSourceId = eDamageSourceId.mp_titanweapon_barrage_core_launcher
-        popcornInfo.count = 4
-        popcornInfo.delay = 0.35
+        popcornInfo.count = 5
+        popcornInfo.delay = 0.15
         popcornInfo.offset = 0.1
         popcornInfo.range = 150
         popcornInfo.normal = normal
