@@ -40,10 +40,10 @@
             "Path": "sh_brute4util.nut",
             "RunOn": "( CLIENT || SERVER ) && MP",
             "ClientCallback": {
-                "After": "Brute4Precache"
+                "After": "Brute4_Init"
             },
             "ServerCallback": {
-                "After": "Brute4Precache"
+                "After": "Brute4_Init"
             }
         }
 	]

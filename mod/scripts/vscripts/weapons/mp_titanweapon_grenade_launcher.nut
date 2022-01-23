@@ -2,7 +2,7 @@ untyped
 global function MpTitanweaponGrenadeLauncher_Init
 global function OnWeaponPrimaryAttack_titanweapon_grenade_launcher
 global function OnProjectileCollision_titanweapon_grenade_launcher
-// global function OnWeaponAttemptOffhandSwitch_titanweapon_grenade_launcher
+global function OnWeaponAttemptOffhandSwitch_titanweapon_grenade_launcher
 
 #if SERVER
 global function OnWeaponNpcPrimaryAttack_titanweapon_grenade_launcher
@@ -12,20 +12,20 @@ const FUSE_TIME = 0.5
 const FUSE_TIME_EXT = 0.75 //Applies if the grenade hits an entity
 const FUSE_OFFSET = 0.0
 
-function MpTitanweaponGrenadeLauncher_Init()
+void function MpTitanweaponGrenadeLauncher_Init()
 {
-	RegisterSignal( "KillBruteShield" )
+    PrecacheWeapon( "mp_titanweapon_grenade_launcher" )
 }
 
-// bool function OnWeaponAttemptOffhandSwitch_titanweapon_grenade_launcher( entity weapon )
-// {
-// 	int ammoPerShot = weapon.GetAmmoPerShot()
-// 	int currAmmo = weapon.GetWeaponPrimaryClipCount()
-// 	if ( currAmmo < ammoPerShot )
-// 		return false
+bool function OnWeaponAttemptOffhandSwitch_titanweapon_grenade_launcher( entity weapon )
+{
+	int minAmmo = weapon.GetWeaponSettingInt( eWeaponVar.ammo_min_to_fire )
+	int currAmmo = weapon.GetWeaponPrimaryClipCount()
+	if ( currAmmo < minAmmo )
+		return false
 
-// 	return true
-// }
+	return true
+}
 
 var function OnWeaponPrimaryAttack_titanweapon_grenade_launcher( entity weapon, WeaponPrimaryAttackParams attackParams )
 {

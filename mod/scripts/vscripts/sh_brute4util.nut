@@ -2,21 +2,28 @@ untyped
 global function GiveBrute4
 global function Brute4Precache
 
-const array<int> PRESERVE_PASSIVES = [ ePassives.PAS_AUTO_EJECT, ePassives.PAS_ENHANCED_TITAN_AI, ePassives.PAS_WARPFALL ]
+const array<int> PRESERVE_PASSIVES = [ ePassives.PAS_AUTO_EJECT, ePassives.PAS_ENHANCED_TITAN_AI, ePassives.PAS_WARPFALL, ePassives.PAS_HYPER_CORE ]
 
-void function Brute4Precache()
+void function Brute4_Init()
 {
-    PrecacheWeapon( "mp_titanability_brute4_bubble_shield" )
-	PrecacheWeapon( "mp_titancore_cluster_barrage" )
-	PrecacheWeapon( "mp_titanweapon_cluster_barrage" )
-	PrecacheWeapon( "mp_titanweapon_grenade_launcher" )
-	PrecacheWeapon( "mp_titanweapon_flightcore_rockets" )
+    RegisterWeaponDamageSources(
+        {
+            mp_titanweapon_barrage_core_launcher = "Barrage Core",
+            mp_titanweapon_grenade_launcher = "Grenade Launcher"
+        }
+    )
 
-    RegisterWeaponDamageSources({
-        mp_titanweapon_cluster_barrage = "Cluster Barrage",
-        mp_titanweapon_grenade_launcher = "Grenade Launcher"
-    })
+    MpTitanAbilityBrute4DomeShield_Init()
+    MpTitanweaponGrenadeLauncher_Init()
+	BarrageCore_Init()
 }
+
+#if CLIENT
+void function ClBrute4_UpdateMeter( entity player, array<string> args )
+{
+    EarnMeter_Update()
+}
+#endif
 
 array<string> function Brute4_GetAllowedChassis()
 {
@@ -27,7 +34,6 @@ array<string> function Brute4_GetAllowedChassis()
 
 void function GiveBrute4( int index = 0 )
 {
-#if SERVER
     entity player = GetPlayerArray()[index]
 
     if ( player.IsTitan() && ( GetConVarBool( "brute4_unlock_chassis" ) || Brute4_GetAllowedChassis().contains( GetTitanCharacterName( player ) ) ) )
@@ -43,8 +49,9 @@ void function GiveBrute4( int index = 0 )
         player.TakeOffhandWeapon( OFFHAND_RIGHT )
         player.GiveOffhandWeapon( "mp_titanweapon_grenade_launcher", OFFHAND_RIGHT )
         player.TakeOffhandWeapon( OFFHAND_EQUIPMENT )
-        player.GiveOffhandWeapon( "mp_titancore_cluster_barrage", OFFHAND_EQUIPMENT )
+        player.GiveOffhandWeapon( "mp_titancore_barrage_core", OFFHAND_EQUIPMENT )
 
+        #if SERVER
         entity soul = player.GetTitanSoul()
         foreach ( passive, hasPassive in soul.passives )
         {
@@ -52,6 +59,6 @@ void function GiveBrute4( int index = 0 )
             if ( hasPassive && !PRESERVE_PASSIVES.contains( passiveVal ) )
                 TakePassive( soul, passiveVal )
         }
+        #endif
     }
-#endif
 }

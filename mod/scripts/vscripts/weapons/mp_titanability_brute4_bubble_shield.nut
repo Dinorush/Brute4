@@ -1,30 +1,22 @@
 untyped
 
-global function MpTitanabilityDomeShield_Init
+global function MpTitanAbilityBrute4DomeShield_Init
 
 global function OnWeaponPrimaryAttack_dome_shield
-
-
-
-
 
 #if SERVER
 global function OnWeaponNpcPrimaryAttack_dome_shield
 #endif // #if SERVER
 
-global const DOME_SHIELD_HEALTH = 2000
+global const BRUTE4_DOME_SHIELD_HEALTH = 2500
 const PAS_DOME_SHIELD_HEALTH = 3000
+global const BRUTE4_DOME_SHIELD_MELEE_MOD = 2.5
 
 
-function MpTitanabilityDomeShield_Init()
+function MpTitanAbilityBrute4DomeShield_Init()
 {
-	RegisterSignal( "RegenAmmo" )
-
-    #if CLIENT
-	    PrecacheHUDMaterial( $"vgui/hud/dpad_bubble_shield_charge_0" )
-	    PrecacheHUDMaterial( $"vgui/hud/dpad_bubble_shield_charge_1" )
-	    PrecacheHUDMaterial( $"vgui/hud/dpad_bubble_shield_charge_2" )
-    #endif
+    RegisterSignal( "KillBruteShield" )
+	PrecacheWeapon( "mp_titanability_brute4_bubble_shield" )
 }
 
 var function OnWeaponPrimaryAttack_dome_shield( entity weapon, WeaponPrimaryAttackParams attackParams )
@@ -85,9 +77,6 @@ void function Brute4GiveShortDomeShield( entity weapon, entity player, float dur
 		{
 			if ( IsValid( soul ) )
 			{
-				if ( IsValid( soul.soul.bubbleShield ) )
-					soul.soul.bubbleShield.Destroy()
-                
                 if ( IsValid( player ) )
                 {
                     StatusEffect_Stop( player, slowID )
