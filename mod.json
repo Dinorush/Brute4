@@ -2,10 +2,11 @@
 	"Name": "Dinorush.Brute4",
 	"Description": "Implements the Brute4 titan based on cut content.",
 	"LoadPriority": 1,
-    "Version": "1.2",
+	"RequiredOnClient": true,
+	"Version": "1.2",
 
-    "ConVars": [
-        {
+	"ConVars": [
+		{
 			"Name": "brute4_allowed_chassis",
 			"DefaultValue": "northstar"
 		},
@@ -13,7 +14,7 @@
 			"Name": "brute4_unlock_chassis",
 			"DefaultValue": "0"
 		}
-    ],
+	],
 
 	"Scripts": [
 		{
@@ -36,15 +37,15 @@
 			"Path": "weapons/brute4_bubble_shield.gnut",
 			"RunOn": "( CLIENT || SERVER ) && MP"
 		},
-        {
-            "Path": "sh_brute4util.nut",
-            "RunOn": "( CLIENT || SERVER ) && MP",
-            "ClientCallback": {
-                "After": "Brute4_Init"
-            },
-            "ServerCallback": {
-                "After": "Brute4_Init"
-            }
-        }
+		{
+			"Path": "sh_brute4util.nut",
+			"RunOn": "( CLIENT || SERVER ) && MP",
+			"ClientCallback": {
+				"After": "Brute4_Init"
+			},
+			"ServerCallback": {
+				"After": "Brute4_Init"
+			}
+		}
 	]
 }
