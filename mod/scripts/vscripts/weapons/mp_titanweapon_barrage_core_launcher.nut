@@ -14,23 +14,23 @@ var function OnWeaponPrimaryAttack_titanweapon_barrage_core_launcher( entity wea
 {
 	weapon.EmitWeaponNpcSound( LOUD_WEAPON_AI_SOUND_RADIUS_MP, 0.2 )
 
-    if ( IsServer() || weapon.ShouldPredictProjectiles() )
-        return FireGrenade( weapon, attackParams )
-    return 1
+	if ( IsServer() || weapon.ShouldPredictProjectiles() )
+		return FireGrenade( weapon, attackParams )
+	return 1
 }
 
 #if SERVER
 var function OnWeaponNpcPrimaryAttack_titanweapon_barrage_core_launcher( entity weapon, WeaponPrimaryAttackParams attackParams )
 {
-    weapon.EmitWeaponNpcSound( LOUD_WEAPON_AI_SOUND_RADIUS_MP, 0.2 )
-    return FireGrenade( weapon, attackParams, true )
+	weapon.EmitWeaponNpcSound( LOUD_WEAPON_AI_SOUND_RADIUS_MP, 0.2 )
+	return FireGrenade( weapon, attackParams, true )
 }
 #endif // #if SERVER
 
 var function FireGrenade( entity weapon, WeaponPrimaryAttackParams attackParams, bool isNPCFiring = false )
 {
-    entity owner = weapon.GetWeaponOwner()
-    owner.Signal("KillBruteShield")
+	entity owner = weapon.GetWeaponOwner()
+	owner.Signal("KillBruteShield")
 
 	vector angularVelocity = Vector( RandomFloatRange( -1200, 1200 ), 100, 0 )
 
@@ -48,7 +48,7 @@ var function FireGrenade( entity weapon, WeaponPrimaryAttackParams attackParams,
 			SetTeam( nade, weaponOwner.GetTeam() )
 		#endif
 	}
-    return 1
+	return 1
 }
 
 void function OnProjectileCollision_titanweapon_barrage_core_launcher( entity projectile, vector pos, vector normal, entity hitEnt, int hitbox, bool isCritical )
@@ -65,41 +65,41 @@ void function OnProjectileCollision_titanweapon_barrage_core_launcher( entity pr
 			PlantSuperStickyGrenade( projectile, pos, normal, hitEnt, hitbox )
 			EmitSoundOnEntity( projectile, "weapon_softball_grenade_attached_3P" )
 		}
-        // HACK - call cluster creation on impact, otherwise projectile will be null; use projectile_explosion_delay in .txt to account for FUSE_TIME. Must match!
-        StartClusterAfterDelay( projectile, normal )
+		// HACK - call cluster creation on impact, otherwise projectile will be null; use projectile_explosion_delay in .txt to account for FUSE_TIME. Must match!
+		StartClusterAfterDelay( projectile, normal )
 		thread DetonateStickyAfterTime( projectile, FUSE_TIME, normal )
 	#endif
 }
 
 #if SERVER
 void function StartClusterAfterDelay( entity projectile, vector normal) {
-    entity owner = projectile.GetOwner()
-    if ( IsValid( owner ) )
-    {
-        PopcornInfo popcornInfo
-        // Clusters share explosion radius/damage with the base weapon
-        // Clusters spawn '((int) (count/groupSize) + 1) * groupSize' total subexplosions (thanks to a '<=')
-        // The ""base delay"" between each group's subexplosion on average is ((float) duration / (int) (count / groupSize))
-        // The actual delay is (""base delay"" - delay). Thus 'delay' REDUCES delay. Make sure delay + offset < ""base delay"".
+	entity owner = projectile.GetOwner()
+	if ( IsValid( owner ) )
+	{
+		PopcornInfo popcornInfo
+		// Clusters share explosion radius/damage with the base weapon
+		// Clusters spawn '((int) (count/groupSize) + 1) * groupSize' total subexplosions (thanks to a '<=')
+		// The ""base delay"" between each group's subexplosion on average is ((float) duration / (int) (count / groupSize))
+		// The actual delay is (""base delay"" - delay). Thus 'delay' REDUCES delay. Make sure delay + offset < ""base delay"".
 
-        // Current:
-        // 5 count, 0.15 delay, 2 duration, 1 groupSize
-        // Total: 6 subexplosions
-        // ""Base delay"": 0.4s, avg delay between (each group): 0.25s, total duration: 1.5s
-        popcornInfo.weaponName = "mp_titanweapon_barrage_core_launcher"
-        popcornInfo.weaponMods = projectile.ProjectileGetMods()
-        popcornInfo.damageSourceId = eDamageSourceId.mp_titanweapon_barrage_core_launcher
-        popcornInfo.count = 5
-        popcornInfo.delay = 0.15
-        popcornInfo.offset = 0.1
-        popcornInfo.range = 150
-        popcornInfo.normal = normal
-        popcornInfo.duration = 2.0
-        popcornInfo.groupSize = 1
-        popcornInfo.hasBase = false
+		// Current:
+		// 5 count, 0.15 delay, 2 duration, 1 groupSize
+		// Total: 6 subexplosions
+		// ""Base delay"": 0.4s, avg delay between (each group): 0.25s, total duration: 1.5s
+		popcornInfo.weaponName = "mp_titanweapon_barrage_core_launcher"
+		popcornInfo.weaponMods = projectile.ProjectileGetMods()
+		popcornInfo.damageSourceId = eDamageSourceId.mp_titanweapon_barrage_core_launcher
+		popcornInfo.count = 5
+		popcornInfo.delay = 0.15
+		popcornInfo.offset = 0.1
+		popcornInfo.range = 150
+		popcornInfo.normal = normal
+		popcornInfo.duration = 2.0
+		popcornInfo.groupSize = 1
+		popcornInfo.hasBase = false
 
-        thread StartClusterExplosions( projectile, owner, popcornInfo, CLUSTER_ROCKET_FX_TABLE )
-    }
+		thread StartClusterExplosions( projectile, owner, popcornInfo, CLUSTER_ROCKET_FX_TABLE )
+	}
 }
 #endif //SERVER
 

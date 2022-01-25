@@ -13,15 +13,15 @@ void function OnProjectileCollision_SpiralMissile( entity projectile, vector pos
 			if ( IsValid( owner ) )
 			{
 				PopcornInfo popcornInfo
-                // Clusters share explosion radius/damage with the base weapon
-                // Clusters spawn '((int) (count/groupSize) + 1) * groupSize' total subexplosions (thanks to a '<=')
-                // The ""base delay"" between each group's subexplosion on average is ((float) duration / (int) (count / groupSize))
-                // The actual delay is (""base delay"" - delay). Thus 'delay' REDUCES delay. Make sure delay + offset < ""base delay"".
+				// Clusters share explosion radius/damage with the base weapon
+				// Clusters spawn '((int) (count/groupSize) + 1) * groupSize' total subexplosions (thanks to a '<=')
+				// The ""base delay"" between each group's subexplosion on average is ((float) duration / (int) (count / groupSize))
+				// The actual delay is (""base delay"" - delay). Thus 'delay' REDUCES delay. Make sure delay + offset < ""base delay"".
 
-                // Current:
-                // 6 count, 0.3 delay, 2.4 duration, 2 groupSize
-                // Total: 8 subexplosions
-                // ""Base delay"": 0.8s, avg delay between (each group): 0.5s, total duration: 2.0s
+				// Current:
+				// 6 count, 0.3 delay, 2.4 duration, 2 groupSize
+				// Total: 8 subexplosions
+				// ""Base delay"": 0.8s, avg delay between (each group): 0.5s, total duration: 2.0s
 				popcornInfo.weaponName = "mp_titanweapon_rocketeer_rocketstream"
 				popcornInfo.weaponMods = projectile.ProjectileGetMods()
 				popcornInfo.damageSourceId = eDamageSourceId.mp_titanweapon_rocketeer_rocketstream

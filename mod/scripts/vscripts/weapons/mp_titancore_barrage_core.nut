@@ -5,7 +5,7 @@ global function OnAbilityEnd_BarrageCore
 
 void function BarrageCore_Init()
 {
-    PrecacheWeapon( "mp_titancore_barrage_core" )
+	PrecacheWeapon( "mp_titancore_barrage_core" )
 	PrecacheWeapon( "mp_titanweapon_barrage_core_launcher" )
 }
 
@@ -107,12 +107,12 @@ void function PROTO_BarrageCore( entity titan, float flightTime )
 	if ( titan.IsPlayer() )
 	{
 		const float startupTime = 0.5
-        const float endingTime = 0.5
+		const float endingTime = 0.5
 
 		e.shouldDeployWeapon = true
 		HolsterAndDisableWeapons( titan )
 
-        DisableWeapons( titan, weaponArray )
+		DisableWeapons( titan, weaponArray )
 		titan.GiveWeapon( "mp_titanweapon_barrage_core_launcher" )
 		titan.SetActiveWeaponByName( "mp_titanweapon_barrage_core_launcher" )
 

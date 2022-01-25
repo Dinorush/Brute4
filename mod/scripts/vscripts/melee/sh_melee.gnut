@@ -240,12 +240,12 @@ bool function CodeCallback_IsValidMeleeExecutionTarget( entity attacker, entity 
 				return false
 			}
 		}
-        
-        #if SERVER
-        // Brute4 edge case, prevent terminations when Dome Shield is active
-        if( IsValid( target.GetTitanSoul().soul.bubbleShield ) )
-            return false
-        #endif
+		
+		#if SERVER
+		// Brute4 edge case, prevent terminations when Dome Shield is active
+		if( IsValid( target.GetTitanSoul().soul.bubbleShield ) )
+			return false
+		#endif
 	}
 
 	if ( !CheckVerticallyCloseEnough( attacker, target ) )

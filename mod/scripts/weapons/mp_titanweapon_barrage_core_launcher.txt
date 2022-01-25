@@ -343,22 +343,22 @@ WeaponData
 
 
 
-            "grenade_arc_indicator_effect"					"P_grenade_arc_proto_first_orange"
-            "grenade_arc_impact_indicator_effect"			"grenade_arc_impact_proto_orange"
-            "grenade_arc_indicator_show_from_hip"			"1"
+			"grenade_arc_indicator_effect"					"P_grenade_arc_proto_first_orange"
+			"grenade_arc_impact_indicator_effect"			"grenade_arc_impact_proto_orange"
+			"grenade_arc_indicator_show_from_hip"			"1"
 
 	// Crosshair
 	"red_crosshair_range" 							"2000"
 
 
 	// Bodygroups:
-    "clip_bodygroup"						"titan_rocket_launcher_magazine"
-    "clip_bodygroup_index_shown"			"0"
-    "clip_bodygroup_index_hidden"			"1"
-    "clip_bodygroup_show_for_milestone_0"	"1"
-    "clip_bodygroup_show_for_milestone_1"	"0"
-    "clip_bodygroup_show_for_milestone_2"	"1"
-    "clip_bodygroup_show_for_milestone_3"	"1"
+	"clip_bodygroup"						"titan_rocket_launcher_magazine"
+	"clip_bodygroup_index_shown"			"0"
+	"clip_bodygroup_index_hidden"			"1"
+	"clip_bodygroup_show_for_milestone_0"	"1"
+	"clip_bodygroup_show_for_milestone_1"	"0"
+	"clip_bodygroup_show_for_milestone_2"	"1"
+	"clip_bodygroup_show_for_milestone_3"	"1"
 
 	Mods
 	{

@@ -39,8 +39,8 @@ WeaponData
 	"ammo_min_to_fire"								"120"
 	"ammo_per_shot"									"120"
 	"ammo_stockpile_max"							"120"
-    "ammo_drains_to_empty_on_fire"					"1"
-    "ammo_no_remove_from_clip"						"1"
+	"ammo_drains_to_empty_on_fire"					"1"
+	"ammo_no_remove_from_clip"						"1"
 
 	//Regen Ammo
 	"regen_ammo_refill_rate"						"20"
@@ -50,7 +50,7 @@ WeaponData
 
 	// Behavior
 	"fire_rate"   									"1.0"
-    "fire_duration"                                 "6.0"
+	"fire_duration"                                 "6.0"
 
 	"fire_rumble"									"rumble_titan_ordnanceeject"
 
@@ -97,9 +97,9 @@ WeaponData
 		burn_mod_titan_particle_wall
 		{
 			"ammo_clip_size"   								"2"
-            "sound_dryfire"                            		"titan_dryfire"
-	        "fire_rate"   									"2.0"
-	        "fire_duration"									"0.0"
+			"sound_dryfire"                            		"titan_dryfire"
+			"fire_rate"   									"2.0"
+			"fire_duration"									"0.0"
 			"is_burn_mod"		"1"
 		}
 

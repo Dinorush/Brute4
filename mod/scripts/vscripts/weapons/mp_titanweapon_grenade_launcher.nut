@@ -14,7 +14,7 @@ const FUSE_OFFSET = 0.0
 
 void function MpTitanweaponGrenadeLauncher_Init()
 {
-    PrecacheWeapon( "mp_titanweapon_grenade_launcher" )
+	PrecacheWeapon( "mp_titanweapon_grenade_launcher" )
 }
 
 bool function OnWeaponAttemptOffhandSwitch_titanweapon_grenade_launcher( entity weapon )
@@ -52,10 +52,10 @@ var function OnWeaponPrimaryAttack_titanweapon_grenade_launcher( entity weapon, 
 		// if ( weapon.IsWeaponInAds() )
 		// 	offset = Vector( 30.0, 0.0, -3.0 )
 		// vector attackPos = player.OffsetPositionFromView( attackParams[ "pos" ], offset )	// forward, right, up
-        int numProjectiles = weapon.GetProjectilesPerShot()
-        for (int i = 0; i < numProjectiles; i++) {
-		    FireGrenade( weapon, attackParams )
-        }
+		int numProjectiles = weapon.GetProjectilesPerShot()
+		for (int i = 0; i < numProjectiles; i++) {
+			FireGrenade( weapon, attackParams )
+		}
 	}
 	return ammoToSpend
 }
@@ -74,21 +74,21 @@ function FireGrenade( entity weapon, WeaponPrimaryAttackParams attackParams, isN
 	vector angularVelocity = Vector( RandomFloatRange( -1200, 1200 ), 100, 0 )
 
 	int damageType = DF_RAGDOLL | DF_EXPLOSION    
-    
-    entity weaponOwner = weapon.GetWeaponOwner()   
-    vector bulletVec = ApplyVectorSpread( attackParams.dir, (weaponOwner.GetAttackSpreadAngle() - 1.0) * 2 )
+	
+	entity weaponOwner = weapon.GetWeaponOwner()   
+	vector bulletVec = ApplyVectorSpread( attackParams.dir, (weaponOwner.GetAttackSpreadAngle() - 1.0) * 2 )
 
-    entity nade = weapon.FireWeaponGrenade( attackParams.pos, bulletVec, angularVelocity, 0.0 , damageType, damageType, !isNPCFiring, true, false )
+	entity nade = weapon.FireWeaponGrenade( attackParams.pos, bulletVec, angularVelocity, 0.0 , damageType, damageType, !isNPCFiring, true, false )
 
-    if ( nade )
-    {
-        #if SERVER
-            EmitSoundOnEntity( nade, "Weapon_softball_Grenade_Emitter" )
-            Grenade_Init( nade, weapon )
-        #else
-            SetTeam( nade, weaponOwner.GetTeam() )
-        #endif
-    }
+	if ( nade )
+	{
+		#if SERVER
+			EmitSoundOnEntity( nade, "Weapon_softball_Grenade_Emitter" )
+			Grenade_Init( nade, weapon )
+		#else
+			SetTeam( nade, weaponOwner.GetTeam() )
+		#endif
+	}
 }
 
 void function OnProjectileCollision_titanweapon_grenade_launcher( entity projectile, vector pos, vector normal, entity hitEnt, int hitbox, bool isCritical )
@@ -105,24 +105,24 @@ void function OnProjectileCollision_titanweapon_grenade_launcher( entity project
 // //			thread DetonateStickyAfterTime( projectile, FUSE_TIME, normal )
 // 		}
 
-    if ( projectile.proj.projectileBounceCount > 0 )
+	if ( projectile.proj.projectileBounceCount > 0 )
 		return
 
 	projectile.proj.projectileBounceCount++
 
-    EmitSoundOnEntity( projectile, "weapon_softball_grenade_attached_3P" )
+	EmitSoundOnEntity( projectile, "weapon_softball_grenade_attached_3P" )
 
-    // if ( IsAlive( hitEnt ) )
-    // {
-    //     PlantSuperStickyGrenade( projectile, pos, normal, hitEnt, hitbox )
-    //     EmitSoundOnEntityOnlyToPlayer( projectile, hitEnt, "weapon_softball_grenade_attached_1P" )
-    //     EmitSoundOnEntityExceptToPlayer( projectile, hitEnt, "weapon_softball_grenade_attached_3P" )
-    //     thread DetonateStickyAfterTime( projectile, FUSE_TIME, normal )
-    //     thread DetonateStickyAfterTime( projectile, FUSE_TIME_EXT + RandomFloatRange(-FUSE_OFFSET, FUSE_OFFSET), normal )
-    // }
-    // else
-        thread DetonateStickyAfterTime( projectile, FUSE_TIME + RandomFloatRange(-FUSE_OFFSET, FUSE_OFFSET), normal )
-    
+	// if ( IsAlive( hitEnt ) )
+	// {
+	//     PlantSuperStickyGrenade( projectile, pos, normal, hitEnt, hitbox )
+	//     EmitSoundOnEntityOnlyToPlayer( projectile, hitEnt, "weapon_softball_grenade_attached_1P" )
+	//     EmitSoundOnEntityExceptToPlayer( projectile, hitEnt, "weapon_softball_grenade_attached_3P" )
+	//     thread DetonateStickyAfterTime( projectile, FUSE_TIME, normal )
+	//     thread DetonateStickyAfterTime( projectile, FUSE_TIME_EXT + RandomFloatRange(-FUSE_OFFSET, FUSE_OFFSET), normal )
+	// }
+	// else
+		thread DetonateStickyAfterTime( projectile, FUSE_TIME + RandomFloatRange(-FUSE_OFFSET, FUSE_OFFSET), normal )
+	
 	#endif
 }
 

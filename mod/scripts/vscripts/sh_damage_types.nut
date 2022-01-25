@@ -332,7 +332,7 @@ global enum eModSourceId
 	burn_mod_rspn101
 	burn_mod_satchel
 	burn_mod_semipistol
-    burn_mod_smart_pistol
+	burn_mod_smart_pistol
 	burn_mod_smr
 	burn_mod_sniper
 	burn_mod_rocket_launcher
@@ -664,24 +664,23 @@ string function GetObitFromDamageSourceID( int damageSourceID )
 }
 
 void function RegisterWeaponDamageSource(string weaponRef, string damageSourceName) {
-    RegisterWeaponDamageSources({weaponRef = damageSourceName})
+	RegisterWeaponDamageSources({weaponRef = damageSourceName})
 }
 
 // Values are expected to be in a table containing the enum variable name and the string name, e.g.
 // {"mp_titanweapon_sniper" : "Plasma Railgun", "mp_titanweapon_meteor" : "T203 Thermite Launcher"}
 // Only works properly if used after the match starts, e.g. called in "after" callbacks.
 void function RegisterWeaponDamageSources(table<string, string> newValueTable) {
-    int trgt = file.damageSourceIDToString.len() - 1 //-1 accounts for invalid.
+	int trgt = file.damageSourceIDToString.len() - 1 //-1 accounts for invalid.
 
-    foreach (newVal, stringVal in newValueTable) {
-        // Don't replace existing enum values
-        while ( trgt in file.damageSourceIDToString ) 
-            trgt++;
-        
-        table damageSourceID = expect table( getconsttable()["eDamageSourceId"] )
-        damageSourceID[newVal] <- trgt
-        file.damageSourceIDToString[ trgt ] <- newVal
-        file.damageSourceIDToName[ trgt ] <- stringVal
-        trgt++;
-    }
+	foreach (newVal, stringVal in newValueTable) {
+		// Don't replace existing enum values
+		while ( trgt in file.damageSourceIDToString ) 
+			trgt++;
+		
+		eDamageSourceId[newVal] <- trgt
+		file.damageSourceIDToString[ trgt ] <- newVal
+		file.damageSourceIDToName[ trgt ] <- stringVal
+		trgt++;
+	}
 }

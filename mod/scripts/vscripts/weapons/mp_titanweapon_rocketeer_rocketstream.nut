@@ -64,8 +64,8 @@ function MpTitanweaponRocketeetRocketStream_Init()
 void function OnWeaponStartZoomIn_TitanWeapon_Rocketeer_RocketStream( entity weapon )
 {
 #if SERVER
-    if ( weapon.HasMod( "burn_mod_titan_rocket_launcher" ) )
-        return
+	if ( weapon.HasMod( "burn_mod_titan_rocket_launcher" ) )
+		return
 
 	weapon.AddMod( "rocketstream_fast" )
 #else
@@ -82,7 +82,7 @@ void function OnWeaponStartZoomOut_TitanWeapon_Rocketeer_RocketStream( entity we
 {
 #if SERVER
 	if ( weapon.HasMod( "burn_mod_titan_rocket_launcher" ) )
-        return
+		return
 
 	weapon.RemoveMod( "rocketstream_fast" )
 #endif
@@ -104,8 +104,8 @@ void function OnClientAnimEvent_TitanWeapon_Rocketeer_RocketStream( entity weapo
 
 var function OnWeaponPrimaryAttack_TitanWeapon_Rocketeer_RocketStream( entity weapon, WeaponPrimaryAttackParams attackParams )
 {
-    entity player = weapon.GetWeaponOwner()
-    float zoomFrac = player.GetZoomFrac()
+	entity player = weapon.GetWeaponOwner()
+	float zoomFrac = player.GetZoomFrac()
 	if ( zoomFrac < 1 && zoomFrac > 0)
 		return 0
 
@@ -129,7 +129,7 @@ var function OnWeaponNpcPrimaryAttack_TitanWeapon_Rocketeer_RocketStream( entity
 int function FireMissileStream( entity weapon, WeaponPrimaryAttackParams attackParams, bool predicted )
 {
 	weapon.EmitWeaponNpcSound( LOUD_WEAPON_AI_SOUND_RADIUS_MP, 0.2 )
-    bool adsPressed = weapon.IsWeaponAdsButtonPressed()
+	bool adsPressed = weapon.IsWeaponAdsButtonPressed()
 	bool hasBurnMod = weapon.HasMod( "burn_mod_titan_rocket_launcher" )
 	bool has_s2s_npcMod = weapon.HasMod( "sp_s2s_settings_npc" )
 	bool has_mortar_mod = weapon.HasMod( "coop_mortar_titan" )
@@ -154,8 +154,8 @@ int function FireMissileStream( entity weapon, WeaponPrimaryAttackParams attackP
 		//attackParams.pos = attackParams.pos + Vector( 0, 0, -20 )
 		// float missileSpeed = 2800
 		float missileSpeed = 8000
-        if( hasBurnMod )
-            missileSpeed = 8000
+		if( hasBurnMod )
+			missileSpeed = 8000
 		if ( has_s2s_npcMod || has_mortar_mod )
 			missileSpeed = 2500
 
@@ -171,11 +171,11 @@ int function FireMissileStream( entity weapon, WeaponPrimaryAttackParams attackP
 			if ( weapon.w.missileFiredCallback != null )
 			{
 				weapon.w.missileFiredCallback( missile, weaponOwner )
-	        }
+			}
 #endif // #if SERVER
 		}
 
-        int cost = weapon.GetWeaponSettingInt(eWeaponVar.ammo_per_shot)
+		int cost = weapon.GetWeaponSettingInt(eWeaponVar.ammo_per_shot)
 
 		return cost
 	}

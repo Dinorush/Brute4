@@ -23,7 +23,7 @@ var function OnWeaponPrimaryAttack_rocketeer_ammo_swap( entity weapon, WeaponPri
 	else if ( primaryWeapon.GetWeaponClassName() != "mp_titanweapon_rocketeer_rocketstream" )
 		return false
 	else if ( primaryWeapon.HasMod( "burn_mod_titan_rocket_launcher" ) )
-        return false
+		return false
 
 	weaponOwner.e.ammoSwapPlaying = true
 
@@ -64,16 +64,16 @@ void function SwapRocketAmmo( entity weaponOwner, entity offhand )
 	{
 		weaponOwner.HolsterWeapon()
 
-        entity defensive = weaponOwner.GetOffhandWeapon( OFFHAND_LEFT )
-        if( IsValid( defensive ) )
-            if( defensive.GetWeaponInfoFileKeyField( "fire_mode" ) == "offhand_instant" )         
-                defensive.AllowUse( true )
-            else
-                defensive.AllowUse( false )
+		entity defensive = weaponOwner.GetOffhandWeapon( OFFHAND_LEFT )
+		if( IsValid( defensive ) )
+			if( defensive.GetWeaponInfoFileKeyField( "fire_mode" ) == "offhand_instant" )         
+				defensive.AllowUse( true )
+			else
+				defensive.AllowUse( false )
 
-        entity ordnance = weaponOwner.GetOffhandWeapon( OFFHAND_RIGHT )
-        if ( IsValid( ordnance ) )
-            ordnance.AllowUse( false )
+		entity ordnance = weaponOwner.GetOffhandWeapon( OFFHAND_RIGHT )
+		if ( IsValid( ordnance ) )
+			ordnance.AllowUse( false )
 
 		e.deployWeapon = true
 
@@ -86,15 +86,15 @@ void function SwapRocketAmmo( entity weaponOwner, entity offhand )
 					{
 						if ( weaponOwner.IsPlayer() )
 						{
-                            weaponOwner.DeployWeapon()
-                            entity defensive = weaponOwner.GetOffhandWeapon( OFFHAND_LEFT )
-                            if( IsValid( defensive ) ) 
-                                defensive.AllowUse( true )
+							weaponOwner.DeployWeapon()
+							entity defensive = weaponOwner.GetOffhandWeapon( OFFHAND_LEFT )
+							if( IsValid( defensive ) ) 
+								defensive.AllowUse( true )
 
-                            entity ordnance = weaponOwner.GetOffhandWeapon( OFFHAND_RIGHT )
-                            if ( IsValid( ordnance ) )
-                                ordnance.AllowUse( true )
-                        }
+							entity ordnance = weaponOwner.GetOffhandWeapon( OFFHAND_RIGHT )
+							if ( IsValid( ordnance ) )
+								ordnance.AllowUse( true )
+						}
 					}
 				}
 			}
@@ -127,7 +127,7 @@ void function SwapRocketAmmo( entity weaponOwner, entity offhand )
 				{
 					mods.fastremovebyvalue( "burn_mod_titan_rocket_launcher" )
 					weapon.SetMods( mods )
-                    offhand.SetWeaponPrimaryClipCount(1)
+					offhand.SetWeaponPrimaryClipCount(1)
 				}
 			}
 		}
@@ -136,14 +136,14 @@ void function SwapRocketAmmo( entity weaponOwner, entity offhand )
 	if ( weaponOwner.IsPlayer() )
 	{
 		weaponOwner.DeployWeapon()
-        entity defensive = weaponOwner.GetOffhandWeapon( OFFHAND_LEFT )
-        if( IsValid( defensive ) ) 
-            defensive.AllowUse( true )
+		entity defensive = weaponOwner.GetOffhandWeapon( OFFHAND_LEFT )
+		if( IsValid( defensive ) ) 
+			defensive.AllowUse( true )
 
-        entity ordnance = weaponOwner.GetOffhandWeapon( OFFHAND_RIGHT )
-        if ( IsValid( ordnance ) )
-            ordnance.AllowUse( true )
-            
+		entity ordnance = weaponOwner.GetOffhandWeapon( OFFHAND_RIGHT )
+		if ( IsValid( ordnance ) )
+			ordnance.AllowUse( true )
+			
 		e.deployWeapon = false
 		while( IsValid( weapon ) && !weapon.IsReloading() && weapon.GetWeaponPrimaryClipCount() > 0 )
 			wait 0.1
