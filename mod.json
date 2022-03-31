@@ -3,9 +3,13 @@
 	"Description": "Implements the Brute4 titan based on cut content.",
 	"LoadPriority": 1,
 	"RequiredOnClient": true,
-	"Version": "1.2.2",
+	"Version": "1.2.3",
 
 	"ConVars": [
+		{
+			"Name": "brute4_replace_ns_prime",
+			"DefaultValue": "1"
+		},
 		{
 			"Name": "brute4_allowed_chassis",
 			"DefaultValue": "northstar"
