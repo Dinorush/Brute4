@@ -3,7 +3,7 @@
 	"Description": "Implements the Brute4 titan based on cut content.",
 	"LoadPriority": 1,
 	"RequiredOnClient": true,
-	"Version": "1.2.3",
+	"Version": "1.3.0",
 
 	"ConVars": [
 		{
@@ -41,6 +41,13 @@
 			"Path": "weapons/brute4_bubble_shield.gnut",
 			"RunOn": "( CLIENT || SERVER ) && MP"
 		},
+		{
+            "Path": "sh_titan_util.nut",
+            "RunOn": "SERVER && MP",
+            "ServerCallback": {
+                "After": "SetCustomGameModeRulesTimerCredit"
+            }
+        },
 		{
 			"Path": "sh_brute4util.nut",
 			"RunOn": "( CLIENT || SERVER ) && MP",
