@@ -44,6 +44,10 @@ WeaponData
 			"explosion_damage"              "*1.5"
 			"explosion_damage_heavy_armor"  "*1.5"
 			"ammo_per_shot"					"2"
+
+			"npc_aim_at_feet"						"0"
+			"npc_rest_time_between_bursts_min"		"0.5"
+			"npc_rest_time_between_bursts_max"		"0.75"
 		}
 
 		burn_mod_titan_rocket_launcher
@@ -52,12 +56,16 @@ WeaponData
 			"damage_far_value"              "*1.5"
 			"damage_near_value_titanarmor"	"*1.5"
 			"damage_far_value_titanarmor" 	"*1.5"
-			"explosion_damage"								"50"
-			"explosion_damage_heavy_armor"					"300"
-			
-			"ammo_clip_size"   								"4"
-			"projectiles_per_shot"							"1"
-			"ammo_per_shot"									"1"
+			"explosion_damage"				"50"
+			"explosion_damage_heavy_armor"	"300"
+
+			"ammo_clip_size"   				"4"
+			"projectiles_per_shot"			"1"
+			"ammo_per_shot"					"1"
+
+			"npc_aim_at_feet_vs_heavy_armor"		"1"
+			"npc_rest_time_between_bursts_min"		"0.5"
+			"npc_rest_time_between_bursts_max"		"0.75"
 		}
 	}
 }

@@ -26,10 +26,11 @@ void function CreateParentedBrute4BubbleShield( entity titan, vector origin, vec
 
 #if SERVER
 	soul.soul.bubbleShield = bubbleShield
-	SyncedMelee_Disable( titan )
+	if ( titan.IsPlayer() )
+		SyncedMelee_Disable( titan )
 	// Normally, Dome Shield prevents the user from taking damage. We allow all damage to occur and use a callback to make sure only the damage we want goes through.
 	AddEntityCallback_OnDamaged( titan, Brute4BubbleShield_OwnerTakeSpecialDamage )
-	
+
 	soul.soul.bubbleShield.SetParent( titan, "ORIGIN" )
 	table bubbleshieldDotS = expect table( soul.soul.bubbleShield.s )
 	entity vortexColoredFX = expect entity (bubbleshieldDotS.vortexColoredFX )
@@ -61,7 +62,8 @@ void function CleanupTitanBubbleShieldVars( entity titan, entity soul, entity bu
 #if SERVER
 	if( IsValid( titan ) )
 	{
-		SyncedMelee_Enable( titan )
+		if ( titan.IsPlayer() )
+			SyncedMelee_Enable( titan )
 		RemoveEntityCallback_OnDamaged( titan, Brute4BubbleShield_OwnerTakeSpecialDamage )
 	}
 	if ( IsValid( soul ) )
@@ -83,7 +85,7 @@ void function DestroyBrute4BubbleShield( entity bubbleShield )
 entity function CreateBrute4BubbleShieldWithSettings( int team, vector origin, vector angles, entity owner = null, float duration = 10 )
 {
 #if SERVER
-	
+
 	int health = BRUTE4_DOME_SHIELD_HEALTH
 	entity bubbleShield = CreatePropScript( $"models/fx/xo_shield.mdl", origin, angles, SOLID_VPHYSICS )
   	bubbleShield.kv.rendercolor = "81 130 151"
@@ -225,7 +227,8 @@ void function Brute4LetTitanPlayerShootThroughBubbleShield( entity titanPlayer, 
 
 	bubbleShield.SetOwner( titanPlayer ) //After this, player is able to fire out from shield. WATCH OUT FOR POTENTIAL COLLISION BUGS!
 
-	thread Brute4MonitorMovement( titanPlayer, bubbleShield )
+	if ( titanPlayer.IsPlayer() )
+		thread Brute4MonitorMovement( titanPlayer, bubbleShield )
 	thread Brute4MonitorLastFireTime( weapon, titanPlayer, bubbleShield )
 	thread Brute4StopPlayerShootThroughBubbleShield( titanPlayer, bubbleShield )
 #endif

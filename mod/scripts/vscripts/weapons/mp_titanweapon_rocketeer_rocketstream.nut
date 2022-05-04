@@ -114,8 +114,6 @@ var function OnWeaponPrimaryAttack_TitanWeapon_Rocketeer_RocketStream( entity we
 			return 1
 	#endif
 
-	player.Signal( "KillBruteShield" )
-
 	return FireMissileStream( weapon, attackParams, PROJECTILE_PREDICTED )
 }
 
@@ -129,7 +127,7 @@ var function OnWeaponNpcPrimaryAttack_TitanWeapon_Rocketeer_RocketStream( entity
 int function FireMissileStream( entity weapon, WeaponPrimaryAttackParams attackParams, bool predicted )
 {
 	weapon.EmitWeaponNpcSound( LOUD_WEAPON_AI_SOUND_RADIUS_MP, 0.2 )
-	bool adsPressed = weapon.IsWeaponAdsButtonPressed()
+	bool adsPressed = weapon.IsWeaponInAds()
 	bool hasBurnMod = weapon.HasMod( "burn_mod_titan_rocket_launcher" )
 	bool has_s2s_npcMod = weapon.HasMod( "sp_s2s_settings_npc" )
 	bool has_mortar_mod = weapon.HasMod( "coop_mortar_titan" )
@@ -142,7 +140,8 @@ int function FireMissileStream( entity weapon, WeaponPrimaryAttackParams attackP
 	entity weaponOwner = weapon.GetWeaponOwner()
 	if ( !IsValid( weaponOwner ) )
 		return 0
-	
+	weaponOwner.Signal( "KillBruteShield" )
+
 	if ( !adsPressed && !hasBurnMod && !has_s2s_npcMod && !has_mortar_mod )
 	{
 		int shots = minint( weapon.GetProjectilesPerShot(), weapon.GetWeaponPrimaryClipCount() )
