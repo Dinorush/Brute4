@@ -76,6 +76,7 @@ void function Brute4_ReplaceGear( entity titan )
 	titan.GiveOffhandWeapon( "mp_titanability_brute4_bubble_shield", OFFHAND_LEFT )
 	titan.GiveOffhandWeapon( "mp_titanweapon_grenade_launcher", OFFHAND_RIGHT )
 	titan.GiveOffhandWeapon( "mp_titancore_barrage_core", OFFHAND_EQUIPMENT )
+	titan.GiveOffhandWeapon( "melee_titan_punch_northstar", OFFHAND_MELEE )
 	titan.GiveWeapon( "mp_titanweapon_rocketeer_rocketstream" )
 
 	entity soul = titan.GetTitanSoul()
