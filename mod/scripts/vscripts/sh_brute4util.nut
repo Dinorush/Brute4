@@ -10,18 +10,21 @@ struct {
 
 void function Brute4_Init()
 {
+	#if SERVER
 	RegisterWeaponDamageSources(
 		{
 			mp_titanweapon_barrage_core_launcher = "Barrage Core",
 			mp_titanweapon_grenade_launcher = "Grenade Launcher"
 		}
 	)
+	#endif
 
 	MpTitanAbilityBrute4DomeShield_Init()
 	MpTitanweaponGrenadeLauncher_Init()
 	BarrageCore_Init()
 	#if SERVER
-	SetGameModeRulesShouldGiveTimerCredit( ShouldGiveTimerCredit_Brute4 )
+	GameModeRulesRegisterTimerCreditException( eDamageSourceId.mp_titanweapon_barrage_core_launcher )
+	//SetGameModeRulesShouldGiveTimerCredit( ShouldGiveTimerCredit_Brute4 )
 	AddSpawnCallback( "npc_titan", Brute4_ReplaceNSPrime )
 	#endif
 }
