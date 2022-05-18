@@ -25,8 +25,6 @@ var function OnWeaponPrimaryAttack_rocketeer_ammo_swap( entity weapon, WeaponPri
 	else if ( primaryWeapon.HasMod( "burn_mod_titan_rocket_launcher" ) )
 		return false
 
-	weaponOwner.e.ammoSwapPlaying = true
-
 	#if SERVER
 	thread SwapRocketAmmo( weaponOwner, weapon)
 	#endif
@@ -66,7 +64,7 @@ void function SwapRocketAmmo( entity weaponOwner, entity offhand )
 
 		entity defensive = weaponOwner.GetOffhandWeapon( OFFHAND_LEFT )
 		if( IsValid( defensive ) )
-			if( defensive.GetWeaponInfoFileKeyField( "fire_mode" ) == "offhand_instant" )         
+			if( defensive.GetWeaponInfoFileKeyField( "fire_mode" ) == "offhand_instant" )
 				defensive.AllowUse( true )
 			else
 				defensive.AllowUse( false )
@@ -88,7 +86,7 @@ void function SwapRocketAmmo( entity weaponOwner, entity offhand )
 						{
 							weaponOwner.DeployWeapon()
 							entity defensive = weaponOwner.GetOffhandWeapon( OFFHAND_LEFT )
-							if( IsValid( defensive ) ) 
+							if( IsValid( defensive ) )
 								defensive.AllowUse( true )
 
 							entity ordnance = weaponOwner.GetOffhandWeapon( OFFHAND_RIGHT )
@@ -137,13 +135,13 @@ void function SwapRocketAmmo( entity weaponOwner, entity offhand )
 	{
 		weaponOwner.DeployWeapon()
 		entity defensive = weaponOwner.GetOffhandWeapon( OFFHAND_LEFT )
-		if( IsValid( defensive ) ) 
+		if( IsValid( defensive ) )
 			defensive.AllowUse( true )
 
 		entity ordnance = weaponOwner.GetOffhandWeapon( OFFHAND_RIGHT )
 		if ( IsValid( ordnance ) )
 			ordnance.AllowUse( true )
-			
+
 		e.deployWeapon = false
 		while( IsValid( weapon ) && !weapon.IsReloading() && weapon.GetWeaponPrimaryClipCount() > 0 )
 			wait 0.1
