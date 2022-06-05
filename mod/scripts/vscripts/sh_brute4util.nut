@@ -2,9 +2,6 @@ untyped
 global function GiveBrute4
 global function Brute4_Init
 
-const array<int> PRESERVE_PASSIVES = [ ePassives.PAS_BUBBLESHIELD, ePassives.PAS_WARPFALL, ePassives.PAS_MOBILITY_DASH_CAPACITY, ePassives.PAS_AUTO_EJECT,
-                                       ePassives.PAS_ENHANCED_TITAN_AI, ePassives.PAS_ANTI_RODEO, ePassives.PAS_HYPER_CORE, ePassives.PAS_BUILD_UP_NUCLEAR_CORE ]
-
 struct {
 	array<entity> reminded // Used to only give players the HUD message on the first drop per match
 } file
@@ -84,12 +81,23 @@ void function Brute4_ReplaceGear( entity titan )
 	if ( !IsValid( soul ) )
 		return
 
-	foreach ( passive, hasPassive in soul.passives )
+	if ( SoulHasPassive( soul, ePassives.PAS_NORTHSTAR_WEAPON ) )
+		titan.GetMainWeapons()[0].AddMod( "straight_shot" )
+
+	if ( SoulHasPassive( soul, ePassives.PAS_NORTHSTAR_CLUSTER ) )
+		titan.GetOffhandWeapon( OFFHAND_RIGHT ).AddMod( "magnetic_rollers" )
+
+	if ( SoulHasPassive( soul, ePassives.PAS_NORTHSTAR_FLIGHTCORE ) )
 	{
-		int passiveVal = expect int( passive )
-		if ( hasPassive && !PRESERVE_PASSIVES.contains( passiveVal ) )
-			TakePassive( soul, passiveVal )
+		titan.GetOffhandWeapon( OFFHAND_EQUIPMENT ).AddMod( "rapid_detonator" )
+		titan.GetMainWeapons()[0].AddMod( "rapid_detonator" )
 	}
+	
+	if ( SoulHasPassive( soul, ePassives.PAS_NORTHSTAR_OPTICS ) )
+		titan.GetOffhandWeapon( OFFHAND_TITAN_CENTER ).AddMod( "explosive_reserves" )
+
+	if ( SoulHasPassive( soul, ePassives.PAS_NORTHSTAR_TRAP ) )
+		titan.GetOffhandWeapon( OFFHAND_LEFT ).AddMod( "molting_dome" )
 }
 
 bool function ShouldGiveTimerCredit_Brute4( entity player, entity victim, var damageInfo )
