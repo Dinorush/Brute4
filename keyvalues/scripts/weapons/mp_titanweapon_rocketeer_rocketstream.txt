@@ -9,8 +9,6 @@ WeaponData
 
 		"explosion_damage"								"50"
 		"explosion_damage_heavy_armor"					"320"
-
-		"deploy_time"									"0.5"
 	}
 
 	"bolt_hitsize"									"0.0"
