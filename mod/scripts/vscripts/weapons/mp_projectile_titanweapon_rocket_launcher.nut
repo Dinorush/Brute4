@@ -19,19 +19,19 @@ void function OnProjectileCollision_SpiralMissile( entity projectile, vector pos
 				// The actual delay is (""base delay"" - delay). Thus 'delay' REDUCES delay. Make sure delay + offset < ""base delay"".
 
 				// Current:
-				// 6 count, 0.3 delay, 2.4 duration, 2 groupSize
-				// Total: 8 subexplosions
+				// 9 count, 0.3 delay, 2.4 duration, 3 groupSize
+				// Total: 12 subexplosions
 				// ""Base delay"": 0.8s, avg delay between (each group): 0.5s, total duration: 2.0s
 				popcornInfo.weaponName = "mp_titanweapon_rocketeer_rocketstream"
 				popcornInfo.weaponMods = projectile.ProjectileGetMods()
 				popcornInfo.damageSourceId = eDamageSourceId.mp_titanweapon_rocketeer_rocketstream
-				popcornInfo.count = 6
-				popcornInfo.delay = 0.3
+				popcornInfo.count = 9
+				popcornInfo.delay = mods.contains( "rapid_detonator" ) ? 0.45 : 0.3 // Avg delay and duration -30%
 				popcornInfo.offset = 0.15
-				popcornInfo.range = 250
+				popcornInfo.range = 200
 				popcornInfo.normal = normal
 				popcornInfo.duration = 2.4
-				popcornInfo.groupSize = 2
+				popcornInfo.groupSize = 3
 				popcornInfo.hasBase = false
 
 				thread StartClusterExplosions( projectile, owner, popcornInfo, CLUSTER_ROCKET_FX_TABLE )

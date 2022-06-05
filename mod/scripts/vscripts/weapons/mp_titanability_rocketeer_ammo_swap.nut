@@ -7,7 +7,6 @@ global function OnWeaponNpcPrimaryAttack_rocketeer_ammo_swap
 
 void function MpTitanAbilityRocketeerAmmoSwap_Init()
 {
-	RegisterSignal( "SwapRocketAmmo" )
 }
 
 var function OnWeaponPrimaryAttack_rocketeer_ammo_swap( entity weapon, WeaponPrimaryAttackParams attackParams )
@@ -26,129 +25,83 @@ var function OnWeaponPrimaryAttack_rocketeer_ammo_swap( entity weapon, WeaponPri
 		return false
 
 	#if SERVER
-	thread SwapRocketAmmo( weaponOwner, weapon)
+	thread SwapRocketAmmo( weaponOwner, weapon, primaryWeapon )
 	#endif
 
 	if ( weaponOwner.IsPlayer() )
 		PlayerUsedOffhand( weaponOwner, weapon )
 
-	return 1
+	return weapon.GetAmmoPerShot()
 }
 
 #if SERVER
 var function OnWeaponNpcPrimaryAttack_rocketeer_ammo_swap( entity weapon, WeaponPrimaryAttackParams attackParams )
 {
-	printt( "npc trying to swap ammo" )
 	OnWeaponPrimaryAttack_rocketeer_ammo_swap( weapon, attackParams )
 }
 
-void function SwapRocketAmmo( entity weaponOwner, entity offhand )
+void function SwapRocketAmmo( entity weaponOwner, entity offhand, entity weapon )
 {
-	weaponOwner.Signal( "SwapRocketAmmo" )
-	weaponOwner.EndSignal( "SwapRocketAmmo" )
+	weapon.EndSignal( "OnDestroy" )
+	offhand.EndSignal( "OnDestroy" )
 	weaponOwner.EndSignal( "OnDestroy" )
-	weaponOwner.EndSignal( "OnDeath" )
-	weaponOwner.EndSignal( "InventoryChanged" )
 	weaponOwner.EndSignal( "DisembarkingTitan" )
-	weaponOwner.EndSignal( "TitanEjectionStarted" )
-
-	table e = {}
-	e.deployWeapon <- false
 
 	EmitSoundOnEntity( weaponOwner, "Coop_AmmoBox_AmmoRefill" )
-	printt("used ammo swap")
 
-	if ( weaponOwner.IsPlayer() )
-	{
-		weaponOwner.HolsterWeapon()
-
-		entity defensive = weaponOwner.GetOffhandWeapon( OFFHAND_LEFT )
-		if( IsValid( defensive ) )
-			if( defensive.GetWeaponInfoFileKeyField( "fire_mode" ) == "offhand_instant" )
-				defensive.AllowUse( true )
-			else
-				defensive.AllowUse( false )
-
-		entity ordnance = weaponOwner.GetOffhandWeapon( OFFHAND_RIGHT )
-		if ( IsValid( ordnance ) )
-			ordnance.AllowUse( false )
-
-		e.deployWeapon = true
-
-		OnThreadEnd(
-		function() : ( weaponOwner, e )
-			{
-				if ( e.deployWeapon )
-				{
-					if ( IsValid( weaponOwner ) )
-					{
-						if ( weaponOwner.IsPlayer() )
-						{
-							weaponOwner.DeployWeapon()
-							entity defensive = weaponOwner.GetOffhandWeapon( OFFHAND_LEFT )
-							if( IsValid( defensive ) )
-								defensive.AllowUse( true )
-
-							entity ordnance = weaponOwner.GetOffhandWeapon( OFFHAND_RIGHT )
-							if ( IsValid( ordnance ) )
-								ordnance.AllowUse( true )
-						}
-					}
-				}
-			}
-		)
-
-		wait 0.75
-	}
-	else if ( weaponOwner.IsNPC() && HasAnim( weaponOwner, "at_reload_quick" ) )
+	if ( weaponOwner.IsNPC() && HasAnim( weaponOwner, "at_reload_quick" ) )
 	{
 		weaponOwner.Anim_ScriptedPlay( "at_reload_quick" )
 	}
 
-	entity weapon = weaponOwner.GetMainWeapons()[0]
 	array<string> mods = weapon.GetMods()
-	if ( !mods.contains( "burn_mod_titan_rocket_launcher" ) )
+	mods.append( "burn_mod_titan_rocket_launcher" )
+	mods.append( "fast_reload" )
+	weapon.SetMods( mods )
+
+	offhand.AddMod( "no_regen" )
+
+	weapon.SetWeaponPrimaryClipCount( 0 )
+	if ( weapon.IsReloading() )
 	{
-		mods.append( "burn_mod_titan_rocket_launcher" )
-		weapon.SetMods( mods )
+		weapon.AddMod( "fast_deploy" )
+		weaponOwner.HolsterWeapon()
+		weaponOwner.DeployWeapon()
+		weapon.RemoveMod( "fast_deploy" )
 	}
 
-	weapon.SetWeaponPrimaryClipCount( weapon.GetWeaponPrimaryClipCountMax() )
-
 	OnThreadEnd(
-	function() : ( weaponOwner, weapon, offhand)
+	function() : ( weaponOwner, weapon, offhand )
 		{
 			if ( IsValid( weapon ) )
 			{
 				array<string> mods = weapon.GetMods()
-				if ( mods.contains( "burn_mod_titan_rocket_launcher" ) )
-				{
-					mods.fastremovebyvalue( "burn_mod_titan_rocket_launcher" )
-					weapon.SetMods( mods )
-					offhand.SetWeaponPrimaryClipCount(1)
-				}
+				mods.fastremovebyvalue( "burn_mod_titan_rocket_launcher" )
+				mods.fastremovebyvalue( "fast_reload" )
+				weapon.SetMods( mods )
 			}
+			if ( IsValid( offhand ) )
+				offhand.RemoveMod( "no_regen" )
 		}
 	)
 
+	// We want the reload speed buff to stay until the reload is finished.
+	// The weapon will not be reloading if something lowers it, so this more reliably waits until the weapon is reloaded than checking the IsReloading function.
+	while ( weapon.GetWeaponPrimaryClipCount() == 0 )
+		WaitFrame()
+
+	weapon.RemoveMod( "fast_reload" )
+
 	if ( weaponOwner.IsPlayer() )
 	{
-		weaponOwner.DeployWeapon()
-		entity defensive = weaponOwner.GetOffhandWeapon( OFFHAND_LEFT )
-		if( IsValid( defensive ) )
-			defensive.AllowUse( true )
-
-		entity ordnance = weaponOwner.GetOffhandWeapon( OFFHAND_RIGHT )
-		if ( IsValid( ordnance ) )
-			ordnance.AllowUse( true )
-
-		e.deployWeapon = false
-		while( IsValid( weapon ) && !weapon.IsReloading() && weapon.GetWeaponPrimaryClipCount() > 0 )
-			wait 0.1
+		// Check reload index to avoid stopping thread on canceled reloads, but catch non-empty reloads
+		while ( weapon.GetReloadMilestoneIndex() == 0 && weapon.GetWeaponPrimaryClipCount() > 0 )
+			WaitFrame()
 	}
 	else
 	{
-		wait 10.0
+		while ( weapon.GetWeaponPrimaryClipCount() > 0 )
+		WaitFrame()
 	}
 }
 #endif
