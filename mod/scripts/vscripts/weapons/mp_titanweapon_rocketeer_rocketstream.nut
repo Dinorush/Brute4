@@ -17,7 +17,6 @@ global function OnWeaponNpcPrimaryAttack_TitanWeapon_Rocketeer_RocketStream
 global function OnClientAnimEvent_TitanWeapon_Rocketeer_RocketStream
 #endif // #if CLIENT
 
-
 const DRAW_DEBUG = 0
 const DEBUG_FAIL = 0
 const MERGEDEBUG = 0
@@ -43,8 +42,12 @@ const BURN_CLUSTER_EXPLOSION_DAMAGE_HEAVY_ARMOR = 100
 const BURN_CLUSTER_NPC_EXPLOSION_DAMAGE = 66
 const BURN_CLUSTER_NPC_EXPLOSION_DAMAGE_HEAVY_ARMOR = 100
 
-const asset AMPED_SHOT_PROJECTILE = $"models/weapons/bullets/temp_triple_threat_projectile_large.mdl"
+const STRAIGHT_CONDENSE_DELAY = 0.3
+const STRAIGHT_CONDENSE_TIME = 1.0
+const STRAIGHT_EXPAND_DIST = 30.0
+const STRAIGHT_CONDENSE_DIST = 20.0
 
+const asset AMPED_SHOT_PROJECTILE = $"models/weapons/bullets/temp_triple_threat_projectile_large.mdl"
 
 function MpTitanweaponRocketeetRocketStream_Init()
 {
@@ -68,10 +71,6 @@ void function OnWeaponStartZoomIn_TitanWeapon_Rocketeer_RocketStream( entity wea
 		return
 
 	weapon.AddMod( "rocketstream_fast" )
-#else
-	entity weaponOwner = weapon.GetWeaponOwner()
-	if ( weaponOwner == GetLocalViewPlayer() )
-		EmitSoundOnEntity( weaponOwner, "Weapon_Particle_Accelerator_WindUp_1P" )
 #endif
 	//weapon.PlayWeaponEffectNoCull( $"wpn_arc_cannon_electricity_fp", $"wpn_arc_cannon_electricity", "muzzle_flash" )
 	//weapon.PlayWeaponEffectNoCull( $"wpn_arc_cannon_charge_fp", $"wpn_arc_cannon_charge", "muzzle_flash" )
@@ -159,20 +158,35 @@ int function FireMissileStream( entity weapon, WeaponPrimaryAttackParams attackP
 			missileSpeed = 2500
 
 		int impactFlags = (DF_IMPACT | DF_GIB | DF_KNOCK_BACK)
-		entity missile = weapon.FireWeaponMissile( attackParams.pos, attackParams.dir, missileSpeed, impactFlags, damageTypes.explosive | DF_KNOCK_BACK, false, predicted )
 
-		if ( missile )
+		entity bolt = weapon.FireWeaponBolt( attackParams.pos, attackParams.dir, missileSpeed, impactFlags, damageTypes.explosive | DF_KNOCK_BACK, predicted, 0 )
+		if ( bolt != null )
 		{
-			SetTeam( missile, weaponOwner.GetTeam() )
-#if SERVER
+			//bolt.kv.gravity = -0.1
+			SetTeam( bolt, weaponOwner.GetTeam() )
+		#if SERVER
 			string whizBySound = "Weapon_Sidwinder_Projectile"
-			EmitSoundOnEntity( missile, whizBySound )
-			if ( weapon.w.missileFiredCallback != null )
-			{
-				weapon.w.missileFiredCallback( missile, weaponOwner )
-			}
-#endif // #if SERVER
+			EmitSoundOnEntity( bolt, whizBySound )
+		#endif
+			bolt.kv.rendercolor = "0 0 0"
+			bolt.kv.renderamt = 0
+			bolt.kv.fadedist = 1
+			bolt.kv.gravity = 0.001
 		}
+		//entity missile = weapon.FireWeaponMissile( attackParams.pos, attackParams.dir, missileSpeed, impactFlags, damageTypes.explosive | DF_KNOCK_BACK, false, predicted )
+
+// 		if ( missile )
+// 		{
+// 			SetTeam( missile, weaponOwner.GetTeam() )
+// #if SERVER
+// 			string whizBySound = "Weapon_Sidwinder_Projectile"
+// 			EmitSoundOnEntity( missile, whizBySound )
+// 			if ( weapon.w.missileFiredCallback != null )
+// 			{
+// 				weapon.w.missileFiredCallback( missile, weaponOwner )
+// 			}
+// #endif // #if SERVER
+// 		}
 
 		int cost = weapon.GetWeaponSettingInt(eWeaponVar.ammo_per_shot)
 
@@ -202,11 +216,33 @@ int function FindIdealMissileConfiguration( int numMissiles, int i )
 	return idealMissile
 }
 
+vector function FindStraightMissileDir( vector dir, int i )
+{
+	vector angles = VectorToAngles( dir )
+	switch ( i )
+	{
+		case 0:
+			return AnglesToUp( angles )
+			break
+		case 1:
+			return -AnglesToRight( angles )
+			break
+		case 2:
+			return -AnglesToUp( angles )
+			break
+		case 3:
+			return AnglesToRight( angles )
+	}
+	return < 0,0,0 >
+}
+
 void function FireMissileStream_Spiral( entity weapon, WeaponPrimaryAttackParams attackParams, bool predicted, int numMissiles = 4 )
 {
 	//attackParams.pos = attackParams.pos + Vector( 0, 0, -20 )
 	array<entity> missiles
+	array<vector> straightDir
 	float missileSpeed = 3000
+	bool straight = weapon.HasMod( "straight_shot" )
 
 	entity weaponOwner = weapon.GetWeaponOwner()
 	if ( IsSingleplayer() && weaponOwner.IsPlayer() )
@@ -215,13 +251,20 @@ void function FireMissileStream_Spiral( entity weapon, WeaponPrimaryAttackParams
 	for ( int i = 0; i < numMissiles; i++ )
 	{
 		int impactFlags = (DF_IMPACT | DF_GIB | DF_KNOCK_BACK)
+		vector pos = attackParams.pos
+		int missileNumber = FindIdealMissileConfiguration( numMissiles, i )
+		if ( straight )
+		{
+			straightDir.append( FindStraightMissileDir( attackParams.dir, missileNumber ) )
+			pos += straightDir[i] * STRAIGHT_EXPAND_DIST
+		}
 
-		entity missile = weapon.FireWeaponMissile( attackParams.pos, attackParams.dir, missileSpeed, impactFlags, damageTypes.explosive | DF_KNOCK_BACK, false, predicted )
+		entity missile = weapon.FireWeaponMissile( pos, attackParams.dir, missileSpeed, impactFlags, damageTypes.explosive | DF_KNOCK_BACK, false, predicted )
 		if ( missile )
 		{
 			//Spreading out the missiles
-			int missileNumber = FindIdealMissileConfiguration( numMissiles, i )
-			missile.InitMissileSpiral( attackParams.pos, attackParams.dir, missileNumber, false, false )
+			if ( !straight )
+				missile.InitMissileSpiral( attackParams.pos, attackParams.dir, missileNumber, false, false )
 
 			//missile.s.launchTime <- Time()
 			// each missile knows about the other missiles, so they can all blow up together
@@ -235,6 +278,38 @@ void function FireMissileStream_Spiral( entity weapon, WeaponPrimaryAttackParams
 #if SERVER
 			EmitSoundOnEntity( missile, "Weapon_Sidwinder_Projectile" )
 #endif // #if SERVER
+		}
+	}
+
+	if ( straight && missiles.len() > 0 )
+		thread MissileStream_CondenseSpiral( missiles, straightDir, missileSpeed )
+}
+
+void function MissileStream_CondenseSpiral( array<entity> missiles, array<vector> straightDir, float missileSpeed )
+{
+	wait STRAIGHT_CONDENSE_DELAY
+
+	ArrayRemoveInvalid( missiles )
+	if ( missiles.len() == 0 )
+		return
+
+	array<vector> targetPos, velocities
+	foreach ( i, missile in missiles )
+	{
+		vector target = -straightDir[i] * STRAIGHT_CONDENSE_DIST
+		velocities.append( missile.GetVelocity() )
+		targetPos.append( missile.GetOrigin() + velocities[i] * STRAIGHT_CONDENSE_TIME + target )
+		missile.SetVelocity( velocities[i] + target / STRAIGHT_CONDENSE_TIME )
+	}
+
+	wait STRAIGHT_CONDENSE_TIME
+
+	foreach ( i, missile in missiles )
+	{
+		if ( IsValid( missile ) )
+		{
+			missile.SetOrigin( targetPos[i] )
+			missile.SetVelocity( velocities[i] )
 		}
 	}
 }
