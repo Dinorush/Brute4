@@ -41,4 +41,12 @@ WeaponData
 
 	"dialog_core_online"							"flightCoreOnline"
 	"dialog_core_activated"							"flightCoreActivated"
+
+	Mods
+	{
+		rapid_detonator
+		{
+			
+		}
+	}
 }

@@ -32,7 +32,7 @@ var function FireGrenade( entity weapon, WeaponPrimaryAttackParams attackParams,
 	entity owner = weapon.GetWeaponOwner()
 	owner.Signal("KillBruteShield")
 
-	vector angularVelocity = Vector( RandomFloatRange( -1200, 1200 ), 100, 0 )
+	vector angularVelocity = Vector( 0, 0, 0 )
 
 	int damageType = DF_RAGDOLL | DF_EXPLOSION
 
@@ -90,7 +90,7 @@ void function StartClusterAfterDelay( entity projectile, vector normal) {
 		popcornInfo.weaponMods = projectile.ProjectileGetMods()
 		popcornInfo.damageSourceId = eDamageSourceId.mp_titanweapon_barrage_core_launcher
 		popcornInfo.count = 5
-		popcornInfo.delay = 0.15
+		popcornInfo.delay = projectile.ProjectileGetMods().contains( "rapid_detonator" ) ? 0.225 : 0.15 // avg delay and duration -30%
 		popcornInfo.offset = 0.1
 		popcornInfo.range = 150
 		popcornInfo.normal = normal

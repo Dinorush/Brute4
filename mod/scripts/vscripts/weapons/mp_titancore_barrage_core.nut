@@ -25,7 +25,7 @@ bool function OnAbilityStart_BarrageCore( entity weapon )
 #if SERVER
 	if ( titan.IsPlayer() )
 		Melee_Disable( titan )
-	thread PROTO_BarrageCore( titan, weapon.GetCoreDuration() )
+	thread PROTO_BarrageCore( titan, weapon.GetCoreDuration(), weapon.GetMods() )
 #else
 	if ( titan.IsPlayer() && (titan == GetLocalViewPlayer()) && IsFirstTimePredicted() )
 		Rumble_Play( "rumble_titan_hovercore_activate", {} )
@@ -39,7 +39,7 @@ void function OnAbilityEnd_BarrageCore( entity weapon )
 	entity titan = weapon.GetWeaponOwner()
 	#if SERVER
 	OnAbilityEnd_TitanCore( weapon )
-int currAmmo = weapon.GetWeaponPrimaryClipCount()
+	int currAmmo = weapon.GetWeaponPrimaryClipCount()
 	
 	if(currAmmo == 0)
 	{
@@ -60,7 +60,7 @@ int currAmmo = weapon.GetWeaponPrimaryClipCount()
 
 #if SERVER
 //HACK - Should use operator functions from Joe/Steven W
-void function PROTO_BarrageCore( entity titan, float flightTime )
+void function PROTO_BarrageCore( entity titan, float flightTime, array<string> mods = [] )
 {
 	if ( !titan.IsTitan() )
 		return
@@ -113,9 +113,8 @@ void function PROTO_BarrageCore( entity titan, float flightTime )
 		HolsterAndDisableWeapons( titan )
 
 		DisableWeapons( titan, weaponArray )
-		titan.GiveWeapon( "mp_titanweapon_barrage_core_launcher" )
+		titan.GiveWeapon( "mp_titanweapon_barrage_core_launcher", mods )
 		titan.SetActiveWeaponByName( "mp_titanweapon_barrage_core_launcher" )
-
 		wait startupTime
 
 		e.shouldDeployWeapon = false
@@ -133,7 +132,7 @@ void function PROTO_BarrageCore( entity titan, float flightTime )
 	}
 	else
 	{
-		titan.GiveWeapon( "mp_titanweapon_barrage_core_launcher" )
+		titan.GiveWeapon( "mp_titanweapon_barrage_core_launcher", mods )
 		titan.SetActiveWeaponByName( "mp_titanweapon_barrage_core_launcher" )
 		titan.WaitSignal( "CoreEnd" )
 		titan.TakeWeapon( "mp_titanweapon_barrage_core_launcher" )
