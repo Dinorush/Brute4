@@ -9,7 +9,6 @@ global function OnWeaponNpcPrimaryAttack_titanweapon_grenade_launcher
 #endif // #if SERVER
 
 const FUSE_TIME = 0.5
-const FUSE_TIME_EXT = 0.75 //Applies if the grenade hits an entity
 
 void function MpTitanweaponGrenadeLauncher_Init()
 {
@@ -74,21 +73,28 @@ void function OnProjectileCollision_titanweapon_grenade_launcher( entity project
 {
 	#if SERVER
 	if ( projectile.proj.projectileBounceCount > 0 )
+	{
+		if ( "isMagnetic" in projectile.s && IsMagneticTarget( hitEnt ) )
+			projectile.GrenadeExplode( <0,0,0> )
+
 		return
+	}
 
 	projectile.proj.projectileBounceCount++
 
 	EmitSoundOnEntity( projectile, "weapon_softball_grenade_attached_3P" )
-	thread DetonateAfterTime( projectile, FUSE_TIME, normal )
+	if ( projectile.ProjectileGetMods().contains( "magnetic_rollers" ) )
+		projectile.InitMagnetic( 1000.0, "Explo_MGL_MagneticAttract" )
+
+	thread DetonateAfterTime( projectile, FUSE_TIME )
 	#endif
 }
 
 #if SERVER
-// need this so grenade can use the normal to explode
-void function DetonateAfterTime( entity projectile, float delay, vector normal )
+void function DetonateAfterTime( entity projectile, float delay )
 {
 	wait delay
 	if ( IsValid( projectile ) )
-		projectile.GrenadeExplode( normal )
+		projectile.GrenadeExplode( <0,0,0> )
 }
 #endif
