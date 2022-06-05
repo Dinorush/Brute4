@@ -40,7 +40,7 @@ WeaponData
 	"ammo_per_shot"									"120"
 	"ammo_stockpile_max"							"120"
 	"ammo_drains_to_empty_on_fire"					"1"
-	"ammo_no_remove_from_clip"						"1"
+	//"ammo_no_remove_from_clip"						"1"
 
 	//Regen Ammo
 	"regen_ammo_refill_rate"						"20"
@@ -73,59 +73,7 @@ WeaponData
 
 	Mods
 	{
-
-
-		turret_wall
-		{
-		
-		}
-
-
-		amped_wall
-		{
-		"hud_icon"									"rui/pilot_loadout/tactical/pilot_tactical_hardcover"
-		}
-		pas_defensive_core
-		{
-			"fire_rate" 									"*1.25"
-		}
-
-		dev_mod_low_recharge
-		{
-			"fire_rate"   									"*20"
-		}
-		burn_mod_titan_particle_wall
-		{
-			"ammo_clip_size"   								"2"
-			"sound_dryfire"                            		"titan_dryfire"
-			"fire_rate"   									"2.0"
-			"fire_duration"									"0.0"
-			"is_burn_mod"		"1"
-		}
-
-		npc_normal_difficulty
-		{
-			"proficiency_poor_additional_rest"					"30"
-			"proficiency_average_additional_rest"				"30"
-		}
-
-		amped_wall
-		{
-
-		}
-		sur_level_0
-		{
-
-		}
-		sur_level_1
-		{
-
-		}
-		sur_level_2
-		{
-
-		}
-		sur_level_3
+		molting_dome
 		{
 
 		}

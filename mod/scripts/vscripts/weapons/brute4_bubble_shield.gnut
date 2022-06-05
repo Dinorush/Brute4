@@ -8,6 +8,15 @@ global function Brute4StopPlayerShootThroughBubbleShield
 global function Brute4MonitorLastFireTime
 //global function Brute4BubbleShieldSpeedLimit
 
+const vector BRUTE4_DOME_COLOR_PAS_MOLTING_SHELL = <92, 92, 200>
+const vector BRUTE4_DOME_COLOR_CHARGE_FULL		 = <92, 155, 200>	// blue
+const vector BRUTE4_DOME_COLOR_CHARGE_MED		 = <255, 128, 80>	// orange
+const vector BRUTE4_DOME_COLOR_CHARGE_EMPTY		 = <255, 80, 80>	// red
+
+const float BRUTE4_DOME_COLOR_CROSSOVERFRAC_FULL2MED	= 0.75  // from zero to this fraction, fade between full and medium charge colors
+const float BRUTE4_DOME_COLOR_CROSSOVERFRAC_MED2EMPTY	= 0.95  // from "full2med" to this fraction, fade between medium and empty charge colors
+
+
 struct BubbleShieldDamageStruct
 {
 	float damageFloor
@@ -28,14 +37,20 @@ void function CreateParentedBrute4BubbleShield( entity titan, vector origin, vec
 	soul.soul.bubbleShield = bubbleShield
 	if ( titan.IsPlayer() )
 		SyncedMelee_Disable( titan )
+	
 	// Normally, Dome Shield prevents the user from taking damage. We allow all damage to occur and use a callback to make sure only the damage we want goes through.
 	AddEntityCallback_OnDamaged( titan, Brute4BubbleShield_OwnerTakeSpecialDamage )
 
 	soul.soul.bubbleShield.SetParent( titan, "ORIGIN" )
-	table bubbleshieldDotS = expect table( soul.soul.bubbleShield.s )
-	entity vortexColoredFX = expect entity (bubbleshieldDotS.vortexColoredFX )
+	table bubbleShieldDotS = expect table( soul.soul.bubbleShield.s )
+	entity vortexColoredFX = expect entity (bubbleShieldDotS.vortexColoredFX )
 	vortexColoredFX.SetParent( soul.soul.bubbleShield )
+	bubbleShieldDotS.moltingShell <- false
+	if ( SoulHasPassive( soul, ePassives.PAS_NORTHSTAR_TRAP ) )
+		bubbleShieldDotS.moltingShell <- true
 
+	// Update color here since the function that updates it waits a frame before its first iteration
+	Brute4BubbleShield_ColorUpdate( bubbleShield, vortexColoredFX )
 	thread WaitForCleanup(titan, soul, bubbleShield, duration)
 #endif
 }
@@ -106,7 +121,7 @@ entity function CreateBrute4BubbleShieldWithSettings( int team, vector origin, v
 	SetCustomSmartAmmoTarget( bubbleShield, false )
 
 	SetTeam( bubbleShield, team )
-	AddEntityCallback_OnDamaged( bubbleShield, Brute4BubbleShield_TakeBonusMeleeDamage )
+	AddEntityCallback_OnDamaged( bubbleShield, Brute4BubbleShield_HandleDamage )
 
 	array<entity> bubbleShieldFXs
 
@@ -116,7 +131,6 @@ entity function CreateBrute4BubbleShieldWithSettings( int team, vector origin, v
 	entity vortexColoredFX = StartParticleEffectInWorld_ReturnEntity( BUBBLE_SHIELD_FX_PARTICLE_SYSTEM_INDEX, coloredFXOrigin, <0, 0, 0> )
 	bubbleShieldDotS.vortexColoredFX <- vortexColoredFX
 	bubbleShieldFXs.append( vortexColoredFX )
-	thread Brute4BubbleShield_ColorUpdate( bubbleShield, vortexColoredFX )
 
 	#if MP
 	DisableTitanfallForLifetimeOfEntityNearOrigin( bubbleShield, origin, TITANHOTDROP_DISABLE_ENEMY_TITANFALL_RADIUS )
@@ -124,7 +138,7 @@ entity function CreateBrute4BubbleShieldWithSettings( int team, vector origin, v
 
 	EmitSoundOnEntity( bubbleShield, "BubbleShield_Sustain_Loop" )
 
-	thread CleanupBubbleShield( bubbleShield, bubbleShieldFXs, duration )
+	thread DrainBubbleShield( bubbleShield, bubbleShieldFXs, duration, vortexColoredFX )
 
 	return bubbleShield
 #endif
@@ -133,13 +147,11 @@ entity function CreateBrute4BubbleShieldWithSettings( int team, vector origin, v
 #if SERVER
 void function Brute4BubbleShield_ColorUpdate( entity bubbleShield, entity colorFXHandle = null )
 {
-	bubbleShield.EndSignal( "OnDestroy" )
-
-	while( 1 )
-	{
-		EffectSetControlPointVector( colorFXHandle, 1, GetVortexSphereCurrentColor( 1.0 - GetHealthFrac( bubbleShield ) ) )
-		WaitFrame()
-	}
+	table bubbleShieldDotS = expect table( bubbleShield.s )
+	if ( bubbleShieldDotS.moltingShell )
+		EffectSetControlPointVector( colorFXHandle, 1, GetDomeCurrentColor( 1.0 - GetHealthFrac( bubbleShield ), BRUTE4_DOME_COLOR_PAS_MOLTING_SHELL ) )
+	else
+		EffectSetControlPointVector( colorFXHandle, 1, GetDomeCurrentColor( 1.0 - GetHealthFrac( bubbleShield ) ) )
 }
 
 void function Brute4BubbleShield_OwnerTakeSpecialDamage( entity owner, var damageInfo )
@@ -172,7 +184,7 @@ void function Brute4BubbleShield_OwnerTakeSpecialDamage( entity owner, var damag
 	DamageInfo_SetDamage( damageInfo, 0 )
 }
 
-void function Brute4BubbleShield_TakeBonusMeleeDamage( entity bubbleShield, var damageInfo )
+void function Brute4BubbleShield_HandleDamage( entity bubbleShield, var damageInfo )
 {
 	if( DamageInfo_GetCustomDamageType( damageInfo ) & DF_MELEE )
 		DamageInfo_ScaleDamage( damageInfo, BRUTE4_DOME_SHIELD_MELEE_MOD )
@@ -183,7 +195,7 @@ void function Brute4BubbleShield_TakeBonusMeleeDamage( entity bubbleShield, var 
 }
 #endif
 
-void function CleanupBubbleShield( entity bubbleShield, array<entity> bubbleShieldFXs, float fadeTime )
+void function DrainBubbleShield( entity bubbleShield, array<entity> bubbleShieldFXs, float fadeTime, entity colorFXHandle = null )
 {
 #if SERVER
 	bubbleShield.EndSignal( "OnDestroy" )
@@ -208,7 +220,16 @@ void function CleanupBubbleShield( entity bubbleShield, array<entity> bubbleShie
 		}
 	)
 
-	wait fadeTime
+	float healthPerSec = bubbleShield.GetMaxHealth() / fadeTime
+	float lastTime = Time()
+	while(true)
+	{
+		WaitFrame()
+		bubbleShield.SetHealth( bubbleShield.GetHealth() - healthPerSec * ( Time() - lastTime ) )
+		if ( colorFXHandle != null )
+			Brute4BubbleShield_ColorUpdate( bubbleShield, colorFXHandle )
+		lastTime = Time()
+	}
 #endif
 }
 
@@ -293,4 +314,44 @@ bool function Brute4TitanHasBubbleShieldWeapon( entity titan )
 		return true
 #endif
 	return false
+}
+
+vector function GetDomeCurrentColor( float chargeFrac, vector fullHealthColor = BRUTE4_DOME_COLOR_CHARGE_FULL )
+{
+	return GetTriLerpColor( chargeFrac, fullHealthColor, BRUTE4_DOME_COLOR_CHARGE_MED, BRUTE4_DOME_COLOR_CHARGE_EMPTY )
+}
+
+// Copied from vortex, since it's not a global func
+vector function GetTriLerpColor( float fraction, vector color1, vector color2, vector color3 )
+{
+	float crossover1 = BRUTE4_DOME_COLOR_CROSSOVERFRAC_FULL2MED  // from zero to this fraction, fade between color1 and color2
+	float crossover2 = BRUTE4_DOME_COLOR_CROSSOVERFRAC_MED2EMPTY // from crossover1 to this fraction, fade between color2 and color3
+
+	float r, g, b
+
+	// 0 = full charge, 1 = no charge remaining
+	if ( fraction < crossover1 )
+	{
+		r = Graph( fraction, 0, crossover1, color1.x, color2.x )
+		g = Graph( fraction, 0, crossover1, color1.y, color2.y )
+		b = Graph( fraction, 0, crossover1, color1.z, color2.z )
+		return <r, g, b>
+	}
+	else if ( fraction < crossover2 )
+	{
+		r = Graph( fraction, crossover1, crossover2, color2.x, color3.x )
+		g = Graph( fraction, crossover1, crossover2, color2.y, color3.y )
+		b = Graph( fraction, crossover1, crossover2, color2.z, color3.z )
+		return <r, g, b>
+	}
+	else
+	{
+		// for the last bit of overload timer, keep it max danger color
+		r = color3.x
+		g = color3.y
+		b = color3.z
+		return <r, g, b>
+	}
+
+	unreachable
 }
