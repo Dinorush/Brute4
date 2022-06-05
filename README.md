@@ -38,3 +38,25 @@ Brute4 has three convars to control which titans Brute4 can be put on.
 *Core*: Barrage Core
 
 * Rapidly fires cluster-loaded explosives.
+
+### Kits
+
+**Rocket Stabilizer** (Tied to _Piercing Shot_)
+
+- Quad rockets fly straight and grow closer over time.
+
+**Magnetic Rollers** (Tied to _Enhanced Payload_)
+
+- Grenades bounce much farther and become magnetic after bouncing.
+
+**Molting Shell** (Tied to _Twin Traps_)
+
+- When broken, Dome Shield refills a dash and refunds some remaining duration.
+
+**Rapid Detonators** (Tied to _Viper Thrusters_)
+
+- Ammo Swap and Barrage Core clusters explode more quickly.
+
+**Explosive Reserves** (Tied to _Threat Optics_)
+
+- Ammo Swap has two charges.
