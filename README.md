@@ -8,10 +8,8 @@ Implements the Brute4 titan based on cut content.
 
 Equip Northstar prime; Brute4 will replace its loadout on drop.
 
-Alternatively: Requires **sv_cheats**. Be a Northstar and run `script GiveBrute4()` to give the loadout to the first player. Player index can be specified if desired, e.g. `script GiveBrute4(2)`.
-
-### ConVars
-Brute4 has three convars to control which titans Brute4 can be put on.
+### ConVars for Testing
+With **sv_cheats** on, you can give the loadout to the first player by running `script GiveBrute4()`. Player index can be specified if desired, e.g. `script GiveBrute4(2)`. Ordinarily, this command only works for Northstar, but the behavior can be adjusted with three convars:
 
 * `brute4_replace_ns_prime`: Default value of `1`. Causes Brute4 to replace the loadout of any Northstar Prime that drops. Independent of other two ConVars.
 * `brute4_allowed_chassis`: Default value of `northstar`. Any titan on the list can be given Brute4. Takes a comma separated list of titan names. (Note: Monarch is `vanguard`)
@@ -29,7 +27,7 @@ Brute4 has three convars to control which titans Brute4 can be put on.
 
 *Defensive*: Dome Shield
 
-* Deploys a mobile Dome Shield that breaks by attacking, dashing, or from taking enough damage. Disables sprinting.
+* Deploys a mobile Dome Shield that loses health over time and breaks when attacking or dashing. Disables sprinting.
 
 *Utility*: Ammo Swap
 
