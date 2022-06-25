@@ -93,6 +93,7 @@ WeaponData
 			"npc_rest_time_between_bursts_max"		"0.75"
 
 			"fire_sound_1_player_1p"		"Weapon_Archer_Fire_1P"
+			"fire_sound_1_player_3p"		"Weapon_Archer_Fire_3P"
 			"projectile_trail_effect_0" 	"Rocket_Smoke_SMALL_Titan_mod"
 		}
 

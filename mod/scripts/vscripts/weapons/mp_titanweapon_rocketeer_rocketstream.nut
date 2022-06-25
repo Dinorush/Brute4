@@ -131,7 +131,7 @@ int function FireMissileStream( entity weapon, WeaponPrimaryAttackParams attackP
 	bool has_s2s_npcMod = weapon.HasMod( "sp_s2s_settings_npc" )
 	bool has_mortar_mod = weapon.HasMod( "coop_mortar_titan" )
 	if ( hasBurnMod )
-		weapon.EmitWeaponSound_1p3p( "ShoulderRocket_Paint_Fire_1P", "ShoulderRocket_Paint_Fire_1P" )
+		weapon.EmitWeaponSound_1p3p( "ShoulderRocket_Paint_Fire_1P", "ShoulderRocket_Paint_Fire_3P" )
 	else if ( adsPressed )
 		weapon.EmitWeaponSound_1p3p( "Weapon_Titan_Rocket_Launcher_Amped_Fire_1P", "Weapon_Titan_Rocket_Launcher_Amped_Fire_3P" )
 	else
@@ -222,16 +222,16 @@ vector function FindStraightMissileDir( vector dir, int i )
 	vector angles = VectorToAngles( dir )
 	switch ( i )
 	{
-		case 0:
+		case 0: // Up
 			return AnglesToUp( angles )
 			break
-		case 1:
+		case 1: // Right
 			return -AnglesToRight( angles )
 			break
-		case 2:
+		case 2: // Down
 			return -AnglesToUp( angles )
 			break
-		case 3:
+		case 3: // Left
 			return AnglesToRight( angles )
 	}
 	return < 0,0,0 >
