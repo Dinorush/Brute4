@@ -42,10 +42,10 @@ const BURN_CLUSTER_EXPLOSION_DAMAGE_HEAVY_ARMOR = 100
 const BURN_CLUSTER_NPC_EXPLOSION_DAMAGE = 66
 const BURN_CLUSTER_NPC_EXPLOSION_DAMAGE_HEAVY_ARMOR = 100
 
-const STRAIGHT_CONDENSE_DELAY = 0.3
-const STRAIGHT_CONDENSE_TIME = 1.0
+const STRAIGHT_CONDENSE_DELAY = 0.0
+const STRAIGHT_CONDENSE_TIME = 0.8
 const STRAIGHT_EXPAND_DIST = 30.0
-const STRAIGHT_CONDENSE_DIST = 20.0
+const STRAIGHT_CONDENSE_DIST = 25.0
 
 const asset AMPED_SHOT_PROJECTILE = $"models/weapons/bullets/temp_triple_threat_projectile_large.mdl"
 
@@ -130,8 +130,9 @@ int function FireMissileStream( entity weapon, WeaponPrimaryAttackParams attackP
 	bool hasBurnMod = weapon.HasMod( "burn_mod_titan_rocket_launcher" )
 	bool has_s2s_npcMod = weapon.HasMod( "sp_s2s_settings_npc" )
 	bool has_mortar_mod = weapon.HasMod( "coop_mortar_titan" )
-
-	if ( adsPressed || hasBurnMod )
+	if ( hasBurnMod )
+		weapon.EmitWeaponSound_1p3p( "ShoulderRocket_Paint_Fire_1P", "ShoulderRocket_Paint_Fire_1P" )
+	else if ( adsPressed )
 		weapon.EmitWeaponSound_1p3p( "Weapon_Titan_Rocket_Launcher_Amped_Fire_1P", "Weapon_Titan_Rocket_Launcher_Amped_Fire_3P" )
 	else
 		weapon.EmitWeaponSound_1p3p( "Weapon_Titan_Rocket_Launcher.RapidFire_1P", "Weapon_Titan_Rocket_Launcher.RapidFire_3P" )
