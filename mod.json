@@ -3,7 +3,7 @@
 	"Description": "Implements the Brute4 titan based on cut content.",
 	"LoadPriority": 1,
 	"RequiredOnClient": true,
-	"Version": "1.4.1",
+	"Version": "1.4.2",
 
 	"ConVars": [
 		{
