@@ -57,6 +57,8 @@ void function SwapRocketAmmo( entity weaponOwner, entity offhand, entity weapon 
 	array<string> mods = weapon.GetMods()
 	mods.append( "burn_mod_titan_rocket_launcher" )
 	mods.append( "fast_reload" )
+	if ( mods.contains( "rapid_detonator" ) )
+		mods.append( "rapid_detonator_active" )
 	weapon.SetMods( mods )
 
 	offhand.AddMod( "no_regen" )
@@ -78,6 +80,7 @@ void function SwapRocketAmmo( entity weaponOwner, entity offhand, entity weapon 
 				array<string> mods = weapon.GetMods()
 				mods.fastremovebyvalue( "burn_mod_titan_rocket_launcher" )
 				mods.fastremovebyvalue( "fast_reload" )
+				mods.fastremovebyvalue( "rapid_detonator_active" )
 				weapon.SetMods( mods )
 			}
 			if ( IsValid( offhand ) )
