@@ -53,7 +53,7 @@ With **sv_cheats** on, you can give the loadout to the first player by running `
 
 **Rapid Detonators** (Tied to _Viper Thrusters_)
 
-- Ammo Swap and Barrage Core clusters explode more quickly.
+- Ammo Swap fires faster and all clusters explode more quickly.
 
 **Explosive Reserves** (Tied to _Threat Optics_)
 
