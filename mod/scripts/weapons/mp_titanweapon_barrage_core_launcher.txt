@@ -72,8 +72,10 @@ WeaponData
 
 	MP_BASE
 	{
-		"damage_near_value"   							"0"
-		"damage_far_value"								"0"
+		"damage_near_value"   							"500"
+		"damage_far_value"								"500"
+		"damage_near_value_titanarmor"					"0"
+		"damage_far_value_titanarmor"					"0"
 		"explosion_damage"								"40" //"400"
 		"explosion_damage_heavy_armor"					"150"
 
@@ -85,21 +87,17 @@ WeaponData
 
 		"enable_highlight_networking_on_creation"		"<KEEP_DEFAULT>"
 
-	"explosion_inner_radius"  						"150"
-	"explosionradius" 								"220"
-	"impulse_force"   								"1"
-
-			// Behavior
-//		"projectile_launch_speed"						"2000"
-		//"projectile_drift_windiness"					"2"
-		//"projectile_drift_intensity"					"2.95"
-
+		"explosion_inner_radius"  						"150"
+		"explosionradius" 								"220"
+		"impulse_force"   								"1"
 	}
 
 	SP_BASE
 	{
-		"damage_near_value"   							"0"
-		"damage_far_value"								"0"
+		"damage_near_value"   							"500"
+		"damage_far_value"								"500"
+		"damage_near_value_titanarmor"					"0"
+		"damage_far_value_titanarmor"					"0"
 		"explosion_damage"								"40"
 		"explosion_damage_heavy_armor"					"150"
 
@@ -111,14 +109,9 @@ WeaponData
 
 		"enable_highlight_networking_on_creation"		"1"
 
-	"explosion_inner_radius"  						"150"
-	"explosionradius" 								"220"
-	"impulse_force"   								"1"
-
-		// Behavior
-//		"projectile_launch_speed"						"2000"
-//		"projectile_drift_windiness"					"2"
-//		"projectile_drift_intensity"					"2.95"
+		"explosion_inner_radius"  						"150"
+		"explosionradius" 								"220"
+		"impulse_force"   								"1"
 	}
 
 	// Sound
