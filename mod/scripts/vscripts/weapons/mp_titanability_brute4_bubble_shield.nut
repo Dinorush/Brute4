@@ -81,6 +81,7 @@ void function Brute4GiveShortDomeShield( entity weapon, entity owner, float dura
 	if ( rechargeDash )
 	{
 		owner.s.bubbleShieldHealthFrac <- 1.0
+		bubbleShield.s.ownerForDisembark <- owner
 		AddEntityDestroyedCallback( bubbleShield, Brute4DomeShield_TrackHealth )
 	}
 
@@ -118,10 +119,12 @@ void function Brute4GiveShortDomeShield( entity weapon, entity owner, float dura
 #if SERVER
 function Brute4DomeShield_TrackHealth( bubbleShield )
 {
+	// Bubble Shield can use GetParent() to get the titan, but this callback runs after soul transfer on disembark.
+	// Alternatively, could track the health in the titan soul.
 	expect entity( bubbleShield )
-	entity par = bubbleShield.GetParent()
-	if ( IsValid( par ) )
-		par.s.bubbleShieldHealthFrac = max( 0, GetHealthFrac( bubbleShield ) )
+	entity owner = expect entity( bubbleShield.s.ownerForDisembark )
+	if ( IsValid( owner ) )
+		owner.s.bubbleShieldHealthFrac = max( 0, GetHealthFrac( bubbleShield ) )
 }
 
 void function Brute4DomeShield_RefundDuration( entity weapon, int amount, float delay )
