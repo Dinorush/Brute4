@@ -7,12 +7,11 @@ WeaponData
 	"longdesc"										"#WPN_TITAN_DOME_SHIELD_LONGDESC"
 
 
-//	"menu_icon"										"rui/menu/boosts/boost_icon_shield"
-//	"hud_icon"										"rui/menu/boosts/boost_icon_shield"
+//	"menu_icon"										"ui/menu/items/passive_icons/longer_bubble"
+//	"hud_icon"										"ui/menu/items/passive_icons/longer_bubble"
 
-	"menu_icon"										"ui/menu/items/passive_icons/longer_bubble"
-	"hud_icon"										"ui/menu/items/passive_icons/longer_bubble"
-
+	"menu_icon"										"brute/menu/dome_shield"
+	"hud_icon"										"brute/hud/dome_shield"
 
 	"weaponClass" 									"titan"
 	"weaponType"									"defense"

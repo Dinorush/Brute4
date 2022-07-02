@@ -1,5 +1,7 @@
 WeaponData
 {
+	"menu_icon"										"brute/menu/ammo_swap"
+	"hud_icon"										"brute/hud/ammo_swap"
 	"ammo_display"									"bar"
 	"ammo_stockpile_max"							"150"
 	"ammo_clip_size"   								"150"

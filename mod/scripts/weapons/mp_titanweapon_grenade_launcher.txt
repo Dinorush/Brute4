@@ -7,15 +7,11 @@ WeaponData
 	"longdesc"										"#WPN_TITAN_SHOULDER_GRENADE_LONGDESC"
 
 
-	"menu_icon"										"rui/pilot_loadout/ordnance/frag_menu"
-	"hud_icon"										"rui/pilot_loadout/ordnance/frag"
+//	"menu_icon"										"rui/pilot_loadout/ordnance/frag_menu"
+//	"hud_icon"										"rui/pilot_loadout/ordnance/frag"
 
-//	"menu_icon"										"ui/hud/ui_icon_test1"
-//	"hud_icon"										"ui/hud/ui_icon_test1"
-
-//	"menu_icon"										"ui/hud/items/passive_icons/slammer"
-//	"hud_icon"										"ui/hud/items/passive_icons/slammer"
-
+	"menu_icon"										"brute/menu/grenade_launcher"
+	"hud_icon"										"brute/hud/grenade_launcher"
 
 	"weaponClass" 									"titan"
 	"weaponType"									"shoulder"

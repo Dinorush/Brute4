@@ -6,7 +6,7 @@ WeaponData
 	"longdesc"										"#TITANCORE_CLUSTER_LONGDESC"
 
 	"menu_icon"										"rui/titan_loadout/core/titan_core_cluster"
-	"hud_icon"										"rui/titan_loadout/core/titan_core_cluster"
+	"hud_icon"										"brute/hud/barrage_core"
 
 	// General
 	"weaponClass" 									"titan"
