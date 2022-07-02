@@ -26,6 +26,8 @@ var function OnWeaponPrimaryAttack_rocketeer_ammo_swap( entity weapon, WeaponPri
 
 	#if SERVER
 	thread SwapRocketAmmo( weaponOwner, weapon, primaryWeapon )
+	#else
+	primaryWeapon.SetWeaponPrimaryClipCount( 0 )
 	#endif
 
 	if ( weaponOwner.IsPlayer() )
@@ -59,6 +61,7 @@ void function SwapRocketAmmo( entity weaponOwner, entity offhand, entity weapon 
 	mods.append( "fast_reload" )
 	if ( mods.contains( "rapid_detonator" ) )
 		mods.append( "rapid_detonator_active" )
+	mods.fastremovebyvalue( "rocketstream_fast" )
 	weapon.SetMods( mods )
 
 	offhand.AddMod( "no_regen" )
