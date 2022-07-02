@@ -88,11 +88,13 @@ void function Brute4GiveShortDomeShield( entity weapon, entity owner, float dura
 	OnThreadEnd(
 	function() : ( owner, weapon, rechargeDash, slowID, speedID )
 		{
-			if ( IsValid( weapon ) && rechargeDash )
+			if ( rechargeDash && IsValid( weapon ) && IsValid( owner ) )
 			{
-				float remainingUseTime = IsValid( owner ) ? expect float( owner.s.bubbleShieldHealthFrac ) * weapon.GetWeaponSettingFloat( eWeaponVar.fire_duration ) : 0.0
-				int refundAmmo = int( min( BRUTE4_MOLTING_SHELL_MAX_REFUND, remainingUseTime ) * weapon.GetWeaponSettingFloat( eWeaponVar.regen_ammo_refill_rate ) )
-				thread Brute4DomeShield_RefundDuration( weapon, refundAmmo, remainingUseTime )
+				float fireDuration = weapon.GetWeaponSettingFloat( eWeaponVar.fire_duration )
+				float remainingUseTime = float( weapon.GetWeaponPrimaryClipCount() ) / float( weapon.GetWeaponPrimaryClipCountMax() ) * fireDuration
+				float remainingShieldTime = expect float( owner.s.bubbleShieldHealthFrac ) * fireDuration
+				int refundAmmo = int( min( BRUTE4_MOLTING_SHELL_MAX_REFUND, remainingShieldTime ) * weapon.GetWeaponSettingFloat( eWeaponVar.regen_ammo_refill_rate ) )
+				thread Brute4DomeShield_RefundDuration( weapon, owner, refundAmmo, remainingUseTime )
 			}
 
 			if ( IsValid( owner ) )
@@ -127,10 +129,10 @@ function Brute4DomeShield_TrackHealth( bubbleShield )
 		owner.s.bubbleShieldHealthFrac = max( 0, GetHealthFrac( bubbleShield ) )
 }
 
-void function Brute4DomeShield_RefundDuration( entity weapon, int amount, float delay )
+void function Brute4DomeShield_RefundDuration( entity weapon, entity owner, int amount, float delay )
 {
 	wait delay
-	if ( IsValid( weapon ) )
+	if ( IsValid( weapon ) && IsValid( owner ) && weapon.GetWeaponOwner() == owner )
 		weapon.SetWeaponPrimaryClipCountNoRegenReset( weapon.GetWeaponPrimaryClipCount() + amount )
 }
 
