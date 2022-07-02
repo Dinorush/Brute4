@@ -25,6 +25,12 @@ bool function OnAbilityStart_BarrageCore( entity weapon )
 #if SERVER
 	if ( titan.IsPlayer() )
 		Melee_Disable( titan )
+	
+	// array<string> mods = []
+	// entity soul = titan.GetTitanSoul()
+	//if ( IsValid( soul ) && SoulHasPassive( soul, ePassives.PAS_BRUTE4_CLUSTER ) )
+	//	mods.append( "rapid_detonators" )
+
 	thread PROTO_BarrageCore( titan, weapon.GetCoreDuration(), weapon.GetMods() )
 #else
 	if ( titan.IsPlayer() && (titan == GetLocalViewPlayer()) && IsFirstTimePredicted() )
