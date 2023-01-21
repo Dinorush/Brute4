@@ -54,7 +54,7 @@ function FireGrenade( entity weapon, WeaponPrimaryAttackParams attackParams, isN
 	entity weaponOwner = weapon.GetWeaponOwner()
 	weaponOwner.Signal( "KillBruteShield" )
 
-	vector bulletVec = ApplyVectorSpread( attackParams.dir, (weaponOwner.GetAttackSpreadAngle() - 1.0) * 2 )
+	vector bulletVec = ApplyVectorSpread( attackParams.dir, weaponOwner.GetAttackSpreadAngle() * 2 )
 
 	entity nade = weapon.FireWeaponGrenade( attackParams.pos, bulletVec, angularVelocity, 0.0 , damageType, damageType, !isNPCFiring, true, false )
 

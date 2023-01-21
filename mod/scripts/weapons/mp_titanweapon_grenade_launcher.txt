@@ -138,13 +138,13 @@ WeaponData
 	//"projectile_first_person_offset_fraction"		"2"
 	"projectile_gravity_scale"						"3.38"
 
-	"spread_stand_hip"								"4"
-	"spread_stand_hip_run"							"4"
-	"spread_stand_ads"								"2"
-	"spread_crouch_hip"   							"4"
-	"spread_crouch_ads"   							"2"
-	"spread_air_hip"  								"4"
-	"spread_air_ads"  								"2"
+	"spread_stand_hip"								"3"
+	"spread_stand_hip_run"							"3"
+	"spread_stand_ads"								"1"
+	"spread_crouch_hip"   							"3"
+	"spread_crouch_ads"   							"1"
+	"spread_air_hip"  								"3"
+	"spread_air_ads"  								"1"
 
 	"owner_muzzle_index"							"1"
 
@@ -268,8 +268,7 @@ WeaponData
 		Crosshair_1
 		{
 			"ui"						"ui/crosshair_grenade_launcher"
-//			"ui"						"ui/menu/items/ability_icons/titan_grenade"
-			"base_spread"				"0.0"
+			"base_spread"				"1.0"
 			Args
 			{
 				isFiring				weapon_is_firing
