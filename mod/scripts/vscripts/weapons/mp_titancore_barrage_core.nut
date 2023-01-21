@@ -79,7 +79,10 @@ void function PROTO_BarrageCore( entity titan, float flightTime, array<string> m
 	titan.EndSignal( "OnSyncedMelee" )
 
 	if ( titan.IsPlayer() )
+	{
 		titan.ForceStand()
+		titan.Server_TurnDodgeDisabledOn()
+	}
 
 	OnThreadEnd(
 		function() : ( titan, e, weaponArray )
@@ -97,6 +100,7 @@ void function PROTO_BarrageCore( entity titan, float flightTime, array<string> m
 
 				titan.ClearParent()
 				titan.UnforceStand()
+				titan.Server_TurnDodgeDisabledOff()
 				if ( e.shouldDeployWeapon && !titan.ContextAction_IsActive() )
 					DeployAndEnableWeapons( titan )
 

@@ -154,10 +154,10 @@ WeaponData
 	"reload_time_late1" 							"2.0"
 	"reloadempty_time"								"3.5"
 	"reloadempty_time_late1" 						"2.0"
-	"holster_time"									".6"
-	"deploy_time" 									".6"
-	"lower_time"  									".6"
-	"raise_time"  									".6"
+	"holster_time"									".5"
+	"deploy_time" 									".5"
+	"lower_time"  									".5"
+	"raise_time"  									".5"
 	"vortex_refire_behavior"  						"grenade"
 	"zoom_effects"									"1"
 	"allow_empty_fire"								"0"
@@ -325,7 +325,7 @@ WeaponData
 	"sway_move_origin_factor_zoomed"  				"0.03"
 	"sway_gain"   									"15.0"
 
-
+	"offhand_blocks_sprint"							"1"
 
 			"grenade_arc_indicator_effect"					"P_grenade_arc_proto_first_orange"
 			"grenade_arc_impact_indicator_effect"			"grenade_arc_impact_proto_orange"
