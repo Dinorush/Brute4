@@ -21,12 +21,6 @@ WeaponData
 	// Sound
 	"sound_dryfire"									"titan_dryfire"
 
-	// Ammo
-	"ammo_stockpile_max"							"200"
-	"ammo_clip_size"   								"200"
-	"ammo_default_total"							"200"
-	"ammo_no_remove_from_clip"						"1"
-
 	// NPC
 	"npc_min_range"   								"500"
 	"npc_max_range"   								"3000"
@@ -36,6 +30,7 @@ WeaponData
 	"npc_rest_time_between_bursts_min"				"15"
 	"npc_rest_time_between_bursts_max"				"20"
 
+	// Ammo
 	"ammo_display"									"bar"
 	"ammo_stockpile_max"							"150"
 	"ammo_clip_size"   								"150"
