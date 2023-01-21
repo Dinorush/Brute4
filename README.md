@@ -59,6 +59,12 @@ Equip Northstar prime; Brute4 will replace its loadout on drop.
 
 ## Patch Notes
 
+### 1.7.1
+
+#### Bug Fixes
+
+- Fixed a syntax error that snuck in
+
 ### 1.7
 
 #### Balancing
