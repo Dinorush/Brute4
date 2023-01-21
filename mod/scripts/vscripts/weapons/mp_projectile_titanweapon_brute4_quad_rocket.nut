@@ -1,13 +1,13 @@
 untyped
 
 
-global function OnProjectileCollision_SpiralMissile
+global function OnProjectileCollision_Brute4_QuadRocket
 
-void function OnProjectileCollision_SpiralMissile( entity projectile, vector pos, vector normal, entity hitEnt, int hitbox, bool isCritical )
+void function OnProjectileCollision_Brute4_QuadRocket( entity projectile, vector pos, vector normal, entity hitEnt, int hitbox, bool isCritical )
 {
 	#if SERVER
 		array<string> mods = projectile.ProjectileGetMods()
-		if ( mods.contains( "burn_mod_titan_rocket_launcher" ) || mods.contains( "mini_clusters" ) )
+		if ( mods.contains( "cluster_payload" ) )
 		{
 			entity owner = projectile.GetOwner()
 			if ( IsValid( owner ) )
@@ -22,11 +22,11 @@ void function OnProjectileCollision_SpiralMissile( entity projectile, vector pos
 				// 9 count, 0.3 delay, 2.4 duration, 3 groupSize
 				// Total: 12 subexplosions
 				// ""Base delay"": 0.8s, avg delay between (each group): 0.5s, total duration: 2.0s
-				popcornInfo.weaponName = "mp_titanweapon_rocketeer_rocketstream"
+				popcornInfo.weaponName = "mp_titanweapon_brute4_quad_rocket"
 				popcornInfo.weaponMods = projectile.ProjectileGetMods()
-				popcornInfo.damageSourceId = eDamageSourceId.mp_titanweapon_rocketeer_rocketstream
+				popcornInfo.damageSourceId = eDamageSourceId.mp_titanweapon_brute4_quad_rocket
 				popcornInfo.count = 9
-				popcornInfo.delay = mods.contains( "rapid_detonator" ) ? 0.45 : 0.3 // Avg delay and duration -30%
+				popcornInfo.delay = mods.contains( "rapid_detonator" ) ? 0.4 : 0.3 // Avg delay and duration -20%
 				popcornInfo.offset = 0.15
 				popcornInfo.range = 200
 				popcornInfo.normal = normal
@@ -38,28 +38,4 @@ void function OnProjectileCollision_SpiralMissile( entity projectile, vector pos
 			}
 		}
 	#endif
-
-	if ( "spiralMissiles" in projectile.s )
-	{
-		if ( !IsAlive( hitEnt ) )
-			return
-
-		if ( !hitEnt.IsTitan() )
-			return
-
-		if ( Time() - projectile.s.launchTime < 0.02 )
-			return
-
-		foreach ( missile in projectile.s.spiralMissiles )
-		{
-			if ( !IsValid( missile ) )
-				continue
-
-			if ( missile == projectile )
-				continue
-
-			missile.s.spiralMissiles = []
-			missile.MissileExplode()
-		}
-	}
 }

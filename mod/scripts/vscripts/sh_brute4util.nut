@@ -11,6 +11,7 @@ void function Brute4_Init()
 	#if SERVER
 	RegisterWeaponDamageSources(
 		{
+			mp_titanweapon_brute4_quad_rocket = "#WPN_TITAN_ROCKET_LAUNCHER",
 			mp_titanweapon_barrage_core_launcher = "Barrage Core",
 			mp_titanweapon_grenade_launcher = "Grenade Launcher"
 		}
@@ -33,7 +34,8 @@ void function Brute4_InitWeaponsAndPassives()
 	// Brute4_AddPassive( "PAS_BRUTE4_CLUSTER" )
 	// Brute4_AddPassive( "PAS_BRUTE4_AMMO" )
 	// Brute4_AddPassive( "PAS_BRUTE4_BUBBLE" )
-
+	MpTitanweaponBrute4QuadRocket_Init()
+	MpTitanAbilityBrute4AmmoSwap_Init()
 	MpTitanAbilityBrute4DomeShield_Init()
 	MpTitanweaponGrenadeLauncher_Init()
 	BarrageCore_Init()
@@ -94,13 +96,13 @@ sTryGetTitanLoadoutCallbackReturn function Brute4_ReplaceLoadout( entity titan, 
 		return ret
 
 	ret.loadout = loadout
-	ret.loadout.primary = "mp_titanweapon_rocketeer_rocketstream"
+	ret.loadout.primary = "mp_titanweapon_brute4_quad_rocket"
 	ret.loadout.primaryMods = []
 	ret.loadout.ordnance = "mp_titanweapon_grenade_launcher"
 	ret.loadout.ordnanceMods = []
 	ret.loadout.special = "mp_titanability_brute4_bubble_shield"
 	ret.loadout.specialMods = []
-	ret.loadout.antirodeo = "mp_titanability_rocketeer_ammo_swap"
+	ret.loadout.antirodeo = "mp_titanability_brute4_ammo_swap"
 	ret.loadout.antirodeoMods = []
 
 	if ( ret.loadout.passive2 != "" )
@@ -154,42 +156,16 @@ void function Brute4_HandlePassives( entity titan )
 	}
 }
 
-bool function ShouldGiveTimerCredit_Brute4( entity player, entity victim, var damageInfo )
-{
-    if ( player == victim )
-        return false
-
-    if ( player.IsTitan() && !IsCoreAvailable( player ) )
-        return false
-
-    if ( GAMETYPE == FREE_AGENCY && !player.IsTitan() )
-        return false
-
-    int damageSourceID = DamageInfo_GetDamageSourceIdentifier( damageInfo )
-    switch ( damageSourceID )
-    {
-        case eDamageSourceId.mp_titanweapon_barrage_core_launcher:
-        case eDamageSourceId.mp_titancore_flame_wave:
-        case eDamageSourceId.mp_titancore_flame_wave_secondary:
-        case eDamageSourceId.mp_titancore_salvo_core:
-        case damagedef_titan_fall:
-        case damagedef_nuclear_core:
-            return false
-    }
-
-    return true
-}
-
 void function Brute4_ReplaceGear( entity titan )
 {
 	TakeAllWeapons( titan )
 
-	titan.GiveOffhandWeapon( "mp_titanability_rocketeer_ammo_swap", OFFHAND_ANTIRODEO )
+	titan.GiveOffhandWeapon( "mp_titanability_brute4_ammo_swap", OFFHAND_ANTIRODEO )
 	titan.GiveOffhandWeapon( "mp_titanability_brute4_bubble_shield", OFFHAND_LEFT )
 	titan.GiveOffhandWeapon( "mp_titanweapon_grenade_launcher", OFFHAND_RIGHT )
 	titan.GiveOffhandWeapon( "mp_titancore_barrage_core", OFFHAND_EQUIPMENT )
 	titan.GiveOffhandWeapon( "melee_titan_punch_northstar", OFFHAND_MELEE )
-	titan.GiveWeapon( "mp_titanweapon_rocketeer_rocketstream" )
+	titan.GiveWeapon( "mp_titanweapon_brute4_quad_rocket" )
 
 	entity soul = titan.GetTitanSoul()
 	if ( !IsValid( soul ) )

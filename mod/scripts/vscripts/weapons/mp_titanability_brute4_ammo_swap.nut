@@ -1,15 +1,18 @@
-global function OnWeaponPrimaryAttack_rocketeer_ammo_swap
-global function MpTitanAbilityRocketeerAmmoSwap_Init
+global function OnWeaponPrimaryAttack_brute4_ammo_swap
+global function MpTitanAbilityBrute4AmmoSwap_Init
 
 #if SERVER
-global function OnWeaponNpcPrimaryAttack_rocketeer_ammo_swap
+global function OnWeaponNpcPrimaryAttack_brute4_ammo_swap
 #endif
 
-void function MpTitanAbilityRocketeerAmmoSwap_Init()
+void function MpTitanAbilityBrute4AmmoSwap_Init()
 {
+	#if SERVER
+	PrecacheWeapon( "mp_titanability_brute4_ammo_swap" )
+	#endif
 }
 
-var function OnWeaponPrimaryAttack_rocketeer_ammo_swap( entity weapon, WeaponPrimaryAttackParams attackParams )
+var function OnWeaponPrimaryAttack_brute4_ammo_swap( entity weapon, WeaponPrimaryAttackParams attackParams )
 {
 	entity weaponOwner = weapon.GetWeaponOwner()
 	array<entity> weapons = GetPrimaryWeapons( weaponOwner )
@@ -19,9 +22,9 @@ var function OnWeaponPrimaryAttack_rocketeer_ammo_swap( entity weapon, WeaponPri
 		return false
 	else if ( weaponOwner.ContextAction_IsActive() )
 		return false
-	else if ( primaryWeapon.GetWeaponClassName() != "mp_titanweapon_rocketeer_rocketstream" )
+	else if ( primaryWeapon.GetWeaponClassName() != "mp_titanweapon_brute4_quad_rocket" )
 		return false
-	else if ( primaryWeapon.HasMod( "burn_mod_titan_rocket_launcher" ) )
+	else if ( primaryWeapon.HasMod( "cluster_payload" ) )
 		return false
 
 	#if SERVER
@@ -37,9 +40,9 @@ var function OnWeaponPrimaryAttack_rocketeer_ammo_swap( entity weapon, WeaponPri
 }
 
 #if SERVER
-var function OnWeaponNpcPrimaryAttack_rocketeer_ammo_swap( entity weapon, WeaponPrimaryAttackParams attackParams )
+var function OnWeaponNpcPrimaryAttack_brute4_ammo_swap( entity weapon, WeaponPrimaryAttackParams attackParams )
 {
-	OnWeaponPrimaryAttack_rocketeer_ammo_swap( weapon, attackParams )
+	OnWeaponPrimaryAttack_brute4_ammo_swap( weapon, attackParams )
 }
 
 void function SwapRocketAmmo( entity weaponOwner, entity offhand, entity weapon )
@@ -57,11 +60,11 @@ void function SwapRocketAmmo( entity weaponOwner, entity offhand, entity weapon 
 	}
 
 	array<string> mods = weapon.GetMods()
-	mods.append( "burn_mod_titan_rocket_launcher" )
+	mods.append( "cluster_payload" )
 	mods.append( "fast_reload" )
 	if ( mods.contains( "rapid_detonator" ) )
 		mods.append( "rapid_detonator_active" )
-	mods.fastremovebyvalue( "rocketstream_fast" )
+	mods.fastremovebyvalue( "single_shot" )
 	weapon.SetMods( mods )
 
 	offhand.AddMod( "no_regen" )
@@ -81,7 +84,7 @@ void function SwapRocketAmmo( entity weaponOwner, entity offhand, entity weapon 
 			if ( IsValid( weapon ) )
 			{
 				array<string> mods = weapon.GetMods()
-				mods.fastremovebyvalue( "burn_mod_titan_rocket_launcher" )
+				mods.fastremovebyvalue( "cluster_payload" )
 				mods.fastremovebyvalue( "fast_reload" )
 				mods.fastremovebyvalue( "rapid_detonator_active" )
 				weapon.SetMods( mods )
