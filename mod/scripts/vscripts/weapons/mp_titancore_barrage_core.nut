@@ -32,10 +32,6 @@ bool function OnAbilityStart_BarrageCore( entity weapon )
 	//	mods.append( "rapid_detonators" )
 
 	thread PROTO_BarrageCore( titan, weapon.GetCoreDuration(), weapon.GetMods() )
-#else
-	if ( titan.IsPlayer() && (titan == GetLocalViewPlayer()) && IsFirstTimePredicted() )
-		Rumble_Play( "rumble_titan_hovercore_activate", {} )
-#endif
 
 	return true
 }
@@ -109,7 +105,6 @@ void function PROTO_BarrageCore( entity titan, float flightTime, array<string> m
 		}
 	)
 
-
 	if ( titan.IsPlayer() )
 	{
 		const float startupTime = 0.5
@@ -142,7 +137,7 @@ void function PROTO_BarrageCore( entity titan, float flightTime, array<string> m
 		titan.SetActiveWeaponByName( "mp_titanweapon_barrage_core_launcher" )
 		titan.WaitSignal( "CoreEnd" )
 		titan.TakeWeapon( "mp_titanweapon_barrage_core_launcher" )
-		titan.SetActiveWeaponByName("mp_titanweapon_rocketeer_rocketstream")
+		titan.SetActiveWeaponByName("mp_titanweapon_brute4_quad_rocket")
 	}
 }
 #endif
