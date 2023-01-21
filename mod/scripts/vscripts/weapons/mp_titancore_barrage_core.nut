@@ -32,6 +32,7 @@ bool function OnAbilityStart_BarrageCore( entity weapon )
 	//	mods.append( "rapid_detonators" )
 
 	thread PROTO_BarrageCore( titan, weapon.GetCoreDuration(), weapon.GetMods() )
+#endif
 
 	return true
 }
