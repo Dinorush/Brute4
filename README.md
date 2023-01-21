@@ -59,3 +59,37 @@ With **sv_cheats** on, you can give the loadout to the first player by running `
 
 - Galactic Moblin - Custom UI Elements
 - Hurb - Custom UI Elements
+
+## Patch Notes
+
+### 1.7
+
+#### Balancing
+
+- Barrage Core
+  - Duration: 6s → 5.5s
+  - Deploy time: 0.6s → 0.5s
+    - Total firing duration: 4.9s → 4.5s
+  - Cluster spawn count: 6 → 5
+  - Cluster duration: 1.5s → 1.25s
+  - No longer deals self damage
+  - Now prevents sprinting
+  - Now prevents dashing
+
+- Rapid Detonators
+  - Fire rate modifier: 1.2x → 1.15x
+  - Cluster spawn time modifier: 0.7x → 0.8x
+
+#### Bug Fixes
+
+- Molten Shell
+  - Fixed more occasional crashes
+
+#### Miscellaneous
+
+- Changed Brute4's Quad Rocket and Ammo Swap to internally be new weapons to be more compatible with vanilla Brute mods
+- Changed method of replacing strings to be more compatible with other custom titan mods (e.g. Archon)
+
+### Prior releases
+
+- Visible on Github release page
