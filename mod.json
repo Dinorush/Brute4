@@ -3,7 +3,7 @@
 	"Description": "Implements the Brute4 titan based on cut content.\nCredits: GalacticMoblin & Hurb - Custom UI Elements",
 	"LoadPriority": 1,
 	"RequiredOnClient": true,
-	"Version": "1.6",
+	"Version": "1.7",
 
 	"ConVars": [
 		{
@@ -13,6 +13,18 @@
 	],
 
 	"Scripts": [
+		{
+			"Path": "weapons/mp_titanweapon_brute4_quad_rocket.nut",
+			"RunOn": "( CLIENT || SERVER ) && MP"
+		},
+		{
+			"Path": "weapons/mp_projectile_titanweapon_brute4_quad_rocket.nut",
+			"RunOn": "( CLIENT || SERVER ) && MP"
+		},
+		{
+			"Path": "weapons/mp_titanability_brute4_ammo_swap.nut",
+			"RunOn": "( CLIENT || SERVER ) && MP"
+		},
 		{
 			"Path": "weapons/mp_titanweapon_grenade_launcher.nut",
 			"RunOn": "( CLIENT || SERVER ) && MP"
@@ -46,6 +58,6 @@
 	],
 
 	"Localisation": [
-		"resource/r1_%language%.txt"
+		"resource/brute4_localization_%language%.txt"
 	]
 }
