@@ -132,7 +132,10 @@ function Brute4DomeShield_TrackHealth( bubbleShield )
 void function Brute4DomeShield_RefundDuration( entity weapon, entity owner, int amount, float delay )
 {
 	wait delay
-	if ( IsValid( weapon ) && IsValid( owner ) && weapon.GetWeaponOwner() == owner )
+	if ( !IsValid( weapon ) || !IsValid( owner ) || weapon.GetWeaponOwner() != owner )
+		return
+	
+	if ( weapon.GetWeaponPrimaryClipCount() + amount <= weapon.GetWeaponPrimaryClipCountMax() )
 		weapon.SetWeaponPrimaryClipCountNoRegenReset( weapon.GetWeaponPrimaryClipCount() + amount )
 }
 
