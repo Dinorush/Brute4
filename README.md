@@ -8,9 +8,6 @@ Implements the Brute4 titan based on cut content.
 
 Equip Northstar prime; Brute4 will replace its loadout on drop.
 
-### For Testing/Modding
-With **sv_cheats** on, you can give the loadout to the first player by running `script GiveBrute4()`. Player index can be specified if desired, e.g. `script GiveBrute4(2)`. The ConVar `brute4_replace_ns_prime` can also be set to 0 to stop the mod from replacing Northstar prime automatically.
-
 ## [Loadout](https://youtu.be/enGWYx5sIws)
 *Weapon*: Quad Rocket
 
