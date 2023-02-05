@@ -59,6 +59,16 @@ Equip Northstar prime; Brute4 will replace its loadout on drop.
 
 ## Patch Notes
 
+### 1.7.3
+
+- Barrage Core
+  - Dash lock now starts when weapon starts deploying
+  - Fixed sprint lock not applying correctly
+  - Fixed clusters spawning more than they should in some scenarios
+
+- Rapid Detonators
+  - Now actually applies its buff to Barrage Core
+
 ### 1.7.2
 
 - Ammo Swap
