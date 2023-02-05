@@ -65,9 +65,14 @@ void function OnProjectileCollision_titanweapon_barrage_core_launcher( entity pr
 			PlantSuperStickyGrenade( projectile, pos, normal, hitEnt, hitbox )
 			EmitSoundOnEntity( projectile, "weapon_softball_grenade_attached_3P" )
 		}
-		// HACK - call cluster creation on impact, otherwise projectile will be null; use projectile_explosion_delay in .txt to account for FUSE_TIME. Must match!
-		StartClusterAfterDelay( projectile, normal )
-		thread DetonateStickyAfterTime( projectile, FUSE_TIME, normal )
+
+		if ( projectile.proj.projectileBounceCount == 0 )
+		{
+			// HACK - call cluster creation on impact, otherwise projectile will be null; use projectile_explosion_delay in .txt to account for FUSE_TIME. Must match!
+			StartClusterAfterDelay( projectile, normal )
+			thread DetonateStickyAfterTime( projectile, FUSE_TIME, normal )
+			projectile.proj.projectileBounceCount++
+		}
 	#endif
 }
 
@@ -84,7 +89,7 @@ void function StartClusterAfterDelay( entity projectile, vector normal) {
 
 		// Current:
 		// 4 count, 0.15 delay, 2 duration, 1 groupSize
-		// Total: 6 subexplosions
+		// Total: 5 subexplosions
 		// ""Base delay"": 0.4s, avg delay between (each group): 0.25s, total duration: 1.25s
 		popcornInfo.weaponName = "mp_titanweapon_barrage_core_launcher"
 		popcornInfo.weaponMods = projectile.ProjectileGetMods()
@@ -217,7 +222,7 @@ function Brute4_ClusterRocketBursts( vector origin, int damage, int damageHeavyA
 		WaitFrame()
 	}
 
-	wait CLUSTER_ROCKET_DURATION
+	wait 2.5 // Should be greater than the max possible time for subexplosions to spawn
 }
 
 function Brute4_ClusterRocketBurst( entity clusterExplosionEnt, vector origin, damage, damageHeavyArmor, innerRadius, outerRadius, entity owner, PopcornInfo popcornInfo, customFxTable = null )
