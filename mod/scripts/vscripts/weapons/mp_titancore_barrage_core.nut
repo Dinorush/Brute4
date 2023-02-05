@@ -26,10 +26,10 @@ bool function OnAbilityStart_BarrageCore( entity weapon )
 	if ( titan.IsPlayer() )
 		Melee_Disable( titan )
 	
-	// array<string> mods = []
-	// entity soul = titan.GetTitanSoul()
-	//if ( IsValid( soul ) && SoulHasPassive( soul, ePassives.PAS_BRUTE4_CLUSTER ) )
-	//	mods.append( "rapid_detonators" )
+	array<string> mods = []
+	entity soul = titan.GetTitanSoul()
+	if ( IsValid( soul ) && SoulHasPassive( soul, ePassives.PAS_NORTHSTAR_FLIGHTCORE ) )
+		mods.append( "rapid_detonators" )
 
 	thread PROTO_BarrageCore( titan, weapon.GetCoreDuration(), weapon.GetMods() )
 #endif
@@ -79,14 +79,16 @@ void function PROTO_BarrageCore( entity titan, float flightTime, array<string> m
 	titan.EndSignal( "DisembarkingTitan" )
 	titan.EndSignal( "OnSyncedMelee" )
 
+	int slowID = -1
+	int speedID = -1
 	if ( titan.IsPlayer() )
 	{
-		titan.ForceStand()
-		titan.Server_TurnDodgeDisabledOn()
+		slowID = StatusEffect_AddTimed( titan, eStatusEffect.move_slow, 0.5, flightTime, 0 )
+		speedID = StatusEffect_AddTimed( titan, eStatusEffect.speed_boost, 0.5, flightTime, 0 )
 	}
 
 	OnThreadEnd(
-		function() : ( titan, e, weaponArray )
+		function() : ( titan, e, weaponArray, slowID, speedID )
 		{
 			if ( IsValid( titan ) && titan.IsPlayer() )
 			{
@@ -100,8 +102,10 @@ void function PROTO_BarrageCore( entity titan, float flightTime, array<string> m
 				}
 
 				titan.ClearParent()
-				titan.UnforceStand()
 				titan.Server_TurnDodgeDisabledOff()
+				StatusEffect_Stop( titan, slowID )
+				StatusEffect_Stop( titan, speedID )
+
 				if ( e.shouldDeployWeapon && !titan.ContextAction_IsActive() )
 					DeployAndEnableWeapons( titan )
 
@@ -123,6 +127,7 @@ void function PROTO_BarrageCore( entity titan, float flightTime, array<string> m
 		titan.SetActiveWeaponByName( "mp_titanweapon_barrage_core_launcher" )
 		wait startupTime
 
+		titan.Server_TurnDodgeDisabledOn()
 		e.shouldDeployWeapon = false
 		DeployAndEnableWeapons( titan )
 
