@@ -67,8 +67,13 @@ void function Brute4GiveShortDomeShield( entity weapon, entity owner, float dura
 	soul.EndSignal( "OnDestroy" )
 
 	// Prevents the owner from sprinting
-	int slowID = StatusEffect_AddTimed( owner, eStatusEffect.move_slow, 0.5, duration, 0 )
-	int speedID = StatusEffect_AddTimed( owner, eStatusEffect.speed_boost, 0.5, duration, 0 )
+	int slowID
+	int speedID
+	if ( !weapon.HasMod( "fd_unbreakable_protection" ) ) // fd perk allows player to sprint
+	{
+		slowID = StatusEffect_AddTimed( owner, eStatusEffect.move_slow, 0.5, duration, 0 )
+		speedID = StatusEffect_AddTimed( owner, eStatusEffect.speed_boost, 0.5, duration, 0 )
+	}
 	Brute4DomeShield_AllowNPCWeapons( owner, false )
 
 	CreateParentedBrute4BubbleShield( owner, owner.GetOrigin(), owner.GetAngles(), duration )

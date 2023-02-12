@@ -348,6 +348,16 @@ WeaponData
 		{
 
 		}
+
+		// aegis upgrades
+		fd_child_chain_reaction // drop a grenade on impact
+		{
+		}
+		fd_child_chain_reaction_grenade // for chain reaction grenade's damage
+		{
+			"explosion_damage"								"60" //"400"
+			"explosion_damage_heavy_armor"					"550"
+		}
 	}
 
 	active_crosshair_count				"1"

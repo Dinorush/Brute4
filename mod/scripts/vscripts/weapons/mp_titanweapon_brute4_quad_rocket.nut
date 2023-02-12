@@ -34,6 +34,9 @@ void function MpTitanweaponBrute4QuadRocket_Init()
 #if SERVER
 	PrecacheWeapon( "mp_titanweapon_brute4_quad_rocket" )
 	PrecacheModel( AMPED_SHOT_PROJECTILE )
+
+	// aegis upgrade: One Killing Each Other
+	AddDamageCallbackSourceID( eDamageSourceId.mp_titanweapon_brute4_quad_rocket, Brute4_OneKillingEachOtherDamage )
 #endif // #if SERVER
 }
 
@@ -43,7 +46,11 @@ void function OnWeaponStartZoomIn_TitanWeapon_Brute4_QuadRocket( entity weapon )
 	if ( weapon.HasMod( "cluster_payload" ) )
 		return
 
-	weapon.AddMod( "single_shot" )
+	// aegis upgrade
+	if ( weapon.HasMod( "fd_one_killing_each_other" ) )
+		weapon.AddMod( "fd_one_killing_each_other_single_shot" )
+	else
+		weapon.AddMod( "single_shot" )
 #endif
 }
 
@@ -53,6 +60,7 @@ void function OnWeaponStartZoomOut_TitanWeapon_Brute4_QuadRocket( entity weapon 
 	if ( weapon.HasMod( "cluster_payload" ) )
 		return
 
+	weapon.RemoveMod( "fd_one_killing_each_other_single_shot" )
 	weapon.RemoveMod( "single_shot" )
 #endif
 }
@@ -256,3 +264,24 @@ void function MissileStream_CondenseSpiral( array<entity> missiles, array<vector
 		}
 	}
 }
+
+#if SERVER
+const float ONE_KILLING_EACH_OTHER_DAMAGE_OUTPUT = 2.0
+
+void function Brute4_OneKillingEachOtherDamage( entity victim, var damageInfo )
+{
+	entity inflictor = DamageInfo_GetInflictor( damageInfo )
+	if ( !inflictor.IsProjectile() )
+		return
+
+	array<string> mods = inflictor.ProjectileGetMods()
+	if ( mods.contains( "fd_one_killing_each_other" ) )
+	{
+		// mortar titans take doubled damage by this upgrade
+		if ( victim.GetScriptName() == "mortar_titan" && victim.IsTitan() )
+		{
+			DamageInfo_ScaleDamage( damageInfo, ONE_KILLING_EACH_OTHER_DAMAGE_OUTPUT )
+		}
+	}
+}
+#endif

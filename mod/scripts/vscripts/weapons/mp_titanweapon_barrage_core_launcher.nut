@@ -54,6 +54,18 @@ var function FireGrenade( entity weapon, WeaponPrimaryAttackParams attackParams,
 void function OnProjectileCollision_titanweapon_barrage_core_launcher( entity projectile, vector pos, vector normal, entity hitEnt, int hitbox, bool isCritical )
 {
 	#if SERVER
+		array<string> mods = projectile.ProjectileGetMods()
+		entity owner = projectile.GetOwner()
+
+		// aegis upgrade: Child Chain Reaction
+		if ( mods.contains( "fd_child_chain_reaction" ) )
+		{
+			Brute4_FireChildChainReactionGrenadeFromProjectile( projectile )
+		}
+		if ( !Brute4_ShouldProjectileDoClusterExplosion( projectile ) )
+			return
+
+		// normal behaviors
 		if ( IsAlive( hitEnt ) && hitEnt.IsPlayer() )
 		{
 			PlantSuperStickyGrenade( projectile, pos, normal, hitEnt, hitbox )

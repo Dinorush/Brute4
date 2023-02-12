@@ -247,6 +247,23 @@ WeaponData
 			"grenade_bounce_extra_vertical_randomness"		"0.2"
 			"grenade_roll_vel_frac_per_second"				"0.8"
 		}
+
+		fd_doubled_explosive
+		{
+			"viewmodel"   									"models/weapons/titan_raptor_rocket_pod/atpov_titan_raptor_rocket_pod_core.mdl"
+			"alt_fire_anim_count"							"1"
+			"burst_fire_count"                              "*2" // 18 burst, 9 for each pod
+			
+			"fx_muzzle_flash_view"							"P_wpn_muzzleflash_smr_FP"
+			"fx_muzzle_flash_world"							"P_wpn_muzzleflash_smr"
+			"fx_muzzle_flash_attach"						"muzzle_flash_2"
+
+			"fx_muzzle_flash2_view"							"P_wpn_muzzleflash_smr_FP"
+			"fx_muzzle_flash2_world"						"P_wpn_muzzleflash_smr"
+			"fx_muzzle_flash2_attach"						"muzzle_flash"
+
+			"activitymodifier"								"twin_cluster"
+		}
 	}
 
 	active_crosshair_count				"1"

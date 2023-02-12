@@ -7,9 +7,14 @@ void function OnProjectileCollision_Brute4_QuadRocket( entity projectile, vector
 {
 	#if SERVER
 		array<string> mods = projectile.ProjectileGetMods()
+		entity owner = projectile.GetOwner()
+
 		if ( mods.contains( "cluster_payload" ) )
 		{
-			entity owner = projectile.GetOwner()
+			// for the aegis upgrade: Child Chain Reaction
+			if ( !Brute4_ShouldProjectileDoClusterExplosion( projectile ) )
+				return
+				
 			if ( IsValid( owner ) )
 			{
 				PopcornInfo popcornInfo
@@ -36,6 +41,12 @@ void function OnProjectileCollision_Brute4_QuadRocket( entity projectile, vector
 
 				thread StartClusterExplosions( projectile, owner, popcornInfo, CLUSTER_ROCKET_FX_TABLE )
 			}
+		}
+
+		// aegis upgrade: Child Chain Reaction
+		if ( mods.contains( "fd_child_chain_reaction_cluster_payload" ) )
+		{
+			Brute4_FireChildChainReactionGrenadeFromProjectile( projectile )
 		}
 	#endif
 }

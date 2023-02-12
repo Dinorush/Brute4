@@ -76,5 +76,10 @@ WeaponData
 		{
 
 		}
+
+		// aegis upgrades
+		fd_unbreakable_protection // never drains itself, and allowing owner to sprint
+		{
+		}
 	}
 }

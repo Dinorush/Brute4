@@ -31,7 +31,15 @@ void function CreateParentedBrute4BubbleShield( entity titan, vector origin, vec
 
 	entity soul = titan.GetTitanSoul()
 	soul.Signal( "NewBubbleShield" )
-	entity bubbleShield = CreateBrute4BubbleShieldWithSettings( titan.GetTeam(), origin, angles, titan, duration )
+
+	entity shieldWeapon
+	foreach( entity offhand in titan.GetOffhandWeapons() )
+	{
+		if( offhand.GetWeaponClassName() == "mp_titanability_brute4_bubble_shield" )
+			shieldWeapon = offhand
+	}
+
+	entity bubbleShield = CreateBrute4BubbleShieldWithSettings( titan.GetTeam(), origin, angles, shieldWeapon, titan, duration )
 
 #if SERVER
 	soul.soul.bubbleShield = bubbleShield
@@ -97,7 +105,7 @@ void function DestroyBrute4BubbleShield( entity bubbleShield )
 	}
 }
 
-entity function CreateBrute4BubbleShieldWithSettings( int team, vector origin, vector angles, entity owner = null, float duration = 10 )
+entity function CreateBrute4BubbleShieldWithSettings( int team, vector origin, vector angles, entity weapon, entity owner = null, float duration = 10 )
 {
 #if SERVER
 
@@ -138,7 +146,8 @@ entity function CreateBrute4BubbleShieldWithSettings( int team, vector origin, v
 
 	EmitSoundOnEntity( bubbleShield, "BubbleShield_Sustain_Loop" )
 
-	thread DrainBubbleShield( bubbleShield, bubbleShieldFXs, duration, vortexColoredFX )
+	bool drainHealth = !weapon.HasMod( "fd_unbreakable_protection" ) // fd perk won't drain health
+	thread DrainBubbleShield( bubbleShield, bubbleShieldFXs, duration, vortexColoredFX, drainHealth )
 
 	return bubbleShield
 #endif
@@ -195,7 +204,7 @@ void function Brute4BubbleShield_HandleDamage( entity bubbleShield, var damageIn
 }
 #endif
 
-void function DrainBubbleShield( entity bubbleShield, array<entity> bubbleShieldFXs, float fadeTime, entity colorFXHandle = null )
+void function DrainBubbleShield( entity bubbleShield, array<entity> bubbleShieldFXs, float fadeTime, entity colorFXHandle = null, bool drainHealth = true )
 {
 #if SERVER
 	bubbleShield.EndSignal( "OnDestroy" )
@@ -225,7 +234,8 @@ void function DrainBubbleShield( entity bubbleShield, array<entity> bubbleShield
 	while(true)
 	{
 		WaitFrame()
-		bubbleShield.SetHealth( bubbleShield.GetHealth() - healthPerSec * ( Time() - lastTime ) )
+		if ( drainHealth )
+			bubbleShield.SetHealth( bubbleShield.GetHealth() - healthPerSec * ( Time() - lastTime ) )
 		if ( colorFXHandle != null )
 			Brute4BubbleShield_ColorUpdate( bubbleShield, colorFXHandle )
 		lastTime = Time()

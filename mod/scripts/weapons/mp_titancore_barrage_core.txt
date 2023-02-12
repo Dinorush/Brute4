@@ -48,5 +48,10 @@ WeaponData
 		{
 			
 		}
+
+		// aegis upgrades
+		fd_child_chain_reaction
+		{
+		}
 	}
 }

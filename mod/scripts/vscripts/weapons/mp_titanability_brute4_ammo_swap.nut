@@ -64,6 +64,9 @@ void function SwapRocketAmmo( entity weaponOwner, entity offhand, entity weapon 
 	mods.append( "fast_reload" )
 	if ( mods.contains( "rapid_detonator" ) )
 		mods.append( "rapid_detonator_active" )
+	// aegis upgrade
+	if ( mods.contains( "fd_child_chain_reaction" ) )
+		mods.append( "fd_child_chain_reaction_cluster_payload" )
 	mods.fastremovebyvalue( "single_shot" )
 	weapon.SetMods( mods )
 
@@ -87,6 +90,7 @@ void function SwapRocketAmmo( entity weaponOwner, entity offhand, entity weapon 
 				mods.fastremovebyvalue( "cluster_payload" )
 				mods.fastremovebyvalue( "fast_reload" )
 				mods.fastremovebyvalue( "rapid_detonator_active" )
+				mods.fastremovebyvalue( "fd_child_chain_reaction_cluster_payload" )
 				weapon.SetMods( mods )
 			}
 			if ( IsValid( offhand ) )
