@@ -432,12 +432,10 @@ WeaponData
 		{
 			"ammo_clip_size"   				"*1.25" // 20 clip for quad rockets, 5 clip for clusters
 		}
-		fd_one_killing_each_other_single_shot
+		fd_one_killing_each_other_single_shot // always together with single_shot
 		{
 			"explosion_inner_radius"  		"++50" // 50
 			"explosionradius"				"*2.0" // 350
-			"explosion_damage"              "*1.5" // 2.25x than normal shots
-			"explosion_damage_heavy_armor"  "*1.5" // 2.25x than normal shots
 
 			"impact_effect_table"			"exp_softball_grenade"
 		}

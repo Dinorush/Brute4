@@ -46,11 +46,10 @@ void function OnWeaponStartZoomIn_TitanWeapon_Brute4_QuadRocket( entity weapon )
 	if ( weapon.HasMod( "cluster_payload" ) )
 		return
 
+	weapon.AddMod( "single_shot" )
 	// aegis upgrade
 	if ( weapon.HasMod( "fd_one_killing_each_other" ) )
 		weapon.AddMod( "fd_one_killing_each_other_single_shot" )
-	else
-		weapon.AddMod( "single_shot" )
 #endif
 }
 
