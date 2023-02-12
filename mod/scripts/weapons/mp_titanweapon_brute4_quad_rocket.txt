@@ -450,8 +450,14 @@ WeaponData
 		}
 		fd_child_chain_reaction_grenade // this will always equipped with cluster_payload
 		{
+			// remove the impact damages
+			"damage_near_value"             "*0.0"
+			"damage_far_value"              "*0.0"
+			"damage_near_value_titanarmor"	"*0.0"
+			"damage_far_value_titanarmor" 	"*0.0"
+
 			"explosion_damage"				"++45" // 80
-			"explosion_damage_heavy_armor"	"++425" // 600
+			"explosion_damage_heavy_armor"	"++525" // 700
 		}
 	}
 

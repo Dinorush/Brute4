@@ -245,10 +245,7 @@ void function Brute4_ApplyAegisUpgrades( entity titan )
 				weapon.SetMods( mods )
 				break
 			case "fd_upgrade_northstar_utility_tier_2":
-				entity weapon = titan.GetOffhandWeapon( OFFHAND_RIGHT )
-				array<string> mods = weapon.GetMods()
-				mods.append( "fd_doubled_explosive" )
-				weapon.SetMods( mods )
+				file.brute4TitanSouls.append( soul )
 				break
 			case "fd_upgrade_northstar_defense_tier_2":
 				float titanShieldHealth = GetTitanSoulShieldHealth( soul )
@@ -261,6 +258,12 @@ void function Brute4_ApplyAegisUpgrades( entity titan )
 				weapon.SetMods( mods )
 				break
 			case "fd_upgrade_northstar_weapon_tier_2":
+				entity weapon = titan.GetOffhandWeapon( OFFHAND_RIGHT )
+				array<string> mods = weapon.GetMods()
+				mods.append( "fd_doubled_explosive" )
+				weapon.SetMods( mods )
+				break
+			case "fd_upgrade_northstar_ultimate":
 				entity weapon = titan.GetMainWeapons()[0]
 				array<string> mods = weapon.GetMods()
 				mods.append( "fd_child_chain_reaction" )
@@ -269,9 +272,6 @@ void function Brute4_ApplyAegisUpgrades( entity titan )
 				mods = core.GetMods()
 				mods.append( "fd_child_chain_reaction" )
 				core.SetMods( mods )
-				break
-			case "fd_upgrade_northstar_ultimate":
-				file.brute4TitanSouls.append( soul )
 				break
 		}
 	}
@@ -329,7 +329,7 @@ void function Brute4_BulletRejectionDamage( entity victim, var damageInfo )
 }
 
 // Child Chain Reaction
-const float CHILD_CHAIN_REACTION_EXPLOSION_DELAY = 1.0
+const float CHILD_CHAIN_REACTION_EXPLOSION_DELAY = 0.5
 const vector CHILD_CHAIN_REACTION_LAUNCH_VELOCITY = < 0, 0, 230 >
 const vector CHILD_CHAIN_REACTION_ANGULAR_VELOCITY = < 200, 0, 0 >
 const string CHILD_CHAIN_REACTION_IMPACT_TABLE = "exp_softball_grenade"
