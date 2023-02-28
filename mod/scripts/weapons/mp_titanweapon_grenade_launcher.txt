@@ -250,7 +250,7 @@ WeaponData
 
 		fd_doubled_explosive
 		{
-			"viewmodel"   									"models/weapons/titan_raptor_rocket_pod/atpov_titan_raptor_rocket_pod_core.mdl"
+			"viewmodel"   									"models/weapons/titan_bt_rocket_pod/atpov_titan_bt_rocket_pod_core.mdl" // dual rocket pod
 			"alt_fire_anim_count"							"1"
 			"burst_fire_count"                              "*2" // 18 burst, 9 for each pod
 			
