@@ -1,18 +1,18 @@
-global function OnWeaponPrimaryAttack_brute4_ammo_swap
-global function MpTitanAbilityBrute4AmmoSwap_Init
+global function OnWeaponPrimaryAttack_cluster_payload
+global function MpTitanAbilityClusterPayload_Init
 
 #if SERVER
-global function OnWeaponNpcPrimaryAttack_brute4_ammo_swap
+global function OnWeaponNpcPrimaryAttack_cluster_payload
 #endif
 
-void function MpTitanAbilityBrute4AmmoSwap_Init()
+void function MpTitanAbilityClusterPayload_Init()
 {
 	#if SERVER
-	PrecacheWeapon( "mp_titanability_brute4_ammo_swap" )
+	PrecacheWeapon( "mp_titanability_cluster_payload" )
 	#endif
 }
 
-var function OnWeaponPrimaryAttack_brute4_ammo_swap( entity weapon, WeaponPrimaryAttackParams attackParams )
+var function OnWeaponPrimaryAttack_cluster_payload( entity weapon, WeaponPrimaryAttackParams attackParams )
 {
 	entity weaponOwner = weapon.GetWeaponOwner()
 	array<entity> weapons = GetPrimaryWeapons( weaponOwner )
@@ -40,9 +40,9 @@ var function OnWeaponPrimaryAttack_brute4_ammo_swap( entity weapon, WeaponPrimar
 }
 
 #if SERVER
-var function OnWeaponNpcPrimaryAttack_brute4_ammo_swap( entity weapon, WeaponPrimaryAttackParams attackParams )
+var function OnWeaponNpcPrimaryAttack_cluster_payload( entity weapon, WeaponPrimaryAttackParams attackParams )
 {
-	OnWeaponPrimaryAttack_brute4_ammo_swap( weapon, attackParams )
+	OnWeaponPrimaryAttack_cluster_payload( weapon, attackParams )
 }
 
 void function SwapRocketAmmo( entity weaponOwner, entity offhand, entity weapon )
@@ -64,10 +64,13 @@ void function SwapRocketAmmo( entity weaponOwner, entity offhand, entity weapon 
 	mods.append( "fast_reload" )
 	if ( mods.contains( "rapid_detonator" ) )
 		mods.append( "rapid_detonator_active" )
+	if ( offhand.HasMod( "quick_load" ) )
+		mods.append( "quick_load" )
 	mods.fastremovebyvalue( "single_shot" )
 	weapon.SetMods( mods )
 
-	offhand.AddMod( "no_regen" )
+	if ( !offhand.HasMod( "quick_load" ) )
+		offhand.AddMod( "no_regen" )
 
 	weapon.SetWeaponPrimaryClipCount( 0 )
 	if ( weapon.IsReloading() )
@@ -86,10 +89,11 @@ void function SwapRocketAmmo( entity weaponOwner, entity offhand, entity weapon 
 				array<string> mods = weapon.GetMods()
 				mods.fastremovebyvalue( "cluster_payload" )
 				mods.fastremovebyvalue( "fast_reload" )
+				mods.fastremovebyvalue( "quick_load" )
 				mods.fastremovebyvalue( "rapid_detonator_active" )
 				weapon.SetMods( mods )
 			}
-			if ( IsValid( offhand ) )
+			if ( IsValid( offhand ) && !offhand.HasMod( "quick_load" ) )
 				offhand.RemoveMod( "no_regen" )
 		}
 	)
@@ -99,7 +103,9 @@ void function SwapRocketAmmo( entity weaponOwner, entity offhand, entity weapon 
 	while ( weapon.GetWeaponPrimaryClipCount() == 0 )
 		WaitFrame()
 
-	weapon.RemoveMod( "fast_reload" )
+	mods = weapon.GetMods()
+	mods.fastremovebyvalue( "fast_reload" )
+	weapon.SetMods( mods )
 
 	if ( weaponOwner.IsPlayer() )
 	{

@@ -30,7 +30,7 @@ var function OnWeaponNpcPrimaryAttack_titanweapon_barrage_core_launcher( entity 
 var function FireGrenade( entity weapon, WeaponPrimaryAttackParams attackParams, bool isNPCFiring = false )
 {
 	entity owner = weapon.GetWeaponOwner()
-	owner.Signal("KillBruteShield")
+	owner.Signal("KillMobileDomeShield")
 
 	vector angularVelocity = Vector( 0, 0, 0 )
 

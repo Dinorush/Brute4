@@ -48,5 +48,15 @@ WeaponData
 		{
 			
 		}
+		
+		agile_frame
+		{
+			
+		}
+
+		pyrotechnics
+		{
+			
+		}
 	}
 }

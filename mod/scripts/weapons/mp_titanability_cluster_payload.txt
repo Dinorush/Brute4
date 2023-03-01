@@ -1,20 +1,20 @@
 WeaponData
 {
 	// General
-	"printname"   									"#WPN_TITAN_ROCKET_AMMO_SWAP"
-	"shortprintname"  								"#WPN_TITAN_ROCKET_AMMO_SWAP_SHORT"
-	"description" 									"#WPN_TITAN_ROCKET_AMMO_SWAP_DESC"
-	"longdesc"										"#WPN_TITAN_ROCKET_AMMO_SWAP_LONGDESC"
+	"printname"   									"#WPN_TITAN_CLUSTER_PAYLOAD"
+	"shortprintname"  								"#WPN_TITAN_CLUSTER_PAYLOAD_SHORT"
+	"description" 									"#WPN_TITAN_CLUSTER_PAYLOAD_DESC"
+	"longdesc"										"#WPN_TITAN_CLUSTER_PAYLOAD_LONGDESC"
 
-	"menu_icon"										"brute/menu/ammo_swap"
-	"hud_icon"										"brute/hud/ammo_swap"
+	"menu_icon"										"brute/menu/cluster_payload"
+	"hud_icon"										"brute/hud/cluster_payload"
 
 	"weaponClass" 									"titan"
 	//"weaponType"									"tactical"
 	"fire_mode"   									"offhand_instant"
 
-	"OnWeaponPrimaryAttack"							"OnWeaponPrimaryAttack_brute4_ammo_swap"
-	"OnWeaponNpcPrimaryAttack"						"OnWeaponNpcPrimaryAttack_brute4_ammo_swap"
+	"OnWeaponPrimaryAttack"							"OnWeaponPrimaryAttack_cluster_payload"
+	"OnWeaponNpcPrimaryAttack"						"OnWeaponNpcPrimaryAttack_cluster_payload"
 
 	"damage_type" 									"none"
 
@@ -57,6 +57,11 @@ WeaponData
 			"ammo_min_to_fire"                              "*0.5"
 			"ammo_per_shot"                                 "*0.5"
 			"regen_ammo_refill_rate"						"*0.5"
+		}
+
+		quick_load
+		{
+			
 		}
 	}
 }

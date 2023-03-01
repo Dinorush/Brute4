@@ -1,21 +1,21 @@
 untyped
-global function MpTitanweaponGrenadeLauncher_Init
-global function OnWeaponPrimaryAttack_titanweapon_grenade_launcher
-global function OnProjectileCollision_titanweapon_grenade_launcher
-global function OnWeaponAttemptOffhandSwitch_titanweapon_grenade_launcher
+global function MpTitanweaponGrenadeVolley_Init
+global function OnWeaponPrimaryAttack_titanweapon_grenade_volley
+global function OnProjectileCollision_titanweapon_grenade_volley
+global function OnWeaponAttemptOffhandSwitch_titanweapon_grenade_volley
 
 #if SERVER
-global function OnWeaponNpcPrimaryAttack_titanweapon_grenade_launcher
+global function OnWeaponNpcPrimaryAttack_titanweapon_grenade_volley
 #endif // #if SERVER
 
 const FUSE_TIME = 0.5
 
-void function MpTitanweaponGrenadeLauncher_Init()
+void function MpTitanweaponGrenadeVolley_Init()
 {
-	PrecacheWeapon( "mp_titanweapon_grenade_launcher" )
+	PrecacheWeapon( "mp_titanweapon_grenade_volley" )
 }
 
-bool function OnWeaponAttemptOffhandSwitch_titanweapon_grenade_launcher( entity weapon )
+bool function OnWeaponAttemptOffhandSwitch_titanweapon_grenade_volley( entity weapon )
 {
 	int minAmmo = weapon.GetWeaponSettingInt( eWeaponVar.ammo_min_to_fire )
 	int currAmmo = weapon.GetWeaponPrimaryClipCount()
@@ -25,7 +25,7 @@ bool function OnWeaponAttemptOffhandSwitch_titanweapon_grenade_launcher( entity 
 	return true
 }
 
-var function OnWeaponPrimaryAttack_titanweapon_grenade_launcher( entity weapon, WeaponPrimaryAttackParams attackParams )
+var function OnWeaponPrimaryAttack_titanweapon_grenade_volley( entity weapon, WeaponPrimaryAttackParams attackParams )
 {
 	entity owner = weapon.GetWeaponOwner()
 	if ( owner.IsPlayer() )
@@ -38,7 +38,7 @@ var function OnWeaponPrimaryAttack_titanweapon_grenade_launcher( entity weapon, 
 }
 
 #if SERVER
-var function OnWeaponNpcPrimaryAttack_titanweapon_grenade_launcher( entity weapon, WeaponPrimaryAttackParams attackParams )
+var function OnWeaponNpcPrimaryAttack_titanweapon_grenade_volley( entity weapon, WeaponPrimaryAttackParams attackParams )
 {
 	FireGrenade( weapon, attackParams, true )
 }
@@ -52,7 +52,7 @@ function FireGrenade( entity weapon, WeaponPrimaryAttackParams attackParams, isN
 	int damageType = DF_RAGDOLL | DF_EXPLOSION
 
 	entity weaponOwner = weapon.GetWeaponOwner()
-	weaponOwner.Signal( "KillBruteShield" )
+	weaponOwner.Signal( "KillMobileDomeShield" )
 
 	vector bulletVec = ApplyVectorSpread( attackParams.dir, weaponOwner.GetAttackSpreadAngle() * 2 )
 
@@ -69,7 +69,7 @@ function FireGrenade( entity weapon, WeaponPrimaryAttackParams attackParams, isN
 	}
 }
 
-void function OnProjectileCollision_titanweapon_grenade_launcher( entity projectile, vector pos, vector normal, entity hitEnt, int hitbox, bool isCritical )
+void function OnProjectileCollision_titanweapon_grenade_volley( entity projectile, vector pos, vector normal, entity hitEnt, int hitbox, bool isCritical )
 {
 	#if SERVER
 	if ( projectile.proj.projectileBounceCount > 0 )

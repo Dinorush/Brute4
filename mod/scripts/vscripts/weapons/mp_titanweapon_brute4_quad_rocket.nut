@@ -24,7 +24,7 @@ const asset AMPED_SHOT_PROJECTILE = $"models/weapons/bullets/temp_triple_threat_
 void function MpTitanweaponBrute4QuadRocket_Init()
 {
 	RegisterSignal( "FiredWeapon" )
-	RegisterSignal( "KillBruteShield" )
+	RegisterSignal( "KillMobileDomeShield" )
 
 	PrecacheParticleSystem( $"wpn_muzzleflash_xo_rocket_FP" )
 	PrecacheParticleSystem( $"wpn_muzzleflash_xo_rocket" )
@@ -39,22 +39,19 @@ void function MpTitanweaponBrute4QuadRocket_Init()
 
 void function OnWeaponStartZoomIn_TitanWeapon_Brute4_QuadRocket( entity weapon )
 {
-#if SERVER
 	if ( weapon.HasMod( "cluster_payload" ) )
 		return
 
-	weapon.AddMod( "single_shot" )
-#endif
+	array<string> mods = weapon.GetMods()
+	mods.append( "single_shot" )
+	weapon.SetMods( mods )
 }
 
 void function OnWeaponStartZoomOut_TitanWeapon_Brute4_QuadRocket( entity weapon )
 {
-#if SERVER
-	if ( weapon.HasMod( "cluster_payload" ) )
-		return
-
-	weapon.RemoveMod( "single_shot" )
-#endif
+	array<string> mods = weapon.GetMods()
+	mods.fastremovebyvalue( "single_shot" )
+	weapon.SetMods( mods )
 }
 
 
@@ -77,7 +74,7 @@ var function OnWeaponPrimaryAttack_TitanWeapon_Brute4_QuadRocket( entity weapon,
 
 	#if CLIENT
 		if ( !weapon.ShouldPredictProjectiles() )
-			return 1
+			return weapon.GetAmmoPerShot()
 	#endif
 
 	return FireMissileStream( weapon, attackParams, PROJECTILE_PREDICTED )
@@ -106,13 +103,13 @@ int function FireMissileStream( entity weapon, WeaponPrimaryAttackParams attackP
 	entity weaponOwner = weapon.GetWeaponOwner()
 	if ( !IsValid( weaponOwner ) )
 		return 0
-	weaponOwner.Signal( "KillBruteShield" )
+	weaponOwner.Signal( "KillMobileDomeShield" )
 
 	if ( !adsPressed && !hasBurnMod )
 	{
 		int shots = minint( weapon.GetProjectilesPerShot(), weapon.GetWeaponPrimaryClipCount() )
 		FireMissileStream_Spiral( weapon, attackParams, predicted, shots )
-		return shots
+		return weapon.GetAmmoPerShot()
 	}
 	else
 	{
@@ -194,9 +191,10 @@ void function FireMissileStream_Spiral( entity weapon, WeaponPrimaryAttackParams
 	if ( IsSingleplayer() && weaponOwner.IsPlayer() )
 		missileSpeed = 2000
 
+	int impactFlags = (DF_IMPACT | DF_GIB | DF_KNOCK_BACK)
+
 	for ( int i = 0; i < numMissiles; i++ )
 	{
-		int impactFlags = (DF_IMPACT | DF_GIB | DF_KNOCK_BACK)
 		vector pos = attackParams.pos
 		int missileNumber = FindIdealMissileConfiguration( numMissiles, i )
 		if ( straight )
@@ -213,7 +211,7 @@ void function FireMissileStream_Spiral( entity weapon, WeaponPrimaryAttackParams
 				missile.InitMissileSpiral( attackParams.pos, attackParams.dir, missileNumber, false, false )
 
 			missile.kv.lifetime = MISSILE_LIFETIME
-			missile.SetSpeed( missileSpeed );
+			missile.SetSpeed( missileSpeed )
 			SetTeam( missile, weapon.GetWeaponOwner().GetTeam() )
 
 			missiles.append( missile )

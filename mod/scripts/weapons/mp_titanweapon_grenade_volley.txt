@@ -1,10 +1,10 @@
 WeaponData
 {
 	// General
-	"printname"   									"#WPN_TITAN_SHOULDER_GRENADE"
-	"description" 									"#WPN_TITAN_SHOULDER_GRENADE_DESC"
-	"shortprintname"								"#WPN_TITAN_SHOULDER_GRENADE_SHORT"
-	"longdesc"										"#WPN_TITAN_SHOULDER_GRENADE_LONGDESC"
+	"printname"   									"#WPN_TITAN_GRENADE_VOLLEY"
+	"description" 									"#WPN_TITAN_GRENADE_VOLLEY_DESC"
+	"shortprintname"								"#WPN_TITAN_GRENADE_VOLLEY_SHORT"
+	"longdesc"										"#WPN_TITAN_GRENADE_VOLLEY_LONGDESC"
 
 
 //	"menu_icon"										"rui/pilot_loadout/ordnance/frag_menu"
@@ -21,10 +21,10 @@ WeaponData
 
 	"viewmodel"   									"models/weapons/titan_bt_rocket_pod/atpov_titan_bt_rocket_pod_right.mdl"
 
-	"OnProjectileCollision"  						"OnProjectileCollision_titanweapon_grenade_launcher"
-	"OnWeaponPrimaryAttack"							"OnWeaponPrimaryAttack_titanweapon_grenade_launcher"
-	"OnWeaponNpcPrimaryAttack"						"OnWeaponNpcPrimaryAttack_titanweapon_grenade_launcher"
-	"OnWeaponAttemptOffhandSwitch" 					"OnWeaponAttemptOffhandSwitch_titanweapon_grenade_launcher"
+	"OnProjectileCollision"  						"OnProjectileCollision_titanweapon_grenade_volley"
+	"OnWeaponPrimaryAttack"							"OnWeaponPrimaryAttack_titanweapon_grenade_volley"
+	"OnWeaponNpcPrimaryAttack"						"OnWeaponNpcPrimaryAttack_titanweapon_grenade_volley"
+	"OnWeaponAttemptOffhandSwitch" 					"OnWeaponAttemptOffhandSwitch_titanweapon_grenade_volley"
 
 	"aimassist_disable_hipfire"						"1"
 	"aimassist_disable_ads"							"1"
@@ -86,18 +86,18 @@ WeaponData
 
 	// Ammo
 	"ammo_display"									"bar"
-	"ammo_stockpile_max"							"90"
-	"ammo_clip_size"   								"90"
-	"ammo_default_total"							"90"
-	"ammo_per_shot"									"10"
-	"ammo_min_to_fire"								"90"
+	"ammo_stockpile_max"							"180"
+	"ammo_clip_size"   								"180"
+	"ammo_default_total"							"180"
+	"ammo_per_shot"									"20"
+	"ammo_min_to_fire"								"180"
 
 	"projectiles_per_shot"							"1"
 //	"cooldown_type"                                 "ammo_instant"
 	"cooldown_type"                                 "ammo_per_shot"
 
 	// Regen Ammo
-	"regen_ammo_refill_rate"						"10.0"
+	"regen_ammo_refill_rate"						"20.0"
 	"regen_ammo_refill_start_delay"					"1.0"
 
 	"charge_time" 									"30.0"
@@ -246,6 +246,17 @@ WeaponData
 			"grenade_bounce_randomness"						"0.2"
 			"grenade_bounce_extra_vertical_randomness"		"0.2"
 			"grenade_roll_vel_frac_per_second"				"0.8"
+		}
+
+		grenade_swarm
+		{
+			"burst_fire_count"				"*2"
+			"ammo_per_shot"					"*0.5"
+		}
+
+		pyrotechnics
+		{
+			"explosion_inner_radius"		"240"
 		}
 	}
 

@@ -25,11 +25,6 @@ bool function OnAbilityStart_BarrageCore( entity weapon )
 #if SERVER
 	if ( titan.IsPlayer() )
 		Melee_Disable( titan )
-	
-	array<string> mods = []
-	entity soul = titan.GetTitanSoul()
-	if ( IsValid( soul ) && SoulHasPassive( soul, ePassives.PAS_NORTHSTAR_FLIGHTCORE ) )
-		mods.append( "rapid_detonators" )
 
 	thread PROTO_BarrageCore( titan, weapon.GetCoreDuration(), weapon.GetMods() )
 #endif
@@ -81,7 +76,7 @@ void function PROTO_BarrageCore( entity titan, float flightTime, array<string> m
 
 	int slowID = -1
 	int speedID = -1
-	if ( titan.IsPlayer() )
+	if ( titan.IsPlayer() && !mods.contains( "agile_frame" ) )
 	{
 		slowID = StatusEffect_AddTimed( titan, eStatusEffect.move_slow, 0.5, flightTime, 0 )
 		speedID = StatusEffect_AddTimed( titan, eStatusEffect.speed_boost, 0.5, flightTime, 0 )
@@ -125,11 +120,21 @@ void function PROTO_BarrageCore( entity titan, float flightTime, array<string> m
 		DisableWeapons( titan, weaponArray )
 		titan.GiveWeapon( "mp_titanweapon_barrage_core_launcher", mods )
 		titan.SetActiveWeaponByName( "mp_titanweapon_barrage_core_launcher" )
-		wait startupTime
+		
+		wait startupTime - 0.1
+
+		// HACK: for some reason, weapons deploy instantly if you're sprinting. 
+		// Fix by slowing the player off a sprint just before and removing when the weapon starts deploying.
+		int tempSlow = StatusEffect_AddTimed( titan, eStatusEffect.move_slow, 0.5, 0.5, 0 )
+		int tempSpeed = StatusEffect_AddTimed( titan, eStatusEffect.speed_boost, 0.5, 0.5, 0 )
+
+		wait 0.1
 
 		titan.Server_TurnDodgeDisabledOn()
 		e.shouldDeployWeapon = false
 		DeployAndEnableWeapons( titan )
+		StatusEffect_Stop( titan, tempSlow )
+		StatusEffect_Stop( titan, tempSpeed )
 
 		titan.WaitSignal( "CoreEnd" )
 

@@ -1,10 +1,10 @@
 WeaponData
 {
 	// General
-	"printname"   									"#WPN_TITAN_ROCKET_LAUNCHER"
-	"shortprintname"								"#WPN_TITAN_ROCKET_LAUNCHER_SHORT"
-	"description" 									"#WPN_TITAN_ROCKET_LAUNCHER_DESC"
-	"longdesc"										"#WPN_TITAN_ROCKET_LAUNCHER_LONGDESC"
+	"printname"   									"#WPN_TITAN_QUAD_ROCKET"
+	"shortprintname"								"#WPN_TITAN_QUAD_ROCKET_SHORT"
+	"description" 									"#WPN_TITAN_QUAD_ROCKET_DESC"
+	"longdesc"										"#WPN_TITAN_QUAD_ROCKET_LONGDESC"
 
 	"leveled_pickup"								"1"
 	"ammo_no_remove_from_stockpile"						"1"
@@ -78,6 +78,7 @@ WeaponData
 
 	"explosion_damage"								"50"
 	"explosion_damage_heavy_armor"					"320"
+	"explosion_inner_radius" 						"40"
 	"explosionradius" 								"125"
 	"explosion_damages_owner"						"1"
 
@@ -383,7 +384,6 @@ WeaponData
 			"explosion_damage_heavy_armor"	"175"
 			"explosion_inner_radius"		"100"
 			"explosionradius"				"175"
-			"fire_rate"						"*1"
 			"explosion_shake_duration"		"0"
 
 			"ammo_clip_size"   				"4"
@@ -417,6 +417,14 @@ WeaponData
 			"reloadempty_time_late1"		"*0.67"
 		}
 
+		quick_load
+		{
+			"reload_time"					"*0.5"
+			"reload_time_late1"				"*0.5"
+			"reloadempty_time"				"*0.5"
+			"reloadempty_time_late1"		"*0.5"
+		}
+
 		rapid_detonator
 		{
 			
@@ -425,6 +433,22 @@ WeaponData
 		rapid_detonator_active
 		{
 			"fire_rate"						"*1.15"
+		}
+
+		agile_frame
+		{
+			"primary_fire_does_not_block_sprint"	"1"
+		}
+
+		rocket_stream
+		{
+			"ammo_clip_size"				"*1.25"
+			"fire_rate"						"*1.25"
+		}
+
+		pyrotechnics
+		{
+			"explosion_inner_radius"		"++100" // Goes over outer radius, but outer radius caps it anyway
 		}
 	}
 
