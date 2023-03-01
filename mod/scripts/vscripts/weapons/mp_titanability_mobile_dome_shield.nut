@@ -1,25 +1,25 @@
 untyped
 
-global function MpTitanAbilityBrute4DomeShield_Init
+global function MpTitanAbilityMobileDomeShield_Init
 
-global function OnWeaponPrimaryAttack_dome_shield
+global function OnWeaponPrimaryAttack_mobile_dome_shield
 
 #if SERVER
-global function OnWeaponNpcPrimaryAttack_dome_shield
+global function OnWeaponNpcPrimaryAttack_mobile_dome_shield
 #endif // #if SERVER
 
-global const BRUTE4_DOME_SHIELD_HEALTH = 2500
-const PAS_DOME_SHIELD_HEALTH = 3000
-global const BRUTE4_DOME_SHIELD_MELEE_MOD = 2.5
-const float BRUTE4_MOLTING_SHELL_MAX_REFUND = 2.0 // seconds
+global const MOBILE_DOME_HEALTH = 2500
+const PAS_MOBILE_DOME_HEALTH = 3000
+global const MOBILE_DOME_MELEE_MOD = 2.5
+const float MOLTING_SHELL_MAX_REFUND = 2.0 // seconds
 
-function MpTitanAbilityBrute4DomeShield_Init()
+function MpTitanAbilityMobileDomeShield_Init()
 {
-	RegisterSignal( "KillBruteShield" )
-	PrecacheWeapon( "mp_titanability_brute4_bubble_shield" )
+	RegisterSignal( "KillMobileDomeShield" )
+	PrecacheWeapon( "mp_titanability_mobile_dome_shield" )
 }
 
-var function OnWeaponPrimaryAttack_dome_shield( entity weapon, WeaponPrimaryAttackParams attackParams )
+var function OnWeaponPrimaryAttack_mobile_dome_shield( entity weapon, WeaponPrimaryAttackParams attackParams )
 {
 	entity weaponOwner = weapon.GetWeaponOwner()
 
@@ -34,13 +34,13 @@ var function OnWeaponPrimaryAttack_dome_shield( entity weapon, WeaponPrimaryAtta
 		PlayerUsedOffhand( weaponOwner, weapon )
 
 	float duration = weapon.GetWeaponSettingFloat( eWeaponVar.fire_duration )
-	thread Brute4GiveShortDomeShield( weapon, weaponOwner, duration )
+	thread GiveMobileDomeShield( weapon, weaponOwner, duration )
 
 	return 1
 }
 
 #if SERVER
-var function OnWeaponNpcPrimaryAttack_dome_shield( entity weapon, WeaponPrimaryAttackParams attackParams )
+var function OnWeaponNpcPrimaryAttack_mobile_dome_shield( entity weapon, WeaponPrimaryAttackParams attackParams )
 {
 	entity weaponOwner = weapon.GetWeaponOwner()
 	entity soul = weaponOwner.GetTitanSoul()
@@ -48,13 +48,13 @@ var function OnWeaponNpcPrimaryAttack_dome_shield( entity weapon, WeaponPrimaryA
 		return 0
 
 	float duration = weapon.GetWeaponSettingFloat( eWeaponVar.fire_duration )
-	thread Brute4GiveShortDomeShield( weapon, weaponOwner, duration )
+	thread GiveMobileDomeShield( weapon, weaponOwner, duration )
 
 	return 1
 }
 #endif // #if SERVER
 
-void function Brute4GiveShortDomeShield( entity weapon, entity owner, float duration = 6.0 )
+void function GiveMobileDomeShield( entity weapon, entity owner, float duration = 6.0 )
 {
 	#if SERVER
 	owner.EndSignal( "OnDeath" )
@@ -67,11 +67,17 @@ void function Brute4GiveShortDomeShield( entity weapon, entity owner, float dura
 	soul.EndSignal( "OnDestroy" )
 
 	// Prevents the owner from sprinting
-	int slowID = StatusEffect_AddTimed( owner, eStatusEffect.move_slow, 0.5, duration, 0 )
-	int speedID = StatusEffect_AddTimed( owner, eStatusEffect.speed_boost, 0.5, duration, 0 )
-	Brute4DomeShield_AllowNPCWeapons( owner, false )
+	int slowID = -1
+	int speedID = -1
+	if ( !weapon.HasMod( "agile_frame" ) )
+	{
+		slowID = StatusEffect_AddTimed( owner, eStatusEffect.move_slow, 0.5, duration, 0 )
+		speedID = StatusEffect_AddTimed( owner, eStatusEffect.speed_boost, 0.5, duration, 0 )
+	}
 
-	CreateParentedBrute4BubbleShield( owner, owner.GetOrigin(), owner.GetAngles(), duration )
+	MobileDomeShield_AllowNPCWeapons( owner, false )
+
+	MobileDomeShield_CreateDome( owner, owner.GetOrigin(), owner.GetAngles(), duration )
 
 	soul.EndSignal( "TitanBrokeBubbleShield" )
 	entity bubbleShield = soul.soul.bubbleShield
@@ -82,7 +88,7 @@ void function Brute4GiveShortDomeShield( entity weapon, entity owner, float dura
 	{
 		owner.s.bubbleShieldHealthFrac <- 1.0
 		bubbleShield.s.ownerForDisembark <- owner
-		AddEntityDestroyedCallback( bubbleShield, Brute4DomeShield_TrackHealth )
+		AddEntityDestroyedCallback( bubbleShield, MobileDomeShield_TrackHealth )
 	}
 
 	OnThreadEnd(
@@ -93,15 +99,15 @@ void function Brute4GiveShortDomeShield( entity weapon, entity owner, float dura
 				float fireDuration = weapon.GetWeaponSettingFloat( eWeaponVar.fire_duration )
 				float remainingUseTime = float( weapon.GetWeaponPrimaryClipCount() ) / float( weapon.GetWeaponPrimaryClipCountMax() ) * fireDuration
 				float remainingShieldTime = expect float( owner.s.bubbleShieldHealthFrac ) * fireDuration
-				int refundAmmo = int( min( BRUTE4_MOLTING_SHELL_MAX_REFUND, remainingShieldTime ) * weapon.GetWeaponSettingFloat( eWeaponVar.regen_ammo_refill_rate ) )
-				thread Brute4DomeShield_RefundDuration( weapon, owner, refundAmmo, remainingUseTime )
+				int refundAmmo = int( min( MOLTING_SHELL_MAX_REFUND, remainingShieldTime ) * weapon.GetWeaponSettingFloat( eWeaponVar.regen_ammo_refill_rate ) )
+				thread MobileDomeShield_RefundDuration( weapon, owner, refundAmmo, remainingUseTime )
 			}
 
 			if ( IsValid( owner ) )
 			{
 				StatusEffect_Stop( owner, slowID )
 				StatusEffect_Stop( owner, speedID )
-				Brute4DomeShield_AllowNPCWeapons( owner, true )
+				MobileDomeShield_AllowNPCWeapons( owner, true )
 
 				if ( owner.IsPlayer() && owner.IsTitan() && rechargeDash )
 				{
@@ -112,14 +118,14 @@ void function Brute4GiveShortDomeShield( entity weapon, entity owner, float dura
 		}
 	)
 	
-	Brute4LetTitanPlayerShootThroughBubbleShield( owner, weapon )
+	MobileDomeShield_AllowShootThrough( owner, weapon )
 
 	wait duration
 	#endif
 }
 
 #if SERVER
-function Brute4DomeShield_TrackHealth( bubbleShield )
+function MobileDomeShield_TrackHealth( bubbleShield )
 {
 	// Bubble Shield can use GetParent() to get the titan, but this callback runs after soul transfer on disembark.
 	// Alternatively, could track the health in the titan soul.
@@ -129,7 +135,7 @@ function Brute4DomeShield_TrackHealth( bubbleShield )
 		owner.s.bubbleShieldHealthFrac = max( 0, GetHealthFrac( bubbleShield ) )
 }
 
-void function Brute4DomeShield_RefundDuration( entity weapon, entity owner, int amount, float delay )
+void function MobileDomeShield_RefundDuration( entity weapon, entity owner, int amount, float delay )
 {
 	wait delay
 	if ( !IsValid( weapon ) || !IsValid( owner ) || weapon.GetWeaponOwner() != owner )
@@ -139,9 +145,10 @@ void function Brute4DomeShield_RefundDuration( entity weapon, entity owner, int 
 		weapon.SetWeaponPrimaryClipCountNoRegenReset( weapon.GetWeaponPrimaryClipCount() + amount )
 }
 
-void function Brute4DomeShield_AllowNPCWeapons( entity npc, bool unlock = false )
+void function MobileDomeShield_AllowNPCWeapons( entity npc, bool unlock = false )
 {
 	// Prevent NPCs from breaking their bubble shield early
+	// Not working properly rn and dunno how to fix
 	if ( npc.IsNPC() )
 	{
 		if ( npc.GetMainWeapons().len() > 0 )

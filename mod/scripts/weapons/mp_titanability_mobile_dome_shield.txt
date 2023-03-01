@@ -1,10 +1,10 @@
 WeaponData
 {
 	// General
-	"printname"   									"#WPN_TITAN_DOME_SHIELD"
-	"shortprintname"  								"#WPN_TITAN_DOME_SHIELD_SHORT"
-	"description" 									"#WPN_TITAN_DOME_SHIELD_DESC"
-	"longdesc"										"#WPN_TITAN_DOME_SHIELD_LONGDESC"
+	"printname"   									"#WPN_TITAN_MOBILE_DOME"
+	"shortprintname"  								"#WPN_TITAN_MOBILE_DOME_SHORT"
+	"description" 									"#WPN_TITAN_MOBILE_DOME_DESC"
+	"longdesc"										"#WPN_TITAN_MOBILE_DOME_LONGDESC"
 
 
 //	"menu_icon"										"ui/menu/items/passive_icons/longer_bubble"
@@ -17,8 +17,8 @@ WeaponData
 	"weaponType"									"defense"
 	"fire_mode"   									"offhand_instant"
 
-	"OnWeaponPrimaryAttack"							"OnWeaponPrimaryAttack_dome_shield"
-	"OnWeaponNpcPrimaryAttack"						"OnWeaponNpcPrimaryAttack_dome_shield"
+	"OnWeaponPrimaryAttack"							"OnWeaponPrimaryAttack_mobile_dome_shield"
+	"OnWeaponNpcPrimaryAttack"						"OnWeaponNpcPrimaryAttack_mobile_dome_shield"
 
 	"projectilemodel"								"models/weapons/grenades/m20_f_grenade.mdl"
 
@@ -75,6 +75,11 @@ WeaponData
 		molting_dome
 		{
 
+		}
+
+		agile_frame
+		{
+			
 		}
 	}
 }

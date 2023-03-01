@@ -1,20 +1,13 @@
-global function Brute4TitanHasBubbleShieldWeapon
-global function Brute4LetTitanPlayerShootThroughBubbleShield
-global function CreateParentedBrute4BubbleShield
+global function MobileDomeShield_AllowShootThrough
+global function MobileDomeShield_CreateDome
 
-global function DestroyBrute4BubbleShield
-global function CreateBrute4BubbleShieldWithSettings
-global function Brute4StopPlayerShootThroughBubbleShield
-global function Brute4MonitorLastFireTime
-//global function Brute4BubbleShieldSpeedLimit
+const vector MOBILE_DOME_COLOR_PAS_MOLTING_SHELL = <92, 92, 200>
+const vector MOBILE_DOME_COLOR_CHARGE_FULL		 = <92, 155, 200>	// blue
+const vector MOBILE_DOME_COLOR_CHARGE_MED		 = <255, 128, 80>	// orange
+const vector MOBILE_DOME_COLOR_CHARGE_EMPTY		 = <255, 80, 80>	// red
 
-const vector BRUTE4_DOME_COLOR_PAS_MOLTING_SHELL = <92, 92, 200>
-const vector BRUTE4_DOME_COLOR_CHARGE_FULL		 = <92, 155, 200>	// blue
-const vector BRUTE4_DOME_COLOR_CHARGE_MED		 = <255, 128, 80>	// orange
-const vector BRUTE4_DOME_COLOR_CHARGE_EMPTY		 = <255, 80, 80>	// red
-
-const float BRUTE4_DOME_COLOR_CROSSOVERFRAC_FULL2MED	= 0.75  // from zero to this fraction, fade between full and medium charge colors
-const float BRUTE4_DOME_COLOR_CROSSOVERFRAC_MED2EMPTY	= 0.95  // from "full2med" to this fraction, fade between medium and empty charge colors
+const float MOBILE_DOME_COLOR_CROSSOVERFRAC_FULL2MED	= 0.75  // from zero to this fraction, fade between full and medium charge colors
+const float MOBILE_DOME_COLOR_CROSSOVERFRAC_MED2EMPTY	= 0.95  // from "full2med" to this fraction, fade between medium and empty charge colors
 
 
 struct BubbleShieldDamageStruct
@@ -24,14 +17,14 @@ struct BubbleShieldDamageStruct
 	array<float> quadraticPolynomialCoefficients //Should actually be float[3], but because float[ 3 ] and array<float> are different types and this needs to be fed into EvaluatePolynomial make it an array<float> instead
 }
 
-void function CreateParentedBrute4BubbleShield( entity titan, vector origin, vector angles, float duration = 10 )
+void function MobileDomeShield_CreateDome( entity titan, vector origin, vector angles, float duration = 10 )
 {
 	if ( !IsAlive( titan ) )
 		return
 
 	entity soul = titan.GetTitanSoul()
 	soul.Signal( "NewBubbleShield" )
-	entity bubbleShield = CreateBrute4BubbleShieldWithSettings( titan.GetTeam(), origin, angles, titan, duration )
+	entity bubbleShield = MobileDomeShield_CreateDomeWithSettings( titan.GetTeam(), origin, angles, titan, duration )
 
 #if SERVER
 	soul.soul.bubbleShield = bubbleShield
@@ -39,18 +32,18 @@ void function CreateParentedBrute4BubbleShield( entity titan, vector origin, vec
 		SyncedMelee_Disable( titan )
 	
 	// Normally, Dome Shield prevents the user from taking damage. We allow all damage to occur and use a callback to make sure only the damage we want goes through.
-	AddEntityCallback_OnDamaged( titan, Brute4BubbleShield_OwnerTakeSpecialDamage )
+	AddEntityCallback_OnDamaged( titan, MobileDomeShield_OwnerTakeSpecialDamage )
 
 	soul.soul.bubbleShield.SetParent( titan, "ORIGIN" )
 	table bubbleShieldDotS = expect table( soul.soul.bubbleShield.s )
-	entity vortexColoredFX = expect entity (bubbleShieldDotS.vortexColoredFX )
+	entity vortexColoredFX = expect entity ( bubbleShieldDotS.vortexColoredFX )
 	vortexColoredFX.SetParent( soul.soul.bubbleShield )
 	bubbleShieldDotS.moltingShell <- false
-	if ( SoulHasPassive( soul, ePassives.PAS_NORTHSTAR_TRAP ) )
+	if ( SoulHasPassive( soul, ePassives["#GEAR_BRUTE4_DOME"] ) )
 		bubbleShieldDotS.moltingShell <- true
 
 	// Update color here since the function that updates it waits a frame before its first iteration
-	Brute4BubbleShield_ColorUpdate( bubbleShield, vortexColoredFX )
+	MobileDomeShield_ColorUpdate( bubbleShield, vortexColoredFX )
 	thread WaitForCleanup(titan, soul, bubbleShield, duration)
 #endif
 }
@@ -65,28 +58,28 @@ void function WaitForCleanup(entity titan, entity soul, entity bubbleShield, flo
 	OnThreadEnd(
 		function () : ( titan, soul, bubbleShield )
 		{
-			CleanupTitanBubbleShieldVars( titan, soul, bubbleShield )
+			MobileDomeShield_CleanupVars( titan, soul, bubbleShield )
 		}
 	)
 	wait duration
 }
 
-void function CleanupTitanBubbleShieldVars( entity titan, entity soul, entity bubbleShield )
+void function MobileDomeShield_CleanupVars( entity titan, entity soul, entity bubbleShield )
 {
-	DestroyBrute4BubbleShield( bubbleShield )
+	MobileDomeShield_Destroy( bubbleShield )
 #if SERVER
 	if( IsValid( titan ) )
 	{
 		if ( titan.IsPlayer() )
 			SyncedMelee_Enable( titan )
-		RemoveEntityCallback_OnDamaged( titan, Brute4BubbleShield_OwnerTakeSpecialDamage )
+		RemoveEntityCallback_OnDamaged( titan, MobileDomeShield_OwnerTakeSpecialDamage )
 	}
 	if ( IsValid( soul ) )
 		soul.soul.bubbleShield = null
 #endif
 }
 
-void function DestroyBrute4BubbleShield( entity bubbleShield )
+void function MobileDomeShield_Destroy( entity bubbleShield )
 {
 	if ( IsValid( bubbleShield ) )
 	{
@@ -97,11 +90,11 @@ void function DestroyBrute4BubbleShield( entity bubbleShield )
 	}
 }
 
-entity function CreateBrute4BubbleShieldWithSettings( int team, vector origin, vector angles, entity owner = null, float duration = 10 )
+entity function MobileDomeShield_CreateDomeWithSettings( int team, vector origin, vector angles, entity owner = null, float duration = 10 )
 {
 #if SERVER
 
-	int health = BRUTE4_DOME_SHIELD_HEALTH
+	int health = MOBILE_DOME_HEALTH
 	entity bubbleShield = CreatePropScript( $"models/fx/xo_shield.mdl", origin, angles, SOLID_VPHYSICS )
   	bubbleShield.kv.rendercolor = "81 130 151"
    	bubbleShield.kv.contents = (int(bubbleShield.kv.contents) | CONTENTS_NOGRAPPLE)
@@ -121,7 +114,7 @@ entity function CreateBrute4BubbleShieldWithSettings( int team, vector origin, v
 	SetCustomSmartAmmoTarget( bubbleShield, false )
 
 	SetTeam( bubbleShield, team )
-	AddEntityCallback_OnDamaged( bubbleShield, Brute4BubbleShield_HandleDamage )
+	AddEntityCallback_OnDamaged( bubbleShield, MobileDomeShield_HandleDamage )
 
 	array<entity> bubbleShieldFXs
 
@@ -138,27 +131,30 @@ entity function CreateBrute4BubbleShieldWithSettings( int team, vector origin, v
 
 	EmitSoundOnEntity( bubbleShield, "BubbleShield_Sustain_Loop" )
 
-	thread DrainBubbleShield( bubbleShield, bubbleShieldFXs, duration, vortexColoredFX )
+	thread MobileDomeShield_Drain( bubbleShield, bubbleShieldFXs, duration, vortexColoredFX )
 
 	return bubbleShield
 #endif
 }
 
 #if SERVER
-void function Brute4BubbleShield_ColorUpdate( entity bubbleShield, entity colorFXHandle = null )
+void function MobileDomeShield_ColorUpdate( entity bubbleShield, entity colorFXHandle = null )
 {
 	table bubbleShieldDotS = expect table( bubbleShield.s )
 	if ( bubbleShieldDotS.moltingShell )
-		EffectSetControlPointVector( colorFXHandle, 1, GetDomeCurrentColor( 1.0 - GetHealthFrac( bubbleShield ), BRUTE4_DOME_COLOR_PAS_MOLTING_SHELL ) )
+		EffectSetControlPointVector( colorFXHandle, 1, MobileDomeShield_GetCurrentColor( 1.0 - GetHealthFrac( bubbleShield ), MOBILE_DOME_COLOR_PAS_MOLTING_SHELL ) )
 	else
-		EffectSetControlPointVector( colorFXHandle, 1, GetDomeCurrentColor( 1.0 - GetHealthFrac( bubbleShield ) ) )
+		EffectSetControlPointVector( colorFXHandle, 1, MobileDomeShield_GetCurrentColor( 1.0 - GetHealthFrac( bubbleShield ) ) )
 }
 
-void function Brute4BubbleShield_OwnerTakeSpecialDamage( entity owner, var damageInfo )
+void function MobileDomeShield_OwnerTakeSpecialDamage( entity owner, var damageInfo )
 {
 	int damageFlags = DamageInfo_GetCustomDamageType( damageInfo )
 	int passFlags = DF_RODEO | DF_DOOMED_HEALTH_LOSS | DF_BYPASS_SHIELD
 	if ( damageFlags & passFlags )
+		return
+
+	if ( DamageInfo_GetDamageSourceIdentifier( damageInfo ) == eDamageSourceId.fall )
 		return
 
 	// If melees hit the user, we want to pass the damage to dome shield
@@ -184,10 +180,10 @@ void function Brute4BubbleShield_OwnerTakeSpecialDamage( entity owner, var damag
 	DamageInfo_SetDamage( damageInfo, 0 )
 }
 
-void function Brute4BubbleShield_HandleDamage( entity bubbleShield, var damageInfo )
+void function MobileDomeShield_HandleDamage( entity bubbleShield, var damageInfo )
 {
 	if( DamageInfo_GetCustomDamageType( damageInfo ) & DF_MELEE )
-		DamageInfo_ScaleDamage( damageInfo, BRUTE4_DOME_SHIELD_MELEE_MOD )
+		DamageInfo_ScaleDamage( damageInfo, MOBILE_DOME_MELEE_MOD )
 
 	entity attacker = DamageInfo_GetAttacker( damageInfo )
 	if ( bubbleShield.GetTeam() != attacker.GetTeam() && attacker.IsPlayer() )
@@ -195,7 +191,7 @@ void function Brute4BubbleShield_HandleDamage( entity bubbleShield, var damageIn
 }
 #endif
 
-void function DrainBubbleShield( entity bubbleShield, array<entity> bubbleShieldFXs, float fadeTime, entity colorFXHandle = null )
+void function MobileDomeShield_Drain( entity bubbleShield, array<entity> bubbleShieldFXs, float fadeTime, entity colorFXHandle = null )
 {
 #if SERVER
 	bubbleShield.EndSignal( "OnDestroy" )
@@ -207,7 +203,7 @@ void function DrainBubbleShield( entity bubbleShield, array<entity> bubbleShield
 			{
 				StopSoundOnEntity( bubbleShield, "BubbleShield_Sustain_Loop" )
 				EmitSoundOnEntity( bubbleShield, "BubbleShield_End" )
-				DestroyBrute4BubbleShield( bubbleShield )
+				MobileDomeShield_Destroy( bubbleShield )
 			}
 
 			foreach ( fx in bubbleShieldFXs )
@@ -227,13 +223,13 @@ void function DrainBubbleShield( entity bubbleShield, array<entity> bubbleShield
 		WaitFrame()
 		bubbleShield.SetHealth( bubbleShield.GetHealth() - healthPerSec * ( Time() - lastTime ) )
 		if ( colorFXHandle != null )
-			Brute4BubbleShield_ColorUpdate( bubbleShield, colorFXHandle )
+			MobileDomeShield_ColorUpdate( bubbleShield, colorFXHandle )
 		lastTime = Time()
 	}
 #endif
 }
 
-void function Brute4LetTitanPlayerShootThroughBubbleShield( entity titanPlayer, entity weapon )
+void function MobileDomeShield_AllowShootThrough( entity titanPlayer, entity weapon )
 {
 #if SERVER
 	Assert( titanPlayer.IsTitan() )
@@ -249,34 +245,19 @@ void function Brute4LetTitanPlayerShootThroughBubbleShield( entity titanPlayer, 
 	bubbleShield.SetOwner( titanPlayer ) //After this, player is able to fire out from shield. WATCH OUT FOR POTENTIAL COLLISION BUGS!
 
 	if ( titanPlayer.IsPlayer() )
-		thread Brute4MonitorMovement( titanPlayer, bubbleShield )
-	thread Brute4MonitorLastFireTime( weapon, titanPlayer, bubbleShield )
-	thread Brute4StopPlayerShootThroughBubbleShield( titanPlayer, bubbleShield )
+		thread MobileDomeShield_MonitorDash( titanPlayer, bubbleShield )
+	thread MobileDomeShield_MonitorAttack( weapon, titanPlayer, bubbleShield )
 #endif
 }
 
-void function Brute4StopPlayerShootThroughBubbleShield( entity player, entity bubbleShield )
-{
-#if SERVER
-	player.EndSignal( "OnDeath" )
-	bubbleShield.EndSignal("OnDestroy")
-	player.WaitSignal( "OnChangedPlayerClass" ) //Kill this thread once player gets out of the Titan
-
-	if ( !IsValid( bubbleShield ) )
-		return
-
-	bubbleShield.SetOwner( null )
-#endif
-}
-
-void function Brute4MonitorLastFireTime( entity weapon, entity player, entity bubbleShield )
+void function MobileDomeShield_MonitorAttack( entity weapon, entity player, entity bubbleShield )
 {
 #if SERVER
 	player.EndSignal( "OnDestroy" )
 	bubbleShield.EndSignal("OnDestroy")
 	entity soul = player.GetTitanSoul()
 
-	WaitSignal( player, "DisembarkingTitan", "OnSyncedMelee", "KillBruteShield", "OnMelee" ) //Sent when player fires his weapon/disembarks
+	WaitSignal( player, "DisembarkingTitan", "OnSyncedMelee", "KillMobileDomeShield", "OnMelee" ) //Sent when player fires his weapon/disembarks
 
 	if ( !IsValid( soul ) )
 		return
@@ -285,7 +266,7 @@ void function Brute4MonitorLastFireTime( entity weapon, entity player, entity bu
 #endif
 }
 
-void function Brute4MonitorMovement( entity player, entity bubbleShield )
+void function MobileDomeShield_MonitorDash( entity player, entity bubbleShield )
 {
 	#if SERVER
 	player.EndSignal( "OnDestroy" )
@@ -306,26 +287,16 @@ void function Brute4MonitorMovement( entity player, entity bubbleShield )
 	#endif
 }
 
-bool function Brute4TitanHasBubbleShieldWeapon( entity titan )
+vector function MobileDomeShield_GetCurrentColor( float chargeFrac, vector fullHealthColor = MOBILE_DOME_COLOR_CHARGE_FULL )
 {
-#if SERVER
-	entity weapon = titan.GetActiveWeapon()
-	if ( IsValid( weapon ) && IsValid( weapon.w.bubbleShield ) )
-		return true
-#endif
-	return false
-}
-
-vector function GetDomeCurrentColor( float chargeFrac, vector fullHealthColor = BRUTE4_DOME_COLOR_CHARGE_FULL )
-{
-	return GetTriLerpColor( chargeFrac, fullHealthColor, BRUTE4_DOME_COLOR_CHARGE_MED, BRUTE4_DOME_COLOR_CHARGE_EMPTY )
+	return GetTriLerpColor( chargeFrac, fullHealthColor, MOBILE_DOME_COLOR_CHARGE_MED, MOBILE_DOME_COLOR_CHARGE_EMPTY )
 }
 
 // Copied from vortex, since it's not a global func
 vector function GetTriLerpColor( float fraction, vector color1, vector color2, vector color3 )
 {
-	float crossover1 = BRUTE4_DOME_COLOR_CROSSOVERFRAC_FULL2MED  // from zero to this fraction, fade between color1 and color2
-	float crossover2 = BRUTE4_DOME_COLOR_CROSSOVERFRAC_MED2EMPTY // from crossover1 to this fraction, fade between color2 and color3
+	float crossover1 = MOBILE_DOME_COLOR_CROSSOVERFRAC_FULL2MED  // from zero to this fraction, fade between color1 and color2
+	float crossover2 = MOBILE_DOME_COLOR_CROSSOVERFRAC_MED2EMPTY // from crossover1 to this fraction, fade between color2 and color3
 
 	float r, g, b
 
