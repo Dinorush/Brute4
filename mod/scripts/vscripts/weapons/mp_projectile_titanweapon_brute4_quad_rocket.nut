@@ -24,7 +24,7 @@ void function OnProjectileCollision_Brute4_QuadRocket( entity projectile, vector
 				// ""Base delay"": 0.8s, avg delay between (each group): 0.5s, total duration: 2.0s
 				popcornInfo.weaponName = "mp_titanweapon_brute4_quad_rocket"
 				popcornInfo.weaponMods = projectile.ProjectileGetMods()
-				popcornInfo.damageSourceId = eDamageSourceId.mp_titanweapon_brute4_quad_rocket
+				popcornInfo.damageSourceId = eDamageSourceId.mp_titanability_cluster_payload
 				popcornInfo.count = 9
 				popcornInfo.delay = mods.contains( "rapid_detonator" ) ? 0.4 : 0.3 // Avg delay and duration -20%
 				popcornInfo.offset = 0.15
