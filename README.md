@@ -81,6 +81,10 @@ Use peepee.TitanFramework's titan selection to pick Brute4.
 
 ## Patch Notes
 
+### 1.8.1
+
+- Fixed Brute4 icon on titan selection
+
 ### 1.8.0
 
 #### Balancing

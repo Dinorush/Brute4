@@ -20,6 +20,7 @@ void function Brute4_UIInit()
 		"#DEATH_HINT_BRUTE4_006"]
 		Brute.Melee = "melee_titan_punch_northstar"
 		Brute.Voice = "titanos_northstar"
+		Brute.icon = $"brute/hud/brute_icon_medium"
 
 		ModdedTitanWeaponAbilityData RocketLauncher
 		RocketLauncher.custom = true //when this is false titanframework will not create items, useful if you want to use default items
