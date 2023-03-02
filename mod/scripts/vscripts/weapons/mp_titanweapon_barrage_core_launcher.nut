@@ -199,7 +199,7 @@ function Brute4_ClusterRocketBursts( vector origin, int damage, int damageHeavyA
 	clusterExplosionEnt.SetOwner( owner )
 	clusterExplosionEnt.SetOrigin( origin )
 
-	AI_CreateDangerousArea_Static( clusterExplosionEnt, null, outerRadius, TEAM_INVALID, true, true, origin )
+	AI_CreateDangerousArea_Static( clusterExplosionEnt, null, outerRadius, owner.GetTeam(), true, true, origin )
 
 	OnThreadEnd(
 		function() : ( clusterExplosionEnt )
