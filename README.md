@@ -6,7 +6,7 @@ Implements the Brute4 titan based on cut content.
 
 ### Activation
 
-Equip Northstar prime; Brute4 will replace its loadout on drop.
+Use peepee.TitanFramework's titan selection to pick Brute4.
 
 ## [Loadout](https://youtu.be/enGWYx5sIws)
 *Weapon*: Quad Rocket
@@ -14,15 +14,15 @@ Equip Northstar prime; Brute4 will replace its loadout on drop.
 * Primary fire: Fires 4 rockets with a spiral flight path.
 * Alt fire: Fires a single, stronger, faster rocket for 2 ammo.
 
-*Offensive*: Grenade Launcher
+*Offensive*: Grenade Volley
 
-* Fires a burst of delayed-impact detonated grenades.
+* Fires a rapid burst of grenades that arm on contact.
 
-*Defensive*: Dome Shield
+*Defensive*: Mobile Dome Shield
 
 * Deploys a mobile Dome Shield that loses health over time and breaks when attacking or dashing. Disables sprinting.
 
-*Utility*: Ammo Swap
+*Utility*: Cluster Payload
 
 * Reloads Quad Rocket with 4 single-fire cluster-loaded rockets.
 
@@ -32,25 +32,47 @@ Equip Northstar prime; Brute4 will replace its loadout on drop.
 
 ### Kits
 
-**Rocket Stabilizer** (Tied to _Piercing Shot_)
+**Rocket Stabilizer**
 
 - Quad rockets fly straight and grow closer over time.
 
-**Magnetic Rollers** (Tied to _Enhanced Payload_)
+**Magnetic Rollers**
 
 - Grenades bounce much farther and become magnetic after bouncing.
 
-**Molting Shell** (Tied to _Twin Traps_)
+**Molting Shell**
 
-- When broken, Dome Shield refills a dash and refunds some remaining duration.
+- When broken, Mobile Dome Shield refills a dash and refunds some remaining duration.
 
-**Rapid Detonators** (Tied to _Viper Thrusters_)
+**Rapid Detonators**
 
-- Ammo Swap fires faster and all clusters explode more quickly.
+- Cluster Payload fires faster and all clusters explode more quickly.
 
-**Explosive Reserves** (Tied to _Threat Optics_)
+**Explosive Reserves**
 
-- Ammo Swap has two charges.
+- Cluster Payload has two charges.
+
+### Aegis Upgrades
+
+**Agile Frame**
+
+- Removes all sprinting restrictions.
+
+**Rocket Stream**
+
+- Quad Rocket and Cluster payload fire faster and hold more ammo.
+
+**Quick Load**
+
+- Cluster Payload loads faster and recharges while in use.
+
+**Grenade Swarm**
+
+- Grenade Volley fires twice as many grenades.
+
+**Pyrotechnics**
+
+- Explosions always deal maximum damage.
 
 ## Credits
 
@@ -59,15 +81,36 @@ Equip Northstar prime; Brute4 will replace its loadout on drop.
 
 ## Patch Notes
 
+### 1.8.0
+
+#### Balancing
+
+- Quad Rocket
+  - Optimal explosion radius: 0m → 1m
+
+#### Miscellaneous
+
+- General
+  - Added Aegis Upgrades
+  - Added more localization text
+  - Updated some UI elements and icons
+  - Now uses TitanFramework to select Brute4 instead of prime Northstar
+
+- Barrage Core
+  - No longer causes allied AI to run away from clusters
+
+- Grenade Launcher
+  - Renamed to Grenade Volley
+
+- Ammo Swap
+  - Renamed to Cluster Payload
+
 ### 1.7.3
 
 - Barrage Core
   - Dash lock now starts when weapon starts deploying
   - Fixed sprint lock not applying correctly
   - Fixed clusters spawning more than they should in some scenarios
-
-- Rapid Detonators
-  - Now actually applies its buff to Barrage Core
 
 ### 1.7.2
 
