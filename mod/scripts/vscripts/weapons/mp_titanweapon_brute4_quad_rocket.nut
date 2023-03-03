@@ -16,10 +16,14 @@ global function OnClientAnimEvent_TitanWeapon_Brute4_QuadRocket
 
 const float MISSILE_LIFETIME = 8.0
 const float STRAIGHT_CONDENSE_DELAY = 0.0
-const float STRAIGHT_CONDENSE_TIME = 0.8
+const float STRAIGHT_CONDENSE_TIME = 0.6
 const float STRAIGHT_EXPAND_DIST = 30.0
 const float STRAIGHT_CONDENSE_DIST = 25.0
 const asset AMPED_SHOT_PROJECTILE = $"models/weapons/bullets/temp_triple_threat_projectile_large.mdl"
+
+const float QUAD_ROCKET_SPEED = 3000.0
+const float STRAIGHT_ROCKET_SPEED = QUAD_ROCKET_SPEED * 1.25
+const float SINGLE_ROCKET_SPEED = 8000.0
 
 void function MpTitanweaponBrute4QuadRocket_Init()
 {
@@ -114,9 +118,9 @@ int function FireMissileStream( entity weapon, WeaponPrimaryAttackParams attackP
 	else
 	{
 
-		float missileSpeed = 8000
+		float missileSpeed = SINGLE_ROCKET_SPEED
 		if( hasBurnMod )
-			missileSpeed = 8000
+			missileSpeed = SINGLE_ROCKET_SPEED
 
 		int impactFlags = (DF_IMPACT | DF_GIB | DF_KNOCK_BACK)
 
@@ -184,8 +188,8 @@ void function FireMissileStream_Spiral( entity weapon, WeaponPrimaryAttackParams
 {
 	array<entity> missiles
 	array<vector> straightDir
-	float missileSpeed = 3000
 	bool straight = weapon.HasMod( "straight_shot" )
+	float missileSpeed = straight ? STRAIGHT_ROCKET_SPEED : QUAD_ROCKET_SPEED
 
 	entity weaponOwner = weapon.GetWeaponOwner()
 	if ( IsSingleplayer() && weaponOwner.IsPlayer() )
