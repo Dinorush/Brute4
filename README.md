@@ -34,7 +34,7 @@ Use peepee.TitanFramework's titan selection to pick Brute4.
 
 **Rocket Stabilizer**
 
-- Quad rockets fly straight and grow closer over time.
+- Quad rockets are faster and fly straight, growing closer over time.
 
 **Magnetic Rollers**
 
