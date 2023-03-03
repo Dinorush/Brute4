@@ -66,6 +66,8 @@ void function SwapRocketAmmo( entity weaponOwner, entity offhand, entity weapon 
 		mods.append( "rapid_detonator_active" )
 	if ( offhand.HasMod( "quick_load" ) )
 		mods.append( "quick_load" )
+	if ( mods.contains( "pyrotechnics" ) )
+		mods.append( "pyrotechnics_payload_fix" )
 	mods.fastremovebyvalue( "single_shot" )
 	weapon.SetMods( mods )
 
@@ -91,6 +93,7 @@ void function SwapRocketAmmo( entity weaponOwner, entity offhand, entity weapon 
 				mods.fastremovebyvalue( "fast_reload" )
 				mods.fastremovebyvalue( "quick_load" )
 				mods.fastremovebyvalue( "rapid_detonator_active" )
+				mods.fastremovebyvalue( "pyrotechnics_payload_fix" )
 				weapon.SetMods( mods )
 			}
 			if ( IsValid( offhand ) && !offhand.HasMod( "quick_load" ) )

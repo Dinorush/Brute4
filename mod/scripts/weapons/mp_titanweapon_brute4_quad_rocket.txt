@@ -448,7 +448,12 @@ WeaponData
 
 		pyrotechnics
 		{
-			"explosion_inner_radius"		"++100" // Goes over outer radius, but outer radius caps it anyway
+			"explosion_inner_radius"		"++85"
+		}
+
+		pyrotechnics_payload_fix
+		{
+			"explosion_inner_radius"		"--10" // Combine with pyrotechnics to match payload outer radius
 		}
 	}
 
