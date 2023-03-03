@@ -81,6 +81,18 @@ Use peepee.TitanFramework's titan selection to pick Brute4.
 
 ## Patch Notes
 
+### 1.8.2
+
+#### Balancing
+
+- Rocket Stabilizers
+  - Now also provides +25% speed to quad rockets
+  - Rockets tighten time reduced to match speed bonus
+
+#### Bug Fixes
+
+- Fixed Aegis Cluster Payload crashing
+
 ### 1.8.1
 
 - Fixed Brute4 icon on titan selection
