@@ -64,15 +64,12 @@ void function SwapRocketAmmo( entity weaponOwner, entity offhand, entity weapon 
 	mods.append( "fast_reload" )
 	if ( mods.contains( "rapid_detonator" ) )
 		mods.append( "rapid_detonator_active" )
-	if ( offhand.HasMod( "quick_load" ) )
-		mods.append( "quick_load" )
 	if ( mods.contains( "pyrotechnics" ) )
 		mods.append( "pyrotechnics_payload_fix" )
 	mods.fastremovebyvalue( "single_shot" )
 	weapon.SetMods( mods )
 
-	if ( !offhand.HasMod( "quick_load" ) )
-		offhand.AddMod( "no_regen" )
+	offhand.AddMod( "no_regen" )
 
 	weapon.SetWeaponPrimaryClipCount( 0 )
 	if ( weapon.IsReloading() )
@@ -91,12 +88,11 @@ void function SwapRocketAmmo( entity weaponOwner, entity offhand, entity weapon 
 				array<string> mods = weapon.GetMods()
 				mods.fastremovebyvalue( "cluster_payload" )
 				mods.fastremovebyvalue( "fast_reload" )
-				mods.fastremovebyvalue( "quick_load" )
 				mods.fastremovebyvalue( "rapid_detonator_active" )
 				mods.fastremovebyvalue( "pyrotechnics_payload_fix" )
 				weapon.SetMods( mods )
 			}
-			if ( IsValid( offhand ) && !offhand.HasMod( "quick_load" ) )
+			if ( IsValid( offhand ) )
 				offhand.RemoveMod( "no_regen" )
 		}
 	)

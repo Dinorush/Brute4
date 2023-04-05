@@ -96,6 +96,8 @@ int function FireMissileStream( entity weapon, WeaponPrimaryAttackParams attackP
 	weapon.EmitWeaponNpcSound( LOUD_WEAPON_AI_SOUND_RADIUS_MP, 0.2 )
 	bool adsPressed = weapon.IsWeaponInAds()
 	bool hasBurnMod = weapon.HasMod( "cluster_payload" )
+	if ( adsPressed && !hasBurnMod && !weapon.HasMod( "single_shot" ) )
+		OnWeaponStartZoomIn_TitanWeapon_Brute4_QuadRocket( weapon )
 
 	if ( hasBurnMod )
 		weapon.EmitWeaponSound_1p3p( "ShoulderRocket_Paint_Fire_1P", "ShoulderRocket_Paint_Fire_3P" )

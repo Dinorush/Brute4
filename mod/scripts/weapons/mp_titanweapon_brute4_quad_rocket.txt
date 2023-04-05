@@ -417,14 +417,6 @@ WeaponData
 			"reloadempty_time_late1"		"*0.67"
 		}
 
-		quick_load
-		{
-			"reload_time"					"*0.5"
-			"reload_time_late1"				"*0.5"
-			"reloadempty_time"				"*0.5"
-			"reloadempty_time_late1"		"*0.5"
-		}
-
 		rapid_detonator
 		{
 			
@@ -443,7 +435,7 @@ WeaponData
 		rocket_stream
 		{
 			"ammo_clip_size"				"*1.25"
-			"fire_rate"						"*1.25"
+			"fire_rate"						"*1.2"
 		}
 
 		pyrotechnics

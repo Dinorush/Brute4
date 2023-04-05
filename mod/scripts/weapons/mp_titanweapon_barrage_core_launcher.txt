@@ -354,6 +354,12 @@ WeaponData
 			"primary_fire_does_not_block_sprint"	"1"
 		}
 
+		gliders
+		{
+			"projectile_gravity_scale"				"*0.5"
+			"projectile_launch_speed"				"*1.4"
+		}
+
 		pyrotechnics
 		{
 			"explosion_inner_radius"		"++70"

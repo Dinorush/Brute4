@@ -58,10 +58,5 @@ WeaponData
 			"ammo_per_shot"                                 "*0.5"
 			"regen_ammo_refill_rate"						"*0.5"
 		}
-
-		quick_load
-		{
-			
-		}
 	}
 }

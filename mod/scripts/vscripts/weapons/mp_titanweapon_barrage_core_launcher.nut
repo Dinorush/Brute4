@@ -5,6 +5,7 @@ global function OnProjectileCollision_titanweapon_barrage_core_launcher
 
 #if SERVER
 global function OnWeaponNpcPrimaryAttack_titanweapon_barrage_core_launcher
+global function Brute4_StartClusterExplosions
 #endif // #if SERVER
 
 const FUSE_TIME = 0.25 //Applies once the grenade has stuck to a surface.
@@ -199,7 +200,7 @@ function Brute4_ClusterRocketBursts( vector origin, int damage, int damageHeavyA
 	clusterExplosionEnt.SetOwner( owner )
 	clusterExplosionEnt.SetOrigin( origin )
 
-	AI_CreateDangerousArea_Static( clusterExplosionEnt, null, outerRadius, owner.GetTeam(), true, true, origin )
+	// AI_CreateDangerousArea_Static( clusterExplosionEnt, null, outerRadius, owner.GetTeam(), true, true, origin )
 
 	OnThreadEnd(
 		function() : ( clusterExplosionEnt )
@@ -253,6 +254,10 @@ function Brute4_ClusterRocketBurst( entity clusterExplosionEnt, vector origin, d
 	vector clusterBurstOrigin = origin + (popcornInfo.normal * 8.0)
 	entity clusterBurstEnt = CreateClusterBurst( clusterBurstOrigin )
 
+	int explosionFlags = SF_ENVEXPLOSION_NOSOUND_FOR_ALLIES
+	if ( popcornInfo.weaponName == "mp_titanweapon_barrage_core_launcher" )
+		explosionFlags = explosionFlags | SF_ENVEXPLOSION_NO_DAMAGEOWNER
+
 	OnThreadEnd(
 		function() : ( clusterBurstEnt )
 		{
@@ -303,7 +308,7 @@ function Brute4_ClusterRocketBurst( entity clusterExplosionEnt, vector origin, d
 			damageHeavyArmor,
 			innerRadius,
 			outerRadius,
-			SF_ENVEXPLOSION_NOSOUND_FOR_ALLIES | SF_ENVEXPLOSION_NO_DAMAGEOWNER,
+			explosionFlags,
 			clusterBurstOrigin,
 			damage,
 			damageTypes.explosive,
