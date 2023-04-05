@@ -65,22 +65,29 @@ void function Brute4_HandlePassives( entity titan, TitanLoadoutDef loadout  )
 	if ( GetCurrentPlaylistVarInt( "aegis_upgrades", 0 ) == 1 )
 	{
 		entity weapon = titan.GetMainWeapons()[0]
-		//Rank 1: Agile Frame - Allow sprinting
+		// Rank 1: Agile Frame - Allow sprinting
 		weapon.AddMod( "agile_frame" )
 		titan.GetOffhandWeapon( OFFHAND_EQUIPMENT ).AddMod( "agile_frame" )
 		titan.GetOffhandWeapon( OFFHAND_SPECIAL ).AddMod( "agile_frame" )
 
-		//Rank 3: Rocket Stream - + Fire rate and ammo
+		// Rank 2: Health
+		loadout.setFileMods.append( "fd_health_upgrade" )
+
+		// Rank 3: Rocket Stream - + Fire rate and ammo
 		weapon.AddMod( "rocket_stream" )
 		weapon.SetWeaponPrimaryClipCount( weapon.GetWeaponPrimaryClipCountMax() )
 
-		//Rank 4: Quick Load - faster payload reload + cooldown while in use
-		titan.GetOffhandWeapon( OFFHAND_TITAN_CENTER ).AddMod( "quick_load" )
+		// Rank 4: Gliders - faster barrage core rockets + less drop
+		titan.GetOffhandWeapon( OFFHAND_EQUIPMENT ).AddMod( "gliders" )
 
-		//Rank 6: Grenade Swarm - more grenades fired
+		// Rank 5: Shields
+		float shieldHealth = GetTitanSoulShieldHealth( soul )
+		soul.SetShieldHealthMax( int( shieldHealth * 1.5 ) )
+
+		// Rank 6: Grenade Swarm - more grenades fired
 		titan.GetOffhandWeapon( OFFHAND_RIGHT ).AddMod( "grenade_swarm" )
 
-		//Rank 7: Pyrotechnics - no explosion falloff
+		// Rank 7: Pyrotechnics - no explosion falloff
 		weapon.AddMod( "pyrotechnics" )
 		titan.GetOffhandWeapon( OFFHAND_RIGHT ).AddMod( "pyrotechnics" )
 		titan.GetOffhandWeapon( OFFHAND_EQUIPMENT ).AddMod( "pyrotechnics" )
