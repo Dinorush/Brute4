@@ -62,9 +62,9 @@ Use peepee.TitanFramework's titan selection to pick Brute4.
 
 - Quad Rocket and Cluster payload fire faster and hold more ammo.
 
-**Quick Load**
+**Gliders**
 
-- Cluster Payload loads faster and recharges while in use.
+- Barrage Core rockets have increased speed and reduced drop.
 
 **Grenade Swarm**
 
@@ -80,6 +80,23 @@ Use peepee.TitanFramework's titan selection to pick Brute4.
 - Hurb - Custom UI Elements
 
 ## Patch Notes
+
+### 1.8.3
+
+#### Balancing
+
+- Cluster Payload, Barrage Core
+  - AI no longer instantly dodges away from clusters
+
+- Rocket Stream (Aegis):
+  - Fire rate bonus: +25% → +20%
+
+- Quick Load (Aegis)
+  - Replaced with Gliders
+
+#### Bug Fixes
+
+- Fixed Aegis health and shield values
 
 ### 1.8.2
 
