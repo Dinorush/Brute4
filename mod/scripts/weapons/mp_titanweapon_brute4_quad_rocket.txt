@@ -430,6 +430,7 @@ WeaponData
 		agile_frame
 		{
 			"primary_fire_does_not_block_sprint"	"1"
+			"crosshair_force_sprint_fade_disabled"  "1"
 		}
 
 		rocket_stream
