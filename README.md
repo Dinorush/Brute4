@@ -62,7 +62,7 @@ Use peepee.TitanFramework's titan selection to pick Brute4.
 
 - Quad Rocket and Cluster payload fire faster and hold more ammo.
 
-**Gliders**
+**Barrage Core Gliders**
 
 - Barrage Core rockets have increased speed and reduced drop.
 
@@ -80,6 +80,12 @@ Use peepee.TitanFramework's titan selection to pick Brute4.
 - Hurb - Custom UI Elements
 
 ## Patch Notes
+
+### 1.8.4
+
+#### Bug Fixes
+
+- Fixed some issues with FD compatibility
 
 ### 1.8.3
 
