@@ -65,7 +65,7 @@ void function Brute4_HandlePassives( entity titan, TitanLoadoutDef loadout  )
 	if ( GetCurrentPlaylistVarInt( "aegis_upgrades", 0 ) == 1 )
 	{
 		entity weapon = titan.GetMainWeapons()[0]
-		// Rank 1: Agile Frame - Allow sprinting
+		// Rank 1: Agile Frame - allow sprinting
 		weapon.AddMod( "agile_frame" )
 		titan.GetOffhandWeapon( OFFHAND_EQUIPMENT ).AddMod( "agile_frame" )
 		titan.GetOffhandWeapon( OFFHAND_SPECIAL ).AddMod( "agile_frame" )
@@ -73,7 +73,7 @@ void function Brute4_HandlePassives( entity titan, TitanLoadoutDef loadout  )
 		// Rank 2: Health
 		loadout.setFileMods.append( "fd_health_upgrade" )
 
-		// Rank 3: Rocket Stream - + Fire rate and ammo
+		// Rank 3: Rocket Stream - more fire rate and ammo
 		weapon.AddMod( "rocket_stream" )
 		weapon.SetWeaponPrimaryClipCount( weapon.GetWeaponPrimaryClipCountMax() )
 
@@ -81,8 +81,7 @@ void function Brute4_HandlePassives( entity titan, TitanLoadoutDef loadout  )
 		titan.GetOffhandWeapon( OFFHAND_EQUIPMENT ).AddMod( "gliders" )
 
 		// Rank 5: Shields
-		float shieldHealth = GetTitanSoulShieldHealth( soul )
-		soul.SetShieldHealthMax( int( shieldHealth * 1.5 ) )
+		soul.SetShieldHealthMax( int( GetTitanSoulShieldHealth( soul ) * 1.5 ) )
 
 		// Rank 6: Grenade Swarm - more grenades fired
 		titan.GetOffhandWeapon( OFFHAND_RIGHT ).AddMod( "grenade_swarm" )

@@ -97,6 +97,55 @@ void function Brute4_UIInit()
 		ExplosiveReserves.customIcon = true
 		Brute.passive2Array.append(ExplosiveReserves)
 
+		ModdedPassiveData AgileFrame
+		AgileFrame.Name = "#FD_UPGRADE_BRUTE4_UTILITY_TIER_1"
+		AgileFrame.description = "#FD_UPGRADE_BRUTE4_UTILITY_TIER_1_DESC"
+		AgileFrame.image = $"ui/temp"
+		AgileFrame.customIcon = false
+		Brute.passiveFDArray.append(AgileFrame)
+
+		ModdedPassiveData Chassis
+		Chassis.Name = "#FD_UPGRADE_BRUTE4_DEFENSE_TIER_1"
+		Chassis.description = "#FD_UPGRADE_BRUTE4_DEFENSE_TIER_1_DESC"
+		Chassis.image = $"rui/menu/fd_menu/upgrade_northstar_chassis"
+		Chassis.customIcon = false
+		Brute.passiveFDArray.append(Chassis)
+
+		ModdedPassiveData RocketStream
+		RocketStream.Name = "#FD_UPGRADE_BRUTE4_WEAPON_TIER_1"
+		RocketStream.description = "#FD_UPGRADE_BRUTE4_WEAPON_TIER_1_DESC"
+		RocketStream.image = $"ui/temp"
+		RocketStream.customIcon = false
+		Brute.passiveFDArray.append(RocketStream)
+
+		ModdedPassiveData Gliders
+		Gliders.Name = "#FD_UPGRADE_BRUTE4_UTILITY_TIER_2"
+		Gliders.description = "#FD_UPGRADE_BRUTE4_UTILITY_TIER_2_DESC"
+		Gliders.image = $"ui/temp"
+		Gliders.customIcon = false
+		Brute.passiveFDArray.append(Gliders)
+
+		ModdedPassiveData Shields
+		Shields.Name = "#FD_UPGRADE_BRUTE4_DEFENSE_TIER_2"
+		Shields.description = "#FD_UPGRADE_BRUTE4_DEFENSE_TIER_2_DESC"
+		Shields.image = $"rui/menu/fd_menu/upgrade_northstar_shield"
+		Shields.customIcon = false
+		Brute.passiveFDArray.append(Shields)
+
+		ModdedPassiveData GrenadeSwarm
+		GrenadeSwarm.Name = "#FD_UPGRADE_BRUTE4_WEAPON_TIER_2"
+		GrenadeSwarm.description = "#FD_UPGRADE_BRUTE4_WEAPON_TIER_2_DESC"
+		GrenadeSwarm.image = $"ui/temp"
+		GrenadeSwarm.customIcon = false
+		Brute.passiveFDArray.append(GrenadeSwarm)
+
+		ModdedPassiveData Pyrotechnics
+		Pyrotechnics.Name = "#FD_UPGRADE_BRUTE4_ULTIMATE"
+		Pyrotechnics.description = "#FD_UPGRADE_BRUTE4_ULTIMATE_DESC"
+		Pyrotechnics.image = $"ui/temp"
+		Pyrotechnics.customIcon = false
+		Brute.passiveFDArray.append(Pyrotechnics)
+
 		CreateModdedTitanSimple(Brute)
 	#endif
 }
