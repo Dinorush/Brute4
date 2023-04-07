@@ -9,7 +9,6 @@ global function OnWeaponNpcPrimaryAttack_mobile_dome_shield
 #endif // #if SERVER
 
 global const MOBILE_DOME_HEALTH = 2500
-const PAS_MOBILE_DOME_HEALTH = 3000
 global const MOBILE_DOME_MELEE_MOD = 2.5
 const float MOLTING_SHELL_MAX_REFUND = 2.0 // seconds
 

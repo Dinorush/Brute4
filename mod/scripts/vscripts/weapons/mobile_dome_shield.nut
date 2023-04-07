@@ -9,14 +9,6 @@ const vector MOBILE_DOME_COLOR_CHARGE_EMPTY		 = <255, 80, 80>	// red
 const float MOBILE_DOME_COLOR_CROSSOVERFRAC_FULL2MED	= 0.75  // from zero to this fraction, fade between full and medium charge colors
 const float MOBILE_DOME_COLOR_CROSSOVERFRAC_MED2EMPTY	= 0.95  // from "full2med" to this fraction, fade between medium and empty charge colors
 
-
-struct BubbleShieldDamageStruct
-{
-	float damageFloor
-	float damageCeiling
-	array<float> quadraticPolynomialCoefficients //Should actually be float[3], but because float[ 3 ] and array<float> are different types and this needs to be fed into EvaluatePolynomial make it an array<float> instead
-}
-
 void function MobileDomeShield_CreateDome( entity titan, vector origin, vector angles, float duration = 10 )
 {
 	if ( !IsAlive( titan ) )
