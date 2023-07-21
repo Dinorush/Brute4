@@ -9,8 +9,8 @@ global function OnWeaponNpcPrimaryAttack_mobile_dome_shield
 #endif // #if SERVER
 
 global const MOBILE_DOME_HEALTH = 2500
-global const MOBILE_DOME_MELEE_MOD = 2.5 // Bonus melee damage taken by dome shield
-const float MOBILE_DOME_DURATION = 6.0
+const PAS_MOBILE_DOME_HEALTH = 3000
+global const MOBILE_DOME_MELEE_MOD = 2.5
 const float MOLTING_SHELL_MAX_REFUND = 2.0 // seconds
 
 function MpTitanAbilityMobileDomeShield_Init()
@@ -54,7 +54,7 @@ var function OnWeaponNpcPrimaryAttack_mobile_dome_shield( entity weapon, WeaponP
 }
 #endif // #if SERVER
 
-void function GiveMobileDomeShield( entity weapon, entity owner, float duration = MOBILE_DOME_DURATION )
+void function GiveMobileDomeShield( entity weapon, entity owner, float duration = 6.0 )
 {
 	#if SERVER
 	owner.EndSignal( "OnDeath" )
