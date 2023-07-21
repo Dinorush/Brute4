@@ -81,6 +81,10 @@ Use peepee.TitanFramework's titan selection to pick Brute4.
 
 ## Patch Notes
 
+### 1.8.5
+
+- Updated for Northstar 1.17.0 compatibility
+
 ### 1.8.4
 
 #### Bug Fixes
