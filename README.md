@@ -81,6 +81,10 @@ Use peepee.TitanFramework's titan selection to pick Brute4.
 
 ## Patch Notes
 
+### 1.8.7
+
+- Fixed softlock if missing dependency dialogue box was closed without selecting a choice
+
 ### 1.8.6
 
 - Fixed mod compatibility issue with Northstar.Custom
@@ -151,52 +155,6 @@ Use peepee.TitanFramework's titan selection to pick Brute4.
 
 - Ammo Swap
   - Renamed to Cluster Payload
-
-### 1.7.3
-
-- Barrage Core
-  - Dash lock now starts when weapon starts deploying
-  - Fixed sprint lock not applying correctly
-  - Fixed clusters spawning more than they should in some scenarios
-
-### 1.7.2
-
-- Ammo Swap
-  - Fixed cooldown not occurring
-
-### 1.7.1
-
-#### Bug Fixes
-
-- Fixed a syntax error that snuck in
-
-### 1.7
-
-#### Balancing
-
-- Barrage Core
-  - Duration: 6s → 5.5s
-  - Deploy time: 0.6s → 0.5s
-    - Total firing duration: 4.9s → 4.5s
-  - Cluster spawn count: 6 → 5
-  - Cluster duration: 1.5s → 1.25s
-  - No longer deals self damage
-  - Now prevents sprinting
-  - Now prevents dashing
-
-- Rapid Detonators
-  - Fire rate modifier: 1.2x → 1.15x
-  - Cluster spawn time modifier: 0.7x → 0.8x
-
-#### Bug Fixes
-
-- Molten Shell
-  - Fixed more occasional crashes
-
-#### Miscellaneous
-
-- Changed Brute4's Quad Rocket and Ammo Swap to internally be new weapons to be more compatible with vanilla Brute mods
-- Changed method of replacing strings to be more compatible with other custom titan mods (e.g. Archon)
 
 ### Prior releases
 
