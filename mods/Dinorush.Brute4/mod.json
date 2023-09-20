@@ -49,7 +49,7 @@
 			}
 		},
 		{
-			"Path": "TitanFrameworkInitBrute.nut",
+			"Path": "TitanFrameworkInitBrute4.nut",
 			"RunOn": "CLIENT || UI || SERVER",
 			"ServerCallback": {
                 "After": "Brute4_UIInit"
@@ -63,7 +63,7 @@
             }
 		},
 		{
-			"Path": "titanframework_dependency.nut",
+			"Path": "brute4_titanframeworkdependency.nut",
 			"RunOn": "UI",
             "UICallback": {
                 "After": "Brute4_CheckDependencies"
