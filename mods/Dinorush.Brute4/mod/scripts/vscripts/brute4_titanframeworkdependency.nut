@@ -22,6 +22,7 @@ void function Brute4_CreateDependencyDialog( string mod, string dependency, stri
     file.currentDependency = dependency
     file.currentURL = url
     DialogData dialogData
+    dialogData.forceChoice = true
     dialogData.header = Localize("#MISSING_DEPENDENCY_HEADER")
 
     array<string> mods = NSGetModNames()
@@ -33,7 +34,6 @@ void function Brute4_CreateDependencyDialog( string mod, string dependency, stri
 	    AddDialogButton( dialogData, Localize("#ENABLE_MOD", dependency), EnableFramework )
         AddDialogButton( dialogData, Localize("#DISABLE_MOD", mod), DisableBrute4 )
         AddDialogFooter( dialogData, "#A_BUTTON_SELECT" )
-	    AddDialogFooter( dialogData, "#B_BUTTON_BACK" )
     }
     else
     {
@@ -42,7 +42,6 @@ void function Brute4_CreateDependencyDialog( string mod, string dependency, stri
 	    AddDialogButton( dialogData, "#OPEN_THUNDERSTORE", InstallFramework )
         AddDialogButton( dialogData, Localize("#DISABLE_MOD", mod), DisableBrute4 )
         AddDialogFooter( dialogData, "#A_BUTTON_SELECT" )
-	    AddDialogFooter( dialogData, "#B_BUTTON_BACK" )
     }
 
 	OpenDialog( dialogData )
