@@ -82,6 +82,12 @@ WeaponData
 	"explosionradius" 								"125"
 	"explosion_damages_owner"						"1"
 
+	// npc explosion damage
+	// it's weird that npc can't deal any damage if not setting them up
+	// unlike direct damage, which npcs will use player values by default
+	"npc_explosion_damage"							"50"
+	"npc_explosion_damage_heavy_armor"				"320"
+
 	"impulse_force"   								"32000" //"15000"
 	"explosion_shake_radius"						"350"
 	"explosion_shake_amplitude"						"5"
