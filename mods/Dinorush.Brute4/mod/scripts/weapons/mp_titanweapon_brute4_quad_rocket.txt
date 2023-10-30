@@ -83,7 +83,7 @@ WeaponData
 	"explosion_damages_owner"						"1"
 
 	// npc explosion damage
-	// it's weird that npc can't deal any damage if not setting them up
+	// it's weird that npc can't deal any explosion damage if not setting them up
 	// unlike direct damage, which npcs will use player values by default
 	"npc_explosion_damage"							"50"
 	"npc_explosion_damage_heavy_armor"				"320"
