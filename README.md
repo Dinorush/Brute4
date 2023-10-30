@@ -81,6 +81,11 @@ Use peepee.TitanFramework's titan selection to pick Brute4.
 
 ## Patch Notes
 
+### 1.8.8
+
+- Fixed third person animations
+- Fixed Brute4 Auto-Titans having no splash damage
+
 ### 1.8.7
 
 - Fixed softlock if missing dependency dialogue box was closed without selecting a choice
