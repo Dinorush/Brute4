@@ -236,6 +236,15 @@ WeaponData
 	"grenade_arc_indicator_show_from_hip"			"1"
 	"grenade_arc_indicator_bounce_count"			"2"
 
+
+	// Third Person Animation
+	// activitymodifier's default value is weapon's class name
+	// respawn hardcode every weapon's "activitymodifier" in titan's qc files, instead of using a name such as "rocket_pod"
+	// which means, we'll need to set an activitymodifier for modded weapons using vanilla weapon's name
+	// otherwise they'll pick a random animation from current activity
+	
+	"activitymodifier"								"mp_titanweapon_dumbfire_rockets" // makes titan open rocket pod while charging the weapon
+
 	Mods
 	{
 		magnetic_rollers
