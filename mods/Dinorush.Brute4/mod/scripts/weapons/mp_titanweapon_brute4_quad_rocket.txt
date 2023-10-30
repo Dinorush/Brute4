@@ -82,9 +82,7 @@ WeaponData
 	"explosionradius" 								"125"
 	"explosion_damages_owner"						"1"
 
-	// npc explosion damage
-	// it's weird that npc can't deal any explosion damage if not setting them up
-	// unlike direct damage, which npcs will use player values by default
+	// NPC explosion damage does not use player explosion damage if not defined
 	"npc_explosion_damage"							"50"
 	"npc_explosion_damage_heavy_armor"				"320"
 
@@ -364,11 +362,7 @@ WeaponData
 
 
 	// Third Person Animation
-	// activitymodifier's default value is weapon's class name
-	// respawn hardcode every weapon's "activitymodifier" in titan's qc files, instead of using a name such as "rocket_pod"
-	// which means, we'll need to set an activitymodifier for modded weapons using vanilla weapon's name
-	// otherwise they'll pick a random animation from current activity
-	
+	// Need to use base titan weapon's activitymodifier since they're hardcoded to the titan
 	"activitymodifier"								"mp_titanweapon_rocketeer_rocketstream" // makes titan use quad rocket's reload animation
 
 	Mods
@@ -381,15 +375,15 @@ WeaponData
 			"damage_far_value_titanarmor" 	"*1.5"
 			"explosion_damage"              "*1.5"
 			"explosion_damage_heavy_armor"  "*1.5"
+			"npc_explosion_damage"					"*1.5"
+			"npc_explosion_damage_heavy_armor"		"*1.5"
+
 			"fire_rate"						"*1.5"
 			"ammo_per_shot"					"2"
 
 			"npc_aim_at_feet"						"0"
 			"npc_rest_time_between_bursts_min"		"0.5"
 			"npc_rest_time_between_bursts_max"		"0.75"
-
-			"npc_explosion_damage"					"*1.5"
-			"npc_explosion_damage_heavy_armor"		"*1.5"
 		}
 
 		cluster_payload
@@ -400,6 +394,8 @@ WeaponData
 			"damage_far_value_titanarmor" 	"*1.5"
 			"explosion_damage"				"35"
 			"explosion_damage_heavy_armor"	"175"
+			"npc_explosion_damage"					"35"
+			"npc_explosion_damage_heavy_armor"		"175"
 			"explosion_inner_radius"		"100"
 			"explosionradius"				"175"
 			"explosion_shake_duration"		"0"
@@ -415,9 +411,6 @@ WeaponData
 			"fire_sound_1_player_1p"		"Weapon_Archer_Fire_1P"
 			"fire_sound_1_player_3p"		"Weapon_Archer_Fire_3P"
 			"projectile_trail_effect_0" 	"Rocket_Smoke_SMALL_Titan_mod"
-			
-			"npc_explosion_damage"					"35"
-			"npc_explosion_damage_heavy_armor"		"175"
 		}
 
 		fast_deploy

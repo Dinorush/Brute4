@@ -342,13 +342,8 @@ WeaponData
 	"clip_bodygroup_show_for_milestone_2"	"1"
 	"clip_bodygroup_show_for_milestone_3"	"1"
 
-
 	// Third Person Animation
-	// activitymodifier's default value is weapon's class name
-	// respawn hardcode every weapon's "activitymodifier" in titan's qc files, instead of using a name such as "rocket_pod"
-	// which means, we'll need to set an activitymodifier for modded weapons using vanilla weapon's name
-	// otherwise they'll pick a random animation from current activity
-	
+	// Need to use base titan weapon's activitymodifier since they're hardcoded to the titan
 	"activitymodifier"								"mp_titanweapon_flightcore_rockets" // makes titan use flight core's animation while in mid-air or after dashing
 
 	Mods
