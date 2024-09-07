@@ -8,6 +8,7 @@ void function Brute4_UIInit()
 		Brute.BaseSetFile = "titan_stryder_sniper"
 		Brute.BaseName = "northstar"
 		Brute.passiveDisplayNameOverride = "#TITAN_BRUTE4_PASSIVE_TITLE"
+		Brute.titanReadyMessageOverride = "#HUD_BRUTE4_READY"
 		Brute.difficulty = 1
 		Brute.speedStat = 3
 		Brute.damageStat = 3
