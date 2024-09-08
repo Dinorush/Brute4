@@ -1,3 +1,8 @@
+## 1.8.10
+
+- Fixed script compile error
+- Fixed ADS mode persisting after terminations
+
 ## 1.8.9
 
 - Fixed various missing localization texts (courtesy of @nachoschipeados)
