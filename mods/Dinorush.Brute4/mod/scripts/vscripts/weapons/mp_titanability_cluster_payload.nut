@@ -132,4 +132,3 @@ void function ForceRefreshIfNotReloading( entity weapon, entity weaponOwner )
 	weaponOwner.DeployWeapon()
 	weapon.RemoveMod( "fast_deploy" )
 }
-#endif
