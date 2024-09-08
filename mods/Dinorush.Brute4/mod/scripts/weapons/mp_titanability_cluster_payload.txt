@@ -16,6 +16,8 @@ WeaponData
 	"OnWeaponPrimaryAttack"							"OnWeaponPrimaryAttack_cluster_payload"
 	"OnWeaponNpcPrimaryAttack"						"OnWeaponNpcPrimaryAttack_cluster_payload"
 
+	"sound_weapon_ready"							"HUD_TitanUtilityAbility_replenished_1P"
+
 	"damage_type" 									"none"
 
 	// Sound
