@@ -18,6 +18,8 @@ var function OnWeaponPrimaryAttack_cluster_payload( entity weapon, WeaponPrimary
 	array<entity> weapons = GetPrimaryWeapons( weaponOwner )
 	entity primaryWeapon = weapons[0]
 
+        int AmmoMax = primaryWeapon.GetWeaponPrimaryClipCountMax()
+
 	if ( !IsValid( primaryWeapon ) )
 		return false
 	else if ( weaponOwner.ContextAction_IsActive() )
@@ -26,7 +28,7 @@ var function OnWeaponPrimaryAttack_cluster_payload( entity weapon, WeaponPrimary
 		return false
 	else if ( primaryWeapon.HasMod( "cluster_payload" ) )
 		return false
-	else if ( primaryWeapon.GetWeaponPrimaryClipCount() >= 16 ) //GetWeaponPrimaryClipCountMax doesnt work. why??
+	else if ( primaryWeapon.GetWeaponPrimaryClipCount() >= AmmoMax )
 	    return false
 
 	#if SERVER
