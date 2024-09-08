@@ -71,7 +71,6 @@ void function SwapRocketAmmo( entity weaponOwner, entity offhand, entity weapon 
 
 	offhand.AddMod( "no_regen" )
 
-	weapon.SetWeaponPrimaryClipCount( 0 )
 	if ( weapon.IsReloading() )
 	{
 		weapon.AddMod( "fast_deploy" )
@@ -79,6 +78,9 @@ void function SwapRocketAmmo( entity weaponOwner, entity offhand, entity weapon 
 		weaponOwner.DeployWeapon()
 		weapon.RemoveMod( "fast_deploy" )
 	}
+	else
+		thread ForceRefreshIfNotReloading( weapon, weaponOwner )
+	weapon.SetWeaponPrimaryClipCount( 0 )
 
 	OnThreadEnd(
 	function() : ( weaponOwner, weapon, offhand )
@@ -117,5 +119,17 @@ void function SwapRocketAmmo( entity weaponOwner, entity offhand, entity weapon 
 		while ( weapon.GetWeaponPrimaryClipCount() > 0 )
 		WaitFrame()
 	}
+}
+
+void function ForceRefreshIfNotReloading( entity weapon, entity weaponOwner )
+{
+	WaitFrame()
+	if ( !IsValid( weapon ) || !IsValid( weaponOwner ) || weapon.IsReloading() || weapon != weaponOwner.GetActiveWeapon() )
+		return
+	
+	weapon.AddMod( "fast_deploy" )
+	weaponOwner.HolsterWeapon()
+	weaponOwner.DeployWeapon()
+	weapon.RemoveMod( "fast_deploy" )
 }
 #endif
