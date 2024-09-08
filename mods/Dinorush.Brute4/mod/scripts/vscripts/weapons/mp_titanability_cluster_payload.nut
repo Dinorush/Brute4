@@ -26,6 +26,8 @@ var function OnWeaponPrimaryAttack_cluster_payload( entity weapon, WeaponPrimary
 		return false
 	else if ( primaryWeapon.HasMod( "cluster_payload" ) )
 		return false
+	else if ( primaryWeapon.GetWeaponPrimaryClipCount() >= 16 ) //GetWeaponPrimaryClipCountMax doesnt work. why??
+	    return false
 
 	#if SERVER
 	thread SwapRocketAmmo( weaponOwner, weapon, primaryWeapon )
