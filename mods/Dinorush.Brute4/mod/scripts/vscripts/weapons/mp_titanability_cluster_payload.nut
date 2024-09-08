@@ -126,11 +126,10 @@ void function ForceRefreshIfNotReloading( entity weapon, entity weaponOwner )
 	WaitFrame()
 	if ( !IsValid( weapon ) || !IsValid( weaponOwner ) || weapon.IsReloading() || weapon != weaponOwner.GetActiveWeapon() )
 		return
-
+	
 	weapon.AddMod( "fast_deploy" )
 	weaponOwner.HolsterWeapon()
 	weaponOwner.DeployWeapon()
 	weapon.RemoveMod( "fast_deploy" )
 }
-
 #endif
