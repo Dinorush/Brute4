@@ -1,0 +1,99 @@
+﻿"lang"
+{
+	"Language" "japanese"
+	"Tokens"
+	{
+    //Name
+		"DEFAULT_TITAN_6"								"ブルート4"
+		"TITAN_BRUTE4_PASSIVE_TITLE"				"ブルート4キット"
+		"MP_TITAN_LOADOUT_DESC_BRUTE4"					"爆発物やクラスターを使用した中距離のエリア拒否と壊滅的なダメージポテンシャル。"
+
+    //Weapons
+		"WPN_TITAN_QUAD_ROCKET"					"四連ロケット"
+		"WPN_TITAN_QUAD_ROCKET_SHORT"			"四連ロケット"
+		"WPN_TITAN_QUAD_ROCKET_DESC"			"1斉射につき4発のロケット弾、または1発のロケット弾を交互に発射する。"
+		"WPN_TITAN_QUAD_ROCKET_LONGDESC"		"^F4D5A600プライマリ:^ 一度に4発のロケット弾を発射する。 \n^F4D5A600Alt:^ 強力なシングルロケット。"
+
+    "WPN_TITAN_GRENADE_VOLLEY"				"グレネード斉射"
+    "WPN_TITAN_GRENADE_VOLLEY_SHORT"			"グレネード斉射"
+    "WPN_TITAN_GRENADE_VOLLEY_DESC"			"接触すると爆発するグレネードを複数発射する。"
+    "WPN_TITAN_GRENADE_VOLLEY_LONGDESC"		"接触すると爆発するグレネードを複数発射する。"
+
+    "WPN_TITAN_CLUSTER_PAYLOAD"				"クラスターペイロード"
+		"WPN_TITAN_CLUSTER_PAYLOAD_SHORT"			"クラスターペイロード"
+		"WPN_TITAN_CLUSTER_PAYLOAD_DESC"			"四連ロケットにクラスター・ロケット弾を装填する。"
+		"WPN_TITAN_CLUSTER_PAYLOAD_LONGDESC"		"四連ロケットにクラスター・ロケット弾を装填する。"
+
+    "WPN_TITAN_MOBILE_DOME"						"モバイル・ドームシールド"
+		"WPN_TITAN_MOBILE_DOME_SHORT"				"モバイル・ドームシールド"
+		"WPN_TITAN_MOBILE_DOME_DESC"				"全方向からの攻撃を吸収する。"
+		"WPN_TITAN_MOBILE_DOME_LONGDESC"			"全方向からの攻撃を吸収する。"
+
+    "TITANCORE_BARRAGE"						"バラージコア"
+    "TITANCORE_BARRAGE_SHORT"						"バラージ"
+    "TITANCORE_BARRAGE_DESC"						"ミニクラスター弾を素早く大量に発射する。"
+    "TITANCORE_BARRAGE_LONGDESC"						"ミニクラスター弾を素早く大量に発射する。"
+
+    //Kits
+		"GEAR_BRUTE4_WEAPON"						"ロケット安定装置"
+		"GEAR_BRUTE4_WEAPON_LONGDESC"			"四連ロケットがより速く、まっすぐ飛び、中央に集まる。"
+
+		"GEAR_BRUTE4_GRENADE"					"磁気ローラー"
+		"GEAR_BRUTE4_GRENADE_LONGDESC"			"グレネードがより遠くまでバウンドし、バウンド後は磁気を帯びるようになる。"
+
+		"GEAR_BRUTE4_DOME"						"脱ドーム"
+		"GEAR_BRUTE4_DOME_LONGDESC"				"モバイル・ドームシールドが壊れると、ダッシュが補充され、残りの持続時間がいくらか戻る。"
+
+		"GEAR_BRUTE4_CLUSTER"					"急速起爆"
+		"GEAR_BRUTE4_CLUSTER_LONGDESC"		"クラスターペイロードがより速く発射されるようになり、すべてのクラスターはより速く爆発する。"
+
+		"GEAR_BRUTE4_PAYLOAD"						"爆発物の準備"
+		"GEAR_BRUTE4_PAYLOAD_LONGDESC"			"クラスターペイロードが2つのチャージを手に入れる。"
+
+    //Frontier Defense
+    "FD_UPGRADE_BRUTE4_UTILITY_TIER_1"							"敏捷フレーム"
+    "FD_UPGRADE_BRUTE4_UTILITY_TIER_2"							"弾幕コア・グライダー"
+    "FD_UPGRADE_BRUTE4_DEFENSE_TIER_1"							"シャーシアップグレード"
+    "FD_UPGRADE_BRUTE4_DEFENSE_TIER_2"							"シールドアップグレード"
+    "FD_UPGRADE_BRUTE4_WEAPON_TIER_1"								"ロケットストリーム"
+    "FD_UPGRADE_BRUTE4_WEAPON_TIER_2"								"グレネード・スワーム"
+    "FD_UPGRADE_BRUTE4_ULTIMATE"									  "パイロテクニクス"
+
+    "FD_UPGRADE_BRUTE4_UTILITY_TIER_1_DESC"						"すべてのスプリント制限を解除する。"
+    "FD_UPGRADE_BRUTE4_UTILITY_TIER_2_DESC"						"弾幕コアのロケットが速度向上し、落下が減少する。"
+    "FD_UPGRADE_BRUTE4_DEFENSE_TIER_1_DESC"						"ブルート4の体力ゲージが1つ追加。"
+    "FD_UPGRADE_BRUTE4_DEFENSE_TIER_2_DESC"						"ブルート4のタイタンシールド耐量が上昇する"
+    "FD_UPGRADE_BRUTE4_WEAPON_TIER_1_DESC"						"四連ロケットとクラスターペイロードが、より速く発射され、より多くの弾薬を保持するようになる。"
+    "FD_UPGRADE_BRUTE4_WEAPON_TIER_2_DESC"						"グレネード斉射のグレネードの発射数が2倍になる。"
+    "FD_UPGRADE_BRUTE4_ULTIMATE_DESC"								  "爆発は常に最大ダメージを与えるようになる。"
+
+    "FD_ROLE_BRUTE4"			"オフェンス/遊撃"
+
+    //Misc.
+    "MEET_BRUTE4"                                   "ブルート4紹介映像"
+    "X_BUTTON_MEET_BRUTE4"	                		"%[X_BUTTON|]% でブルート4の紹介映像を見る"
+
+    "HUD_BRUTE4_READY"                                      "`1タイタン準備完了 %$rui/tf2_vertical_line% `2ブルート4"
+    "HUD_BRUTE4_READY_HINT"                                 "%ability 1% でタイタンフォール"
+    "HUD_CORE_ONLINE_BARRAGE_CORE_HINT"					"`1%ability 1% `0で弾幕コアを起動する"
+    "HUD_CORE_ONLINE_BARRAGE_CORE"						"弾幕コアオンライン"
+
+    "DEATH_HINT_BRUTE4_001"				"撃ち続けろ！弾切れの時はクラスターペイロードを使うとリロードが早くなる。"
+    "DEATH_HINT_BRUTE4_002"				"正確さがカギだ。四連ロケットで狙いを定めて、遠距離にロケット弾を着弾させよう。"
+    "DEATH_HINT_BRUTE4_003"				"撃つな！モバイル・ドームシールドは攻撃やダッシュをすると即座に壊れる。"
+    "DEATH_HINT_BRUTE4_004"				"爆弾投下！弾幕コアはコーナーや通路にいる敵のタイタンに効果的だ。"
+    "DEATH_HINT_BRUTE4_005"				"やつらに突き刺せ。 ブルート4の磁気ローラーキットを使えば、グレネード斉射をより簡単にタイタンに着弾させることができる。"
+    "DEATH_HINT_BRUTE4_006"				"汎用性が高い。ブルート4の爆発物の準備キットを使用すると、より長いエリア拒否や、より多くのダメージを与えることができる。"
+  
+    "MISSING_DEPENDENCY_HEADER" "前提Modが見つかりません!!"
+    "MISSING_DEPENDENCY_BODY" "%s1 は、 %s2 がインストールされ、有効になっている必要があります。"
+    "MISSING_DEPENDENCY_BODY_DISABLED" "^9DC4FF00%s1^ は ^9DC4FF00%s2^ が必要です。is installed and enabled.\n\n^CC303000It seems that ^FF6F6F00%s2^ ^CC303000is installed, but is disabled.^CCCCCC00\n\nWould you like to enable ^9DC4FF00%s2^CCCCCC00?"
+    "MISSING_DEPENDENCY_BODY_INSTALL" "^9DC4FF00%s1^は ^9DC4FF00%s2^がインストールされている必要があります。\n\n^9DC4FF00%s2^のThunderstoreのページをご覧になりますか？\n\n^CC303000ブラウザで^FF6F6F00%s3^ ^CC303000が開きます。"
+
+    "DISABLE_MOD" "無効化 %s1"
+    "ENABLE_MOD" "有効化 %s1"
+    "INSTALL_MOD" "インストール %s1"
+    "OPEN_THUNDERSTORE" "Thunderstoreを開く"
+  }
+}
+ 
