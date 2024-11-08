@@ -5,8 +5,8 @@ WeaponData
 	"description"									"#TITANCORE_BARRAGE_DESC"
 	"longdesc"										"#TITANCORE_BARRAGE_LONGDESC"
 
-	"menu_icon"										"brute/menu/barrage_core"
-	"hud_icon"										"brute/menu/barrage_core"
+	"menu_icon"										"brute4/hud/barrage_core"
+	"hud_icon"										"brute4/hud/barrage_core"
 
 	// General
 	"weaponClass" 									"titan"
@@ -46,22 +46,22 @@ WeaponData
 	{
 		rapid_detonator
 		{
-			
+
 		}
-		
+
 		agile_frame
 		{
-			
+
 		}
 
 		gliders
 		{
-			
+
 		}
 
 		pyrotechnics
 		{
-			
+
 		}
 	}
 }

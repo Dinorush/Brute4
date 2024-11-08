@@ -10,8 +10,8 @@ WeaponData
 //	"menu_icon"										"rui/pilot_loadout/ordnance/frag_menu"
 //	"hud_icon"										"rui/pilot_loadout/ordnance/frag"
 
-	"menu_icon"										"brute/menu/grenade_launcher"
-	"hud_icon"										"brute/hud/grenade_launcher"
+	"menu_icon"										"brute4/menu/grenade_volley"
+	"hud_icon"										"brute4/hud/grenade_volley"
 
 	"weaponClass" 									"titan"
 	"weaponType"									"shoulder"

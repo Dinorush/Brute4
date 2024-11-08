@@ -10,8 +10,8 @@ WeaponData
 //	"menu_icon"										"ui/menu/items/passive_icons/longer_bubble"
 //	"hud_icon"										"ui/menu/items/passive_icons/longer_bubble"
 
-	"menu_icon"										"brute/menu/dome_shield"
-	"hud_icon"										"brute/hud/dome_shield"
+	"menu_icon"										"brute4/menu/mobile_dome_shield"
+	"hud_icon"										"brute4/hud/mobile_dome_shield"
 
 	"weaponClass" 									"titan"
 	"weaponType"									"defense"

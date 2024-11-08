@@ -6,8 +6,8 @@ WeaponData
 	"description" 									"#WPN_TITAN_CLUSTER_PAYLOAD_DESC"
 	"longdesc"										"#WPN_TITAN_CLUSTER_PAYLOAD_LONGDESC"
 
-	"menu_icon"										"brute/menu/rocket_swap"
-	"hud_icon"										"brute/hud/rocket_swap"
+	"menu_icon"										"brute4/menu/cluster_payload"
+	"hud_icon"										"brute4/hud/cluster_payload"
 
 	"weaponClass" 									"titan"
 	//"weaponType"									"tactical"
