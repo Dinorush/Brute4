@@ -1,3 +1,8 @@
+## 1.8.12
+
+- Fixed compile error
+- Added Russian translation (thanks Daruik_!)
+
 ## 1.8.11
 
 - Added new kit and Aegis rank UI (thanks Moblin!)

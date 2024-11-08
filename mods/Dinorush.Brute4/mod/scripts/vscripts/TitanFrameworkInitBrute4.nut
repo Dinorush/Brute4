@@ -115,7 +115,7 @@ void function Brute4_UIInit()
 		ModdedPassiveData RocketStream
 		RocketStream.Name = "#FD_UPGRADE_BRUTE4_WEAPON_TIER_1"
 		RocketStream.description = "#FD_UPGRADE_BRUTE4_WEAPON_TIER_1_DESC"
-		RocketStream.image = $"brute4/hud/rocket_stream",
+		RocketStream.image = $"brute4/hud/rocket_stream"
 		RocketStream.customIcon = false
 		Brute.passiveFDArray.append(RocketStream)
 

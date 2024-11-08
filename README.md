@@ -78,4 +78,5 @@ Use peepee.TitanFramework's titan selection to pick Brute4.
 
 - Galactic Moblin - Custom UI Elements
 - Hurb - Custom UI Elements
-- akinasu666 - Japanese Translations
+- akinasu666 - Japanese Translation
+- Daurik_ Russian Translation
