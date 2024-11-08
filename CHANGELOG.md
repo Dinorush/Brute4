@@ -1,3 +1,8 @@
+## 1.8.11
+
+- Added new kit and Aegis rank UI (thanks Moblin!)
+- Added Japanese translations (thanks akinasu666!)
+
 ## 1.8.10
 
 - Fixed script compile error

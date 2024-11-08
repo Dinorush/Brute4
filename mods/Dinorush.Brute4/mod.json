@@ -1,9 +1,9 @@
 {
 	"Name": "Dinorush.Brute4",
-	"Description": "Implements the Brute4 titan based on cut content.\nCredits: GalacticMoblin & Hurb - Custom UI Elements",
+	"Description": "Implements the Brute4 titan based on cut content.\nCredits: GalacticMoblin & Hurb - Custom UI Elements, akinasu666 - Translations",
 	"LoadPriority": 2,
 	"RequiredOnClient": true,
-	"Version": "1.8.10",
+	"Version": "1.8.11",
 
 	"Scripts": [
 		{
