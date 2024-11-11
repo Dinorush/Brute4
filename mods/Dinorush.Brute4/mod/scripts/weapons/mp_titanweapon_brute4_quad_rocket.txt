@@ -483,7 +483,7 @@ WeaponData
 
 		Crosshair_1
 		{
-			"ui"						"ui/crosshair_smr"
+			"ui"						"ui/crosshair_quad_rocket"
 			"base_spread"				"10.0"
 			Args
 			{
