@@ -30,16 +30,20 @@ void function Brute4_CreateDependencyDialog( string mod, string dependency, stri
     if ( mods.contains( dependency ) && !NSIsModEnabled( dependency ) )
     {
         dialogData.message = Localize( "#MISSING_DEPENDENCY_BODY_DISABLED", mod, dependency )
+        dialogData.forceChoice = true
+        dialogData.image = $"ui/menu/common/dialog_error"
 
-	    AddDialogButton( dialogData, Localize("#ENABLE_MOD", dependency), EnableFramework )
+	      AddDialogButton( dialogData, Localize("#ENABLE_MOD", dependency), EnableFramework )
         AddDialogButton( dialogData, Localize("#DISABLE_MOD", mod), DisableBrute4 )
         AddDialogFooter( dialogData, "#A_BUTTON_SELECT" )
     }
     else
     {
         dialogData.message = Localize( "#MISSING_DEPENDENCY_BODY_INSTALL", mod, dependency, url )
+        dialogData.forceChoice = true
+        dialogData.image = $"ui/menu/common/dialog_error"
 
-	    AddDialogButton( dialogData, "#OPEN_THUNDERSTORE", InstallFramework )
+	      AddDialogButton( dialogData, "#OPEN_THUNDERSTORE", InstallFramework )
         AddDialogButton( dialogData, Localize("#DISABLE_MOD", mod), DisableBrute4 )
         AddDialogFooter( dialogData, "#A_BUTTON_SELECT" )
     }
