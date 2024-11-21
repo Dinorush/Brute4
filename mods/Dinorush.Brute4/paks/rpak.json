@@ -1,6 +1,15 @@
 {
     "Preload":
     {
-        "brute4.rpak":true
+        "brute4.rpak": true,
+	"quad_rocket.rpak": false
+    },
+    "Aliases":
+    {
+
+    },
+    "Postload":
+    {
+	"quad_rocket.rpak": "common.rpak"
     }
 }
