@@ -1,3 +1,10 @@
+## 1.8.13
+
+- Changed Quad Rocket crosshair to its unique unused crosshair (thanks nachoschipeados!)
+  - Cluster Payload uses the old crosshair for a clearer indicator of when it's active
+- Fixed issues with Russian & Japanese translations (thanks Daruik_ and Moblin!)
+- Added camo support for Quad Rocket (thanks Moblin!)
+
 ## 1.8.12
 
 - Fixed compile error
