@@ -388,6 +388,7 @@ WeaponData
 
 		cluster_payload
 		{
+			"rui_crosshair_index"			"1"
 			"damage_near_value"             "*1.5"
 			"damage_far_value"              "*1.5"
 			"damage_near_value_titanarmor"	"*1.5"
@@ -484,6 +485,16 @@ WeaponData
 		Crosshair_1
 		{
 			"ui"						"ui/crosshair_quad_rocket"
+			"base_spread"				"10.0"
+			Args
+			{
+				isFiring				weapon_is_firing
+			}
+		}
+
+		Crosshair_2
+		{
+			"ui"						"ui/crosshair_smr"
 			"base_spread"				"10.0"
 			Args
 			{
