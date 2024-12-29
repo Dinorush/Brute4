@@ -1,3 +1,7 @@
+## 1.8.14
+
+- Fixed compile error with NS v1.29.0
+
 ## 1.8.13
 
 - Changed Quad Rocket crosshair to its unique unused crosshair (thanks nachoschipeados!)

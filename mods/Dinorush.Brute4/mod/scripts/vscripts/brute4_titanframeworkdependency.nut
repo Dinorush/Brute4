@@ -24,30 +24,23 @@ void function Brute4_CreateDependencyDialog( string mod, string dependency, stri
     DialogData dialogData
     dialogData.forceChoice = true
     dialogData.header = Localize("#MISSING_DEPENDENCY_HEADER")
+    dialogData.image = $"ui/menu/common/dialog_error"
 
-    array<string> mods = NSGetModNames()
+    array<ModInfo> mods = NSGetModInformation(dependency)
     // mod is installed but disabled
-    if ( mods.contains( dependency ) && !NSIsModEnabled( dependency ) )
+    if ( mods.len() > 0 )
     {
         dialogData.message = Localize( "#MISSING_DEPENDENCY_BODY_DISABLED", mod, dependency )
-        dialogData.forceChoice = true
-        dialogData.image = $"ui/menu/common/dialog_error"
-
-	      AddDialogButton( dialogData, Localize("#ENABLE_MOD", dependency), EnableFramework )
-        AddDialogButton( dialogData, Localize("#DISABLE_MOD", mod), DisableBrute4 )
-        AddDialogFooter( dialogData, "#A_BUTTON_SELECT" )
+        AddDialogButton( dialogData, Localize("#ENABLE_MOD", dependency), EnableFramework )
     }
     else
     {
         dialogData.message = Localize( "#MISSING_DEPENDENCY_BODY_INSTALL", mod, dependency, url )
-        dialogData.forceChoice = true
-        dialogData.image = $"ui/menu/common/dialog_error"
-
-	      AddDialogButton( dialogData, "#OPEN_THUNDERSTORE", InstallFramework )
-        AddDialogButton( dialogData, Localize("#DISABLE_MOD", mod), DisableBrute4 )
-        AddDialogFooter( dialogData, "#A_BUTTON_SELECT" )
+        AddDialogButton( dialogData, "#OPEN_THUNDERSTORE", InstallFramework )
     }
 
+    AddDialogButton( dialogData, Localize("#DISABLE_MOD", mod), DisableBrute4 )
+    AddDialogFooter( dialogData, "#A_BUTTON_SELECT" )
 	OpenDialog( dialogData )
 }
 
