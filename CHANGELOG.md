@@ -1,3 +1,7 @@
+## 1.8.15
+
+- Fixed compile error with latest NS version
+
 ## 1.8.14
 
 - Fixed compile error with NS v1.29.0
